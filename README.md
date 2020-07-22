@@ -1,4 +1,4 @@
-# research
+# Research
 paper &amp; learning tutorial reading list
 
 ## Knowledge 
