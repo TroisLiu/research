@@ -10,16 +10,9 @@ paper &amp; learning tutorial reading list
 ### Knowledge Update
 ### Knowledge Validation
 
-## Machine Reading Comprehension
+## LLM
+### Pretrain
 ### BERT
-
-## Explainable AI
-
-## Deep Learning
-### LSTM
-### Attention Mechanism
-
-## Machine Learning
 
 ## Recommendation System
 
