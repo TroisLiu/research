@@ -24,6 +24,9 @@ paper &amp; learning tutorial reading list
 #### Bloomz
 
 ## Recommendation System
+- [Recommender System.md](https://github.com/TroisLiu/research/blob/master/Recommender%20System.md)
+### Survey
+- [(2022)A Survey of Recommendation Systems: Recommendation Models, Techniques, and Application Fields](https://github.com/TroisLiu/research/blob/master/A%20Survey%20of%20Recommendation%20Systems%3A%20Recommendation%20Models%2C%20Techniques%2C%20and%20Application%20Fields.md)
 
 ## Natural Language Processing
 ### Entity Linking
