@@ -33,6 +33,19 @@ paper &amp; learning tutorial reading list
 #### GPT
 #### Bloomz
 
+### 資料集
+- 待閱讀
+  - [(2021)Deduplicating training data makes language models better](https://arxiv.org/pdf/2107.06499.pdf)
+    - 去除資料中重複的部分
+  - [Scaling Data-Constrained Language Models](https://arxiv.org/pdf/2305.16264.pdf)
+    - 命題：當資料不夠，能做什麼?
+    - Focus: quantify the impact of multiple epochs in LLM training such that practitioners can decide how to allocate compute when scaling models
+    - 提出 data-constrained scaling law, 通用化 Chinchilla scaling law
+    - 儘管僅訓練單一epoch的模型始終具有最佳的驗證損失和計算效益，但在訓練多達4個epoch的模型之間的差異往往不重要，並且不會導致下游任務性能的差異。
+    - 持續訓練額外的epoch是有益的，但回報最終會趨近於零。
+    - 在受限的數據情境下，將新的計算資源分配給更多的參數和時期是必要的，並且時期應該稍微加快
+
+
 ## Recommendation System
 - [Recommender System.md](https://github.com/TroisLiu/research/blob/master/Recommender%20System.md)
 ### Survey
