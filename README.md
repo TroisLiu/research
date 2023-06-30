@@ -11,6 +11,11 @@ paper &amp; learning tutorial reading list
 ### Knowledge Validation
 
 ## LLM
+### 機制
+#### Chain of Thought
+
+#### Tree of Thought
+- [(2023)Tree of Thoughts: Deliberate Problem Solving with Large Language Models.md](https://github.com/TroisLiu/research/blob/master/Tree%20of%20Thoughts%3A%20Deliberate%20Problem%20Solving%20with%20Large%20Language%20Models.md)
 ### 加速技巧
 #### Optimizer
 
