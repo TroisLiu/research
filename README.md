@@ -70,4 +70,7 @@ paper &amp; learning tutorial reading list
 - [(2020)LAMOL: LANGUAGE MODELING FOR LIFELONG LANGUAGE LEARNING](https://arxiv.org/pdf/1909.03329.pdf)
   - Memory Replay手法
   - gpt-2為基底
-  - 
+
+### reference
+- [【2023Q2】LLM炼丹trick拾遗：LLM的MoE架构与Lifelong learning](https://zhuanlan.zhihu.com/p/636604779)
+  - Mixure of Expert, MoE 
