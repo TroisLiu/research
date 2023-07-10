@@ -16,6 +16,7 @@ paper &amp; learning tutorial reading list
 
 #### Tree of Thought
 - [(2023)Tree of Thoughts: Deliberate Problem Solving with Large Language Models.md](https://github.com/TroisLiu/research/blob/master/Tree%20of%20Thoughts%3A%20Deliberate%20Problem%20Solving%20with%20Large%20Language%20Models.md)
+
 ### 加速技巧
 #### Optimizer
 
@@ -53,9 +54,20 @@ paper &amp; learning tutorial reading list
 
 ## Recommendation System
 - [Recommender System.md](https://github.com/TroisLiu/research/blob/master/Recommender%20System.md)
+
 ### Survey
 - [(2022)A Survey of Recommendation Systems: Recommendation Models, Techniques, and Application Fields](https://github.com/TroisLiu/research/blob/master/A%20Survey%20of%20Recommendation%20Systems%3A%20Recommendation%20Models%2C%20Techniques%2C%20and%20Application%20Fields.md)
 
 ## Natural Language Processing
 ### Entity Linking
 
+## life-long learning
+- [(2022)Lifelong Pretraining: Continually Adapting Language Models to Emerging Corpora](https://aclanthology.org/2022.naacl-main.351.pdf)
+  - 2種不同類型的知識轉移
+    - 領域轉移
+    - 時間遞進
+- [(2023)CONTINUAL PRE-TRAINING OF LANGUAGE MODELs](https://openreview.net/pdf?id=m_GDIItaI3o)
+- [(2020)LAMOL: LANGUAGE MODELING FOR LIFELONG LANGUAGE LEARNING](https://arxiv.org/pdf/1909.03329.pdf)
+  - Memory Replay手法
+  - gpt-2為基底
+  - 
