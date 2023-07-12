@@ -17,6 +17,10 @@ paper &amp; learning tutorial reading list
 #### Tree of Thought
 - [(2023)Tree of Thoughts: Deliberate Problem Solving with Large Language Models.md](https://github.com/TroisLiu/research/blob/master/Tree%20of%20Thoughts%3A%20Deliberate%20Problem%20Solving%20with%20Large%20Language%20Models.md)
 
+#### Machnine Unlearning
+##### reference
+- [给机器下「遗忘咒」？谷歌发起首个机器遗忘挑战赛](https://www.jiqizhixin.com/articles/2023-07-09-4)
+
 ### 加速技巧
 #### Optimizer
 
