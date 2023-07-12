@@ -17,6 +17,10 @@ paper &amp; learning tutorial reading list
 #### Tree of Thought
 - [(2023)Tree of Thoughts: Deliberate Problem Solving with Large Language Models.md](https://github.com/TroisLiu/research/blob/master/Tree%20of%20Thoughts%3A%20Deliberate%20Problem%20Solving%20with%20Large%20Language%20Models.md)
 
+#### 聯邦學習
+##### reference
+- [思考一下，联邦学习可以训练大语言模型吗？](https://www.jiqizhixin.com/articles/2023-07-10-4)
+
 #### Machnine Unlearning
 ##### reference
 - [给机器下「遗忘咒」？谷歌发起首个机器遗忘挑战赛](https://www.jiqizhixin.com/articles/2023-07-09-4)
@@ -39,7 +43,12 @@ paper &amp; learning tutorial reading list
 - 
 
 ### 模型
-#### LLama
+#### LLaMA
+- LongLLaMA
+  - [将上下文长度扩展到 256k，无限上下文版本的OpenLLaMA来了？](https://www.jiqizhixin.com/articles/2023-07-10-3)
+  - 基於OpenLLaMA實作
+  - 可商用
+  - 採用FOT （ Focused Transformer )微調
 #### GPT
 #### Bloomz
 
