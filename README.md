@@ -25,6 +25,37 @@ paper &amp; learning tutorial reading list
 ##### reference
 - [给机器下「遗忘咒」？谷歌发起首个机器遗忘挑战赛](https://www.jiqizhixin.com/articles/2023-07-09-4)
 
+### 微調
+#### Adapter
+- 介紹
+- 優點
+  - 参数效率更高：一个任务只需要少量参数，训练更快，占用的内存更少，对数据集较小的任务更难过拟合，也更有利于模型的存储和分发
+  - 连续学习的遗忘问题：Adapter 冻结了原有模型的参数，保证了原来的知识不被遗忘。
+  - 多任务学习：使用 adapter 也可以用比较少量的参数学习多个任务
+#### LoRA (Low-Rank Adaptation of LLM)
+- 介紹：在原模型基礎上，增加Adapter於另一分支路徑，訓練時可擇一路徑訓練
+  - 微調時，走Adapter路徑，只更新Adapter的參數，保持原PLM參數不便
+  - 推論時，走原路徑，代表只使用原模型參數，沒有遺忘原本知識
+  - 推論時，走Adapter路徑，走微調知識，不走原PLM知識
+- 優點
+  - 低秩分解：從單一大矩陣W(d*d) 變成兩個小矩陣U (d*r)與V (r*d)的乘積，項低計算複雜度
+  - 多粒度：可以針對詞、段落、Downstream-task多種顆粒度去建模
+  - 異構框架：可應用於不同結構的transformer當中
+  - 無監督學習：使用預測-聚合損失函數進行adapter的參數學習，無須另外標註資料
+- 痛點
+  - 參數空間小：LoRA中参与训练的参数量较少，解空间较小，效果相比全量微调有一定的差距。
+  - 微调大模型成本高：对于上百亿参数量的模型，LoRA微调的成本还是很高。
+  - 精度损失：针对第二点，可以采用int8或int4量化，进一步对模型基座的参数进行压缩。但是又会引发精度损失的问题，降低模型性能。
+- 與传统的多任务学习相比
+  - 好处：不同任务之间影响较少
+  - 坏处：不同任务带来的相互的监督可能会变少 
+##### reference
+- [详解大模型微调方法LoRA Adapter(内附实现代码)](https://mltalks.medium.com/%E8%AF%A6%E8%A7%A3%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83%E6%96%B9%E6%B3%95lora-adapter-%E5%86%85%E9%99%84%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81-aff4fb42beec)
+- [ICLR2022高分文章：将Adapter、prompt-tuning、LoRA等纳入统一的框架](https://zhuanlan.zhihu.com/p/436571527)
+- [微調大型語言模型LLM的技術LoRA及生成式AI-Stable diffusion LoRA](https://xiaosean5408.medium.com/%E5%BE%AE%E8%AA%BF%E5%A4%A7%E5%9E%8B%E8%AA%9E%E8%A8%80%E6%A8%A1%E5%9E%8Bllm%E7%9A%84%E6%8A%80%E8%A1%93lora%E5%8F%8A%E7%94%9F%E6%88%90%E5%BC%8Fai-stable-diffusion-lora-61a41d636772)
+- [【peft】huggingface大模型加载多个LoRA并随时切换](https://blog.csdn.net/liuqixuan1994/article/details/130664198)
+- [LLM - LoRA 模型合并与保存](https://bitddd.blog.csdn.net/article/details/132065177)
+- [Github - Huggingface - PEFT](https://github.com/huggingface/peft)
 ### 加速技巧
 #### Optimizer
 
@@ -49,6 +80,7 @@ paper &amp; learning tutorial reading list
   - 基於OpenLLaMA實作
   - 可商用
   - 採用FOT （ Focused Transformer )微調
+#### LLaMA2
 #### GPT
 #### Bloomz
 
