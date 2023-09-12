@@ -33,15 +33,19 @@ paper &amp; learning tutorial reading list
   - 连续学习的遗忘问题：Adapter 冻结了原有模型的参数，保证了原来的知识不被遗忘。
   - 多任务学习：使用 adapter 也可以用比较少量的参数学习多个任务
 #### LoRA (Low-Rank Adaptation of LLM)
+- PEFT(Parameter-Efficient Fine-Tuning)的技術之一
 - 介紹：在原模型基礎上，增加Adapter於另一分支路徑，訓練時可擇一路徑訓練
   - 微調時，走Adapter路徑，只更新Adapter的參數，保持原PLM參數不便
   - 推論時，走原路徑，代表只使用原模型參數，沒有遺忘原本知識
   - 推論時，走Adapter路徑，走微調知識，不走原PLM知識
 - 優點
   - 低秩分解：從單一大矩陣W(d*d) 變成兩個小矩陣U (d*r)與V (r*d)的乘積，項低計算複雜度
+    - 将 LoRA 的秩r设置为预训练权重矩阵的秩，就能大致恢复了全量微调的表现力。也就是说，随着增加可训练参数的数量，训练 LoRA 大致收敛于训练原始模型。
   - 多粒度：可以針對詞、段落、Downstream-task多種顆粒度去建模
   - 異構框架：可應用於不同結構的transformer當中
   - 無監督學習：使用預測-聚合損失函數進行adapter的參數學習，無須另外標註資料
+  - 没有额外的推理延时
+  - 减少内存和存储资源消耗
 - 痛點
   - 參數空間小：LoRA中参与训练的参数量较少，解空间较小，效果相比全量微调有一定的差距。
   - 微调大模型成本高：对于上百亿参数量的模型，LoRA微调的成本还是很高。
@@ -54,8 +58,52 @@ paper &amp; learning tutorial reading list
 - [ICLR2022高分文章：将Adapter、prompt-tuning、LoRA等纳入统一的框架](https://zhuanlan.zhihu.com/p/436571527)
 - [微調大型語言模型LLM的技術LoRA及生成式AI-Stable diffusion LoRA](https://xiaosean5408.medium.com/%E5%BE%AE%E8%AA%BF%E5%A4%A7%E5%9E%8B%E8%AA%9E%E8%A8%80%E6%A8%A1%E5%9E%8Bllm%E7%9A%84%E6%8A%80%E8%A1%93lora%E5%8F%8A%E7%94%9F%E6%88%90%E5%BC%8Fai-stable-diffusion-lora-61a41d636772)
 - [【peft】huggingface大模型加载多个LoRA并随时切换](https://blog.csdn.net/liuqixuan1994/article/details/130664198)
+  - 介紹如何使用 Huggingface - PEFT
 - [LLM - LoRA 模型合并与保存](https://bitddd.blog.csdn.net/article/details/132065177)
+  - LoRA透過merge_and_unload() ：可將adapter與基本模型合併載入，消除延遲
+  - Code實作介紹
 - [Github - Huggingface - PEFT](https://github.com/huggingface/peft)
+  - 開源框架PEFT
+    - LoRA:
+      - 通过学习小参数的低秩矩阵来近似模型权重矩阵W的参数更新，训练时只优化低秩矩阵参数。
+      - 參考前面說明 
+    - P-Tuning:    
+      - 利用少量连续的 embedding 参数作为 prompt 使 GPT 更好的应用于 NLU 任务
+      - P-Tuning 只在 embedding 层增加参数
+      - P-Tuning V2方法的思路其实和 Prefix-Tuning 相似，在模型的每一层都应用连续的 prompts 并对 prompts 参数进行更新优化。同时，该方法是针对 NLU 任务优化和适配的。
+    - Prefix Tuning:
+      - Prefix-Tuning 是针对 NLG 任务设计
+      - 固定 PLM 的所有参数，只更新优化特定任务的 prefix
+      - Prefix-Tuning 在每一层都添加可训练参数
+      - 在模型输入前添加一个连续的且任务特定的向量序列（continuous task-specific vectors），称之为前缀（prefix）。前缀被视为一系列“虚拟 tokens”
+      - 優點
+        - 只需要为每个任务存储特定 prefix，使 Prefix-tuning 模块化且节省存储空间
+        - Prefix-tuning 性能好于 Infix-tuning，因为 prefix 能够同时影响x和y的隐层激活，而 infix 只能够影响y的隐层激活
+      - 缺點
+        - Prefix Tuning 难以优化，其性能随可训练参数规模非单调变化，
+        - 为前缀保留部分序列长度必然会减少用于处理下游任务的序列长度。 
+    - Prompt Tuning:
+      - 可以看做是 Prefix Tuning 的简化
+      - 固定整个预训练模型参数，只允许将每个下游任务的额外k个可更新的 tokens 前置到输入文本中，也没有使用额外的编码层或任务特定的输出层。
+      - 在模型的输入或隐层添加K个额外可训练的前缀 tokens（这些前缀是连续的伪 tokens，不对应真实的 tokens），只训练这些前缀参数；
+      - 提出了 Prompt Ensembling 方法来集成预训练语言模型的多种 prompts
+        - 在同一任务上训练n个prompts，为一个任务创建了n个单独的模型，同时在整个过程中共享核心的预训练语言建模参数
+    - Adapter-Tuning (PEFT技術之一，如LLM-Adapters是其實作)
+      - 前兩個是添加prompt embedding 参数来以少量参数适配下游任务
+      - 将较小的神经网络层或模块插入预训练模型的每一层，这些新插入的神经模块称为 adapter（适配器），下游任务微调时也只训练这些适配器参数
+      - 種類：主要包括 Series Adapter（串行） 和 Parallel Adapter（并行）
+      - 缺點 
+        - Adapter Tuning 在 PLM 基础上添加适配器层会引入额外的计算，带来推理延迟问题
+- [LLM-Adapters: An Adapter Family for Parameter-Efficient Fine-Tuning of Large Language Models](https://arxiv.org/abs/2304.01933)
+  - LLM-Adapter是对 PEFT 库的扩展，是一个简单易用的框架，将各种适配器集成到 LLM 中
+    - PEFT4種方法
+    - AdapterH
+    - AdapterP
+    - Parallel
+      - 将适配器模块与每层 Transformer 的多头注意力和前馈层并行计算集成。 
+- [大模型参数高效微调(PEFT)](https://zhuanlan.zhihu.com/p/621700272)
+  - 介紹Huggingface - PEFT
+  - 介紹LLM-Adapters 
 ### 加速技巧
 #### Optimizer
 
@@ -74,6 +122,7 @@ paper &amp; learning tutorial reading list
 - 
 
 ### 模型
+- [生成式 AI 的技術門檻，護城河並非不可逾越](https://hitripod.com/generative-ai-might-have-no-moat/)
 #### LLaMA
 - LongLLaMA
   - [将上下文长度扩展到 256k，无限上下文版本的OpenLLaMA来了？](https://www.jiqizhixin.com/articles/2023-07-10-3)
