@@ -130,6 +130,8 @@
 - [YoutubeDNN/MIND with sampled softmax](https://deepmatch.readthedocs.io/en/latest/Examples.html#run-models-on-movielen1m-in-google-colab)
 - [shenweichen/DeepMatch](https://github.com/shenweichen/deepmatch)
 - [Youtube的DeepMatch](https://juejin.cn/post/7197305502304108603)
+- [如何使用 Mixture of Experts 建立多任務學習框架](https://medium.com/hackergirly/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-mixture-of-model-%E5%BB%BA%E7%AB%8B%E5%A4%9A%E4%BB%BB%E5%8B%99%E5%AD%B8%E7%BF%92%E6%A1%86%E6%9E%B6-1497644b245e)
+    - Google Youtube:  wide (shallow tower) and deep (Multi-gate Mixture of Experts, MMoE)   
 
 ### DeepCTR
 #### reference
