@@ -120,6 +120,7 @@
 - [Day 07：初探推薦系統(Recommendation System)](https://ithelp.ithome.com.tw/articles/10219033)
 - [无处不在推荐系统(1) TFIDF](https://zhuanlan.zhihu.com/p/320273027)
 - [NLP 系列-2：文字向量化 - tfidf](https://vocus.cc/article/63b2241ffd89780001dd5096)
+- [萬字入門推薦系統！](https://allaboutdataanalysis.medium.com/%E8%90%AC%E5%AD%97%E5%85%A5%E9%96%80%E6%8E%A8%E8%96%A6%E7%B3%BB%E7%B5%B1-d71490f4fd7f)
 
 ## Deep Learning
 ### 
