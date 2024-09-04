@@ -1,14 +1,18 @@
 # Research
 paper &amp; learning tutorial reading list
+## Quick Link
+- [Topic - Knowledge](https://github.com/TroisLiu/research/tree/master#knowledge)
+- [Topic - LLM](https://github.com/TroisLiu/research/tree/master#llm)
+- [Topic - 推薦系統](https://github.com/TroisLiu/research/tree/master#recommendation-system)
 
 ## Knowledge 
-### Knowledge Augmentation
-### Knowledge Extraction
-### Knowledge Graph
-### Knowledge Fusion
-### Knowledge Inference
-### Knowledge Update
-### Knowledge Validation
+- Knowledge Augmentation
+- Knowledge Extraction
+- Knowledge Graph
+- Knowledge Fusion
+- Knowledge Inference
+- Knowledge Update
+- Knowledge Validation
 
 ## LLM
 ### 機制
@@ -144,6 +148,15 @@ paper &amp; learning tutorial reading list
     - 儘管僅訓練單一epoch的模型始終具有最佳的驗證損失和計算效益，但在訓練多達4個epoch的模型之間的差異往往不重要，並且不會導致下游任務性能的差異。
     - 持續訓練額外的epoch是有益的，但回報最終會趨近於零。
     - 在受限的數據情境下，將新的計算資源分配給更多的參數和時期是必要的，並且時期應該稍微加快
+#### MMLU
+- 57個學科領域
+- [要如何評估大型語言模型的預測能力？開箱大型語言模型評估程式碼](https://blog.infuseai.io/llm-model-evaluation-open-source-code-mmlu-tmmluplus-mistral-c84828178114)
+- [MMLU 是什麼](https://ai.choozmo.com/blog/what-is-mmlu-dataset/)
+#### TMMLU+
+- 66個學科領域
+- [TMMLU+ Dataset: 大規模繁體中文海量多任務語言理解](https://blog.infuseai.io/tmmluplus-dataset-brief-introduction-ecfd00297838)
+- [TMMLU+: An Improved Traditional Chinese Evaluation Suite
+for Foundation Models](https://arxiv.org/pdf/2403.01858v3)
 
 
 ## Recommendation System
