@@ -112,28 +112,75 @@ paper &amp; learning tutorial reading list
 #### Optimizer
 
 ### 人格設定
-- []()
+- [Using Large Language Models to Simulate Multiple Humans
+and Replicate Human Subject Studies](https://arxiv.org/pdf/2208.10264)
+  - 使用GPT-3來模擬人類的反應，通過改變姓名和其他細節，在某些人類實驗（如終極博弈）中進行測試。
 
 ### 語言應用
+#### 笑話理解
+- [INNOVATIVE THINKING, INFINITE HUMOR: HUMOR RESEARCH OF LARGE LANGUAGE MODELS THROUGH STRUCTURED THOUGHT LEAPS](https://arxiv.org/pdf/2410.10370)
+  - 基於創意跳躍思維CLoT提出一個**"創意結構化思維跳躍"（CLoST）框架**
+  - 首先，需要一個獎勵模型來達成糾錯目的(因為目前沒有幽默的專家模型或可用規則來判定內容是否幽默)
+  - 通過強化學習，模型學會打磨思維鏈的推理，並改進其使用的策略。
+  - 模型學會識別並修正錯誤，最終生成最具幽默性和創意的答案。
+- [Cracking the Code of Juxtaposition: Can AI Models Understand the Humorous Contradictions](https://arxiv.org/pdf/2405.19088)
+  - 當幽默涉及許多笑話和幽默線索所依賴的非線性敘事時，LLM在通過並列理解人類幽默的細微之處仍然面臨困難
+  - 提出了**YESBUT基準**，包含不同難度的任務，旨在**評估AI識別和解釋這些漫畫的能力**，任務範圍從字面內容理解到深層敘事推理。
+    
+#### 拒絕能力
+- [“As an AI language model, I cannot”: Investigating LLM Denials of User Requests](https://dl.acm.org/doi/pdf/10.1145/3613904.3642135)
+  
 #### 雙關語
 - [Ambipun: Generating humorous puns with ambiguous context.](https://arxiv.org/abs/2205.01825)
+- [“A good pun is its own reword”: Can Large Language Models Understand Puns?](https://arxiv.org/pdf/2404.13599)
+  - LLM其理解雙關語的能力尚未得到系統性研究，這限制了LLMs在創意寫作和幽默創作中的應用
+  - 
+#### 中文俚語
+- [DuanzAI: Slang-Enhanced LLM with Prompt for Humor Understanding](https://arxiv.org/pdf/2405.15818)
+  - 提出了DuanzAI，一種增強大型語言模型（LLMs）深度理解中文俚語的創新方法。
+  - 利用三個常見任務，即**雙關識別、雙關解釋和雙關生成**，系統**評估LLMs理解雙關語的能力**。
+  - 揭示了「**懶惰的雙關生成**」模式，並確定了LLMs在理解雙關語方面的主要挑戰
 #### joke
 - [Crowd Score: A Method for the Evaluation of Jokes using Large Language Model AI Voters as Judges](https://arxiv.org/pdf/2212.11214)
-  - 以不同個性風格LLM來評測笑話品質
+  - 以**不同個性風格LLM來評測笑話品質**
   - 認為個性的設定需要"足以誘導出具備這些特質的個性" (例：「作為一個喜歡$TypeOfHumour幽默的人，將以下[Joke]分類為Funny或$Opposite。」)
-- [Witscript: A System for Generating Improvised Jokes in a Conversation](https://computationalcreativity.net/iccc21/wp-content/uploads/2021/09/ICCC_2021_paper_15.pdf)
-  - 笑話由人(專業笑話演員)與LLM(GPT-3, Witscript, Witscript2)生成，皆屬於攻擊性/自我貶低型
-  - 笑話並非僅依賴文字遊戲，基於常識
-  - 同時包含人類評審幽默評分
+  - 
+##### Joke定義
 - [Individual differences in uses of humor and their relation to psychological well-being: Development of the Humor Styles Questionnaire](https://www.sciencedirect.com/science/article/abs/pii/S0092656602005342)
-  - 定義笑話分類：親和型、自我提升型、攻擊型和自我貶低型
+  - **定義笑話分類**：親和型、自我提升型、攻擊型和自我貶低型
   - 親和型幽默：一種非敵對、包容的幽默，肯定自我與他人
   - 自我提升型幽默：旨在讓人對自己感到良好
   - 攻擊型幽默：使用諷刺、揶揄、嘲笑、譏諷和貶低他人
   - 自我貶低型幽默：是為了讓他人開心而自嘲
-- [Using Large Language Models to Simulate Multiple Humans
-and Replicate Human Subject Studies](https://arxiv.org/pdf/2208.10264)
-  - 使用GPT-3來模擬人類的反應，通過改變姓名和其他細節，在某些人類實驗（如終極博弈）中進行測試。
+  - 
+##### Joke Dataset
+- [Witscript: A System for Generating Improvised Jokes in a Conversation](https://computationalcreativity.net/iccc21/wp-content/uploads/2021/09/ICCC_2021_paper_15.pdf)
+  - **笑話由人(專業笑話演員)與LLM(GPT-3, Witscript, Witscript2)生成**，皆屬於攻擊性/自我貶低型
+  - 笑話並非僅依賴文字遊戲，基於常識
+  - 同時包含人類評審幽默評分
+- [Chumor 1.0: A Truly Funny and Challenging Chinese Humor Understanding Dataset from Ruo Zhi Ba](https://arxiv.org/pdf/2406.12754)
+  - **Chumor 資料集**： 來源於「弱智吧」（RZB），一個類似Reddit的中文平台，專注於分享具有智力挑戰性和文化特性的笑話
+  - 為每個笑話添加了解釋標註，並通過中文母語者的A/B測試
+  - 資料集下載：https://github.com/dnaihao/Chumor-dataset
+- [Is AI fun? HumorDB: a curated dataset and benchmark to investigate graphical humor](https://arxiv.org/pdf/2406.13564)
+  - **HumorDB 資料集**： 新型純圖像數據集，旨在推動視覺幽默理解的進展
+  - 包含精心挑選的圖像對，具有對比明顯的幽默評分
+  - 突顯引發幽默的微妙視覺線索，並減少潛在的偏見。該數據集支持二元分類（有趣或無趣）、範圍回歸（幽默程度從1到10）和成對比較任務（哪個圖像更有趣）
+- [Are U a Joke Master? Pun Generation via Multi-Stage Curriculum Learning towards a Humor LLM](https://aclanthology.org/2024.findings-acl.51.pdf)
+  - 專注於賦予LLMs生成雙關語的能力，這是一種通過偏好學習方法實現的特定幽默類型。
+  - 提出了一種多階段課程偏好學習框架，以優化雙關語結構偏好和幽默偏好，改進了直接偏好優化（DPO）算法，以解決多目標對齊問題。
+  - 突顯引發幽默的微妙視覺線索，並減少潛在的偏見。該數據集支持二元分類（有趣或無趣）、範圍回歸（幽默程度從1到10）和成對比較任務（哪個圖像更有趣
+  - **中文雙關語（ChinesePun）數據集**，包含2.1k雙關語及其對應標註。
+  - 
+#### 笑話生成
+- [Getting Serious about Humor: Crafting Humor Datasets with Unfunny Large Language Models](https://arxiv.org/pdf/2403.00794)
+  - 探討大型語言模型（LLMs）是否能夠通過編輯文本生成幽默檢測的合成數據
+  - 顯示當前的LLM在「去幽默化」笑話方面表現出令人印象深刻的能力
+  - GPT-4生成的合成數據得到了雙語標註者的高度評價，並為幽默分類器提供了具挑戰性的對抗示例。
+- [Exploring Chinese Humor Generation: A Study on Two-part Allegorical Sayings](https://arxiv.org/pdf/2403.10781)
+  - 本文研究了最先進的語言模型在理解和生成中文幽默方面的能力，特別聚焦於訓練它們創作諷喻語句
+  - 用了兩種主要的訓練方法：對**中型語言模型進行微調**和對**大型模型進行提示**
+  - 創新微調方法結合了融合拼音嵌入以考慮同音詞，並**使用對比學習與合成的困難負例來區分幽默元素**
 
 #### Layer Dropping
 - [(2020)Accelerating Training of Transformer-Based Language Models with Progressive Layer Dropping](https://github.com/TroisLiu/research/blob/master/Accelerating%20Training%20of%20Transformer-Based%20Language%20Models%20with%20Progressive%20Layer%20Dropping.md)
