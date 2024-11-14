@@ -116,6 +116,10 @@ paper &amp; learning tutorial reading list
 and Replicate Human Subject Studies](https://arxiv.org/pdf/2208.10264)
   - 使用GPT-3來模擬人類的反應，通過改變姓名和其他細節，在某些人類實驗（如終極博弈）中進行測試。
 
+### 角色人格
+- [Proxona: Leveraging LLM-Driven Personas to Enhance Creators’ Understanding of Their Audience](https://arxiv.org/pdf/2408.10937)
+  - 利用大型語言模型（LLMs）生成基於數據的受眾角色，幫助創作者深入了解其受眾，並支持制定以受眾為中心的內容策略。 
+
 ### 語言應用
 #### 笑話理解
 - [INNOVATIVE THINKING, INFINITE HUMOR: HUMOR RESEARCH OF LARGE LANGUAGE MODELS THROUGH STRUCTURED THOUGHT LEAPS](https://arxiv.org/pdf/2410.10370)
