@@ -111,6 +111,30 @@ paper &amp; learning tutorial reading list
 ### 加速技巧
 #### Optimizer
 
+### 人格設定
+- []()
+
+### 語言應用
+#### 雙關語
+- [Ambipun: Generating humorous puns with ambiguous context.](https://arxiv.org/abs/2205.01825)
+#### joke
+- [Crowd Score: A Method for the Evaluation of Jokes using Large Language Model AI Voters as Judges](https://arxiv.org/pdf/2212.11214)
+  - 以不同個性風格LLM來評測笑話品質
+  - 認為個性的設定需要"足以誘導出具備這些特質的個性" (例：「作為一個喜歡$TypeOfHumour幽默的人，將以下[Joke]分類為Funny或$Opposite。」)
+- [Witscript: A System for Generating Improvised Jokes in a Conversation](https://computationalcreativity.net/iccc21/wp-content/uploads/2021/09/ICCC_2021_paper_15.pdf)
+  - 笑話由人(專業笑話演員)與LLM(GPT-3, Witscript, Witscript2)生成，皆屬於攻擊性/自我貶低型
+  - 笑話並非僅依賴文字遊戲，基於常識
+  - 同時包含人類評審幽默評分
+- [Individual differences in uses of humor and their relation to psychological well-being: Development of the Humor Styles Questionnaire](https://www.sciencedirect.com/science/article/abs/pii/S0092656602005342)
+  - 定義笑話分類：親和型、自我提升型、攻擊型和自我貶低型
+  - 親和型幽默：一種非敵對、包容的幽默，肯定自我與他人
+  - 自我提升型幽默：旨在讓人對自己感到良好
+  - 攻擊型幽默：使用諷刺、揶揄、嘲笑、譏諷和貶低他人
+  - 自我貶低型幽默：是為了讓他人開心而自嘲
+- [Using Large Language Models to Simulate Multiple Humans
+and Replicate Human Subject Studies](https://arxiv.org/pdf/2208.10264)
+  - 使用GPT-3來模擬人類的反應，通過改變姓名和其他細節，在某些人類實驗（如終極博弈）中進行測試。
+
 #### Layer Dropping
 - [(2020)Accelerating Training of Transformer-Based Language Models with Progressive Layer Dropping](https://github.com/TroisLiu/research/blob/master/Accelerating%20Training%20of%20Transformer-Based%20Language%20Models%20with%20Progressive%20Layer%20Dropping.md)
 #### Sparse Attention
