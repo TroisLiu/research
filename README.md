@@ -151,7 +151,140 @@ paper &amp; learning tutorial reading list
     Actual solution:
     """
     ```
-  -  
+#### 其他Task
+- Summary
+  ```
+      prompt = f"""
+    Your task is to generate a short summary of a product \ 
+    review from an ecommerce site. 
+
+    Summarize the review below, delimited by triple \
+    backticks in at most 20 words. 
+
+    Review: ```{reviews[i]}```
+    """
+  ```
+- Sentiment (Positive/Negative)
+  ```
+  prompt = f"""
+  What is the sentiment of the following product review, 
+  which is delimited with triple backticks?
+
+  Give your answer as a single word, either "positive" \
+  or "negative".
+  
+  Review text: '''{lamp_review}'''
+  """
+  ```
+- Emotion
+  ```
+  prompt = f"""
+  Identify a list of emotions that the writer of the \
+  following review is expressing. Include no more than \
+  five items in the list. Format your answer as a list of \
+  lower-case words separated by commas.
+  
+  Review text: '''{lamp_review}'''
+  """
+
+  prompt = f"""
+  Is the writer of the following review expressing anger?\
+  The review is delimited with triple backticks. \
+  Give your answer as either yes or no.
+  
+  Review text: '''{lamp_review}'''
+  """
+  ```
+- Extract Entity
+  ```
+  prompt = f"""
+  Identify the following items from the review text: 
+  - Item purchased by reviewer
+  - Company that made the item
+  
+  The review is delimited with triple backticks. \
+  Format your response as a JSON object with \
+  "Item" and "Brand" as the keys. 
+  If the information isn't present, use "unknown" \
+  as the value.
+  Make your response as short as possible.
+    
+  Review text: '''{lamp_review}'''
+  """
+  ```
+- Multiple Task at once
+  ```
+  prompt = f"""
+  Identify the following items from the review text: 
+  - Sentiment (positive or negative)
+  - Is the reviewer expressing anger? (true or false)
+  - Item purchased by reviewer
+  - Company that made the item
+  
+  The review is delimited with triple backticks. \
+  Format your response as a JSON object with \
+  "Sentiment", "Anger", "Item" and "Brand" as the keys.
+  If the information isn't present, use "unknown" \
+  as the value.
+  Make your response as short as possible.
+  Format the Anger value as a boolean.
+  
+  Review text: '''{lamp_review}'''
+  """
+  ```
+- Translation
+  ```
+  prompt = f"""
+  Translate the following English text to Spanish: \ 
+  '''Hi, I would like to order a blender'''
+  """
+
+  prompt = f"""
+  Tell me which language this is: 
+  '''Combien coûte le lampadaire?'''
+  """
+
+  prompt = f"""
+  Translate the following  text to French and Spanish
+  and English pirate: \
+  '''I want to order a basketball'''
+  """
+
+  prompt = f"""
+  Translate the following text to Spanish in both the \
+  formal and informal forms: 
+  'Would you like to order a pillow?'
+  """
+  ```
+- Writing Style Transformation
+  ```
+  prompt = f"""
+  Translate the following from slang to a business letter: 
+  'Dude, This is Joe, check out this spec on this standing lamp.'
+  """
+  ```
+- Writing Format Conversion
+  ```
+  prompt = f"""
+  Translate the following python dictionary from JSON to an HTML \
+  table with column headers and title: {data_json}
+  """
+  ```
+- Spell/Grammer Check
+  ```
+    prompt = f"""Proofread and correct the following text
+    and rewrite the corrected version. If you don't find
+    and errors, just say "No errors found". Don't use 
+    any punctuation around the text:
+    '''{t}'''"""
+  ```
+- prompt in messages data of api parameters
+  ```
+  messages.append(
+  {'role':'system', 'content':'create a json summary of the previous food order. Itemize the price for each item\
+   The fields should be 1) pizza, include size 2) list of toppings 3) list of drinks, include size   4) list of sides include size        5)total price '},    
+  )
+  ```
 ### 機制
 #### Chain of Thought
 
