@@ -15,6 +15,143 @@ paper &amp; learning tutorial reading list
 - Knowledge Validation
 
 ## LLM
+### prompt engineering
+-  原則 1：撰寫清晰且具體的指示
+  - 策略 1：使用分隔符清楚地標示輸入中不同的部分
+    ```
+    prompt = f"""
+    Summarize the text delimited by triple backticks \ 
+    into a single sentence.
+    ```{text}```
+    """
+    ```
+  - 策略 2：要求提供結構化的輸出
+    ```
+    prompt = f"""
+    Generate a list of three made-up book titles along \ 
+    with their authors and genres. 
+    Provide them in JSON format with the following keys: 
+    book_id, title, author, genre.
+    """
+    ```    
+  - 策略 3：要求模型檢查條件是否滿足
+    ```
+    prompt = f"""
+    You will be provided with text delimited by triple quotes. 
+    If it contains a sequence of instructions, \ 
+    re-write those instructions in the following format:
+    
+    Step 1 - ...
+    Step 2 - …
+    …
+    Step N - …
+    
+    If the text does not contain a sequence of instructions, \ 
+    then simply write \"No steps provided.\"
+    
+    \"\"\"{text_1}\"\"\"
+    """
+    ```        
+  - 策略 4：Few-shot Prompting「少量範例」提示
+    ```
+    prompt = f"""
+    You will be provided with text delimited by triple quotes. 
+    If it contains a sequence of instructions, \ 
+    re-write those instructions in the following format:
+    
+    Step 1 - ...
+    Step 2 - …
+    …
+    Step N - …
+    
+    If the text does not contain a sequence of instructions, \ 
+    then simply write \"No steps provided.\"
+    
+    \"\"\"{text_1}\"\"\"
+    """
+    ```         
+-  原則 2：給模型時間進行「思考」
+  - 策略 1：明確指出完成任務所需的步驟
+    ```
+    f"""
+    Your task is to perform the following actions: 
+    1 - Summarize the following text delimited by 
+      <> with 1 sentence.
+    2 - Translate the summary into French.
+    3 - List each name in the French summary.
+    4 - Output a json object that contains the 
+      following keys: french_summary, num_names.
+    
+    Use the following format:
+    Text: <text to summarize>
+    Summary: <summary>
+    Translation: <summary translation>
+    Names: <list of names in summary>
+    Output JSON: <json with summary and num_names>
+    
+    Text: <{text}>
+    """
+    ```
+  - 策略 2：指導模型在得出結論之前先自行推導解決方案
+    ```
+    prompt = f"""
+    Your task is to determine if the student's solution \
+    is correct or not.
+    To solve the problem do the following:
+    - First, work out your own solution to the problem including the final total. 
+    - Then compare your solution to the student's solution \ 
+    and evaluate if the student's solution is correct or not. 
+    Don't decide if the student's solution is correct until 
+    you have done the problem yourself.
+    
+    Use the following format:
+    Question:
+    '''
+    question here
+    '''
+    Student's solution:
+    '''
+    student's solution here
+    '''
+    Actual solution:
+    '''
+    steps to work out the solution and your solution here
+    '''
+    Is the student's solution the same as actual solution \
+    just calculated:
+    '''
+    yes or no
+    '''
+    Student grade:
+    '''
+    correct or incorrect
+    '''
+    
+    Question:
+    '''
+    I'm building a solar power installation and I need help \
+    working out the financials. 
+    - Land costs $100 / square foot
+    - I can buy solar panels for $250 / square foot
+    - I negotiated a contract for maintenance that will cost \
+    me a flat $100k per year, and an additional $10 / square \
+    foot
+    What is the total cost for the first year of operations \
+    as a function of the number of square feet.
+    '''
+    Student's solution:
+    '''
+    Let x be the size of the installation in square feet.
+    Costs:
+    1. Land cost: 100x
+    2. Solar panel cost: 250x
+    3. Maintenance cost: 100,000 + 100x
+    Total cost: 100x + 250x + 100,000 + 100x = 450x + 100,000
+    '''
+    Actual solution:
+    """
+    ```
+  -  
 ### 機制
 #### Chain of Thought
 
