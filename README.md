@@ -16,7 +16,7 @@ paper &amp; learning tutorial reading list
 
 ## LLM
 ### prompt engineering
--  原則 1：撰寫清晰且具體的指示
+####  原則 1：撰寫清晰且具體的指示
   - 策略 1：使用分隔符清楚地標示輸入中不同的部分
     ```
     prompt = f"""
@@ -70,7 +70,7 @@ paper &amp; learning tutorial reading list
     \"\"\"{text_1}\"\"\"
     """
     ```         
--  原則 2：給模型時間進行「思考」
+#### 原則 2：給模型時間進行「思考」
   - 策略 1：明確指出完成任務所需的步驟
     ```
     f"""
