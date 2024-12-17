@@ -299,6 +299,13 @@ paper &amp; learning tutorial reading list
 ##### reference
 - [给机器下「遗忘咒」？谷歌发起首个机器遗忘挑战赛](https://www.jiqizhixin.com/articles/2023-07-09-4)
 
+### AI Agent
+#### Reference
+- [GPT-4o 新突破！AI 僅需兩小時訪談，輕鬆複製人類性格，準確率高達 85%](https://www.techbang.com/posts/120060-gpt-4o-replicates-human-personality?fbclid=IwY2xjawHNr2pleHRuA2FlbQIxMQABHX4uWXcoR5-M7J8WEzKtHcX0408vX2lHKnAV0W8SjLAxVNZSOiPV5d_xEQ_aem_63DQ3T9dMgtkd2p9YP_ZEg)
+- [近期正夯的AI Agent（智慧型代理）到底是什麼？](https://www.ectimes.org.tw/2024/05/%E7%88%86%E7%B4%85%E7%9A%84ai-agent%EF%BC%88%E6%99%BA%E6%85%A7%E5%9E%8B%E4%BB%A3%E7%90%86%EF%BC%89%EF%BC%8C%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F/)
+- [AI Agent概念及其應用](https://medium.com/vincent-chen/ai-agent%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%85%B6%E6%87%89%E7%94%A8-e66c88e9a015)
+- [完整指南LLM 2024年代理](https://botpress.com/tw/blog/llm-agents)
+
 ### 微調
 #### Adapter
 - 介紹
