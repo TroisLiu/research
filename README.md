@@ -512,6 +512,40 @@ and Replicate Human Subject Studies](https://arxiv.org/pdf/2208.10264)
 
 ### 模型
 - [生成式 AI 的技術門檻，護城河並非不可逾越](https://hitripod.com/generative-ai-might-have-no-moat/)
+#### DeepSeek-R1
+- Pure RL Process: 發現不使用SFT做冷啟動，以RL做冷啟動的效果也能很好
+- 群體相對策略優化（Group Relative Policy Optimization, GRPO)
+  - 放棄了傳統 RL 中與策略模型（Policy Model）等尺寸的評論模型（Critic Model）
+  - 改採基於群體得分（Group Scores）來估計基線值，從而大幅減少計算資源需求。
+  - 透過KL 散度懲罰（KL Divergence Penalty）來調控新策略與參考策略之間的差異，使學習過程更加穩定
+  - 使 RL 訓練能夠在無需評論模型的情況下，透過群體樣本的統計特性來實現高效的策略優化，提高推理能力的學習效率
+  - 用了基於規則的獎勵系統（Rule-Based Reward System）
+    - 準確性獎勵(E.G.數學有固定/明確答案)
+    - 格式獎勵
+- RL with Cold-Start
+  - 少量高品質的長思維鏈（Long Chain-of-Thought, CoT）數據進行冷啟動
+    - 數千條 
+  - 4階段 
+    - 冷啟動階段（Cold Start Phase）：引入少量高品質數據以提供初始指導。
+    - 第一階段增強學習（First RL Stage）：探索更優化的推理模式，提升初步推理能力。
+    - 監督微調階段（Supervised Fine-Tuning, SFT）：利用經過篩選的數據進一步對齊人類偏好，增強可讀性與通用性。
+    - 第二階段增強學習（Second RL Stage）：在更強大的基礎上進一步優化推理性能，使模型具備更高級的推理能力與適應性。    
+
+##### Reference
+- [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/pdf/2501.12948)
+- [DeepSeek-V3 Technical Report](https://arxiv.org/pdf/2412.19437)
+- [【LLM 專欄】Deepseek v3 的訓練時間到底合不合理？淺談 LLM Training efficiency](https://axk51013.medium.com/deepseek-v3-%E7%9A%84%E8%A8%93%E7%B7%B4%E6%99%82%E9%96%93%E5%88%B0%E5%BA%95%E5%90%88%E4%B8%8D%E5%90%88%E7%90%86-%E6%B7%BA%E8%AB%87-llm-training-6460374b6d0f)
+- [不，你無法用 600 萬美元複製一個 DeepSeek R1](https://technews.tw/2025/01/28/you-cannot-copy-deepseekr1-with-6m)
+  - DeepSeek R1
+    - R1 模型的訓練費用其實和去年底發佈的 V3 模型相同
+  - DeepSeek V3
+    - V3 模型中的多數功能又和 2024 年初發佈的 V2 模型共用
+    - 負載平衡
+    - 多重 token 預測機制
+  - DeepSeek V2
+    - DeepSeekMoE: 多重專家混合（Mixture of Experts）
+    - DeepSeekMLA: 多頭潛在注意力機制（Multi-Head Latent Attention）
+- [Timeline of DeepSeek Papers on arXiv](https://medium.com/@fangkuoyu/timeline-of-deepseek-papers-on-arxiv-44ba1935f714https://medium.com/@fangkuoyu/timeline-of-deepseek-papers-on-arxiv-44ba1935f714)
 #### LLaMA
 - LongLLaMA
   - [将上下文长度扩展到 256k，无限上下文版本的OpenLLaMA来了？](https://www.jiqizhixin.com/articles/2023-07-10-3)
