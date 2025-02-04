@@ -546,6 +546,29 @@ and Replicate Human Subject Studies](https://arxiv.org/pdf/2208.10264)
     - DeepSeekMoE: 多重專家混合（Mixture of Experts）
     - DeepSeekMLA: 多頭潛在注意力機制（Multi-Head Latent Attention）
 - [Timeline of DeepSeek Papers on arXiv](https://medium.com/@fangkuoyu/timeline-of-deepseek-papers-on-arxiv-44ba1935f714https://medium.com/@fangkuoyu/timeline-of-deepseek-papers-on-arxiv-44ba1935f714)
+
+#### DeepSeekMoE
+- 目標：實現更高效的專家特化，提高 MoE 模型的知識利用效率，並減少冗餘計算成本。
+- 傳統MoE
+  - 傳統 MoE 架構中，Transformer 的前饋神經網路（Feed-Forward Networks, FFNs）通常被 MoE 層（MoE Layers） 取代。
+  - 每個 MoE 層 由多個專家組成，每個專家的結構與標準 FFN 相同
+  - 而每個 token 會被分配給一個（Fedus et al., 2021）或兩個（Lepikhin et al., 2021）專家。
+  - 有兩大缺陷阻礙了 專家特化（Expert Specialization）：讓每個專家學習非重疊且高度聚焦的知識。  
+- 傳統MoE的缺陷：
+  - 知識混雜（Knowledge Hybridity)
+    - 現有 MoE 方法通常使用有限數量的專家（例如 8 或 16 個），因此被分配到某個專家的 token 可能涉及多種不同的知識領域。
+    - 單個專家需要存儲大量不同類型的知識，這些知識可能無法在推理時同時高效利用，從而影響模型的性能。
+  - 知識冗餘（Knowledge Redundancy
+    - 被分配到不同專家的 token 可能仍然需要共享某些常見知識（Common Knowledge）
+    - 多個專家可能會在各自的參數中學習重複的知識，導致專家層的參數冗餘（Parameter Redundancy），進一步影響模型的效率與推理能力。
+- 2個關鍵架構
+  - 精細劃分專家（Fine Segmentation of Experts) : 將專家從 N 細分為 𝑚𝑁 個，並從中激活 𝑚𝐾 個
+    - 保持總參數數量不變的前提下，我們透過劃分 FFN（前饋神經網路）的中間隱藏維度，將專家進行更細粒度的劃分
+    - 保持總計算成本不變的條件下，我們激活更多的細粒度專家，從而形成更靈活且適應性更強的專家組合。
+  - 共享專家隔離(Isolation of Shared Experts):將𝐾𝑠個專家作為共享專家(Shared Experts)用於學習通用知識，以減少路由專家(Routed Experts)之間的冗餘
+    - 將部分專家隔離為「共享專家（Shared Experts）」
+    - Shared Experts始終被激活，用於捕捉和整合通用知識（Common Knowledge）
+    - 確保路由專家（Routed Experts）能夠專注於學習獨特且專精的知識
 #### LLaMA
 - LongLLaMA
   - [将上下文长度扩展到 256k，无限上下文版本的OpenLLaMA来了？](https://www.jiqizhixin.com/articles/2023-07-10-3)
