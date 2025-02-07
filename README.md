@@ -561,14 +561,21 @@ and Replicate Human Subject Studies](https://arxiv.org/pdf/2208.10264)
   - 知識冗餘（Knowledge Redundancy
     - 被分配到不同專家的 token 可能仍然需要共享某些常見知識（Common Knowledge）
     - 多個專家可能會在各自的參數中學習重複的知識，導致專家層的參數冗餘（Parameter Redundancy），進一步影響模型的效率與推理能力。
-- 2個關鍵架構
+- 3個關鍵架構
   - 精細劃分專家（Fine Segmentation of Experts) : 將專家從 N 細分為 𝑚𝑁 個，並從中激活 𝑚𝐾 個
     - 保持總參數數量不變的前提下，我們透過劃分 FFN（前饋神經網路）的中間隱藏維度，將專家進行更細粒度的劃分
     - 保持總計算成本不變的條件下，我們激活更多的細粒度專家，從而形成更靈活且適應性更強的專家組合。
+      - 當N=16，若路由策略一次選TOP-2 => C16取2 > 120種組合
+      - 當N=64，路由策略調整為一次選TOP-8 => C64取8 > 4,426,165,368種 
   - 共享專家隔離(Isolation of Shared Experts):將𝐾𝑠個專家作為共享專家(Shared Experts)用於學習通用知識，以減少路由專家(Routed Experts)之間的冗餘
     - 將部分專家隔離為「共享專家（Shared Experts）」
-    - Shared Experts始終被激活，用於捕捉和整合通用知識（Common Knowledge）
+    - Shared Experts始終被激活
+      - 用於捕捉和整合通用知識（Common Knowledge）
+      - 所有 token 都會被確定性地分配到這些專家。
     - 確保路由專家（Routed Experts）能夠專注於學習獨特且專精的知識
+  - 負載均衡考量 (Load Balance Consideration): 為了避免以下2缺陷
+    - 路由崩潰（Routing Collapse）：模型可能總是選擇少數幾個專家，導致其他專家無法獲得足夠的訓練機會，從而影響整體的專家多樣性與泛化能力。
+    - 計算瓶頸（Computation Bottlenecks）：如果專家分佈在多個設備上，負載不均衡可能導致某些設備的計算資源過載
 #### LLaMA
 - LongLLaMA
   - [将上下文长度扩展到 256k，无限上下文版本的OpenLLaMA来了？](https://www.jiqizhixin.com/articles/2023-07-10-3)
