@@ -1,10 +1,24 @@
 # Research
 paper &amp; learning tutorial reading list
 ## Quick Link
-- [Topic - Knowledge](https://github.com/TroisLiu/research/tree/master#knowledge)
+- [Topic - Dialogue System]()
 - [Topic - LLM](https://github.com/TroisLiu/research/tree/master#llm)
 - [Topic - 推薦系統](https://github.com/TroisLiu/research/tree/master#recommendation-system)
+- [Topic - Knowledge](https://github.com/TroisLiu/research/tree/master#knowledge)
 
+## Dialogue System
+- 對話狀態追蹤(Dialogue State Tracking, DST)
+  - LLM較善於利用完整對話語境來糾正先前輪次可能出現的錯誤
+  - LLM-DST的整體性能隨對話輪數增加而下降得更慢，對錯誤傳播（error propagation）的抵抗力比傳統模型更佳
+  - 論文：
+    - [(2023)Towards LLM-driven Dialogue State Tracking](https://aclanthology.org/2023.emnlp-main.48.pdf)
+      - 提出LDST框架: 基於開源LLaMA模型透過指令微調(domain-slot instruction tuning)實現
+    - [(2024)Chain of Thought Explanation for Dialogue State Tracking](https://arxiv.org/html/2403.04656v1)
+      - 將CoT引入至DST當中，模型在決定槽位值後生成逐步推理的解釋
+      - 能引導模型從相關對話輪中蒐集資訊並推理正確的槽值，從而提高預測的準確可靠性
+    - [(2024)Enhancing Dialogue State Tracking Models through LLM-backed User-Agents Simulation](https://aclanthology.org/2024.acl-long.473.pdf)
+      - 因人工標註成本高，利用LLM來模擬對話生成標註數據
+      - 論文使用GPT-4充當用戶和代理人，生成帶有DST標籤的大量模擬對話，然後用這些合成數據對LLaMA 2模型進行兩階段微調，在MultiWOZ等資料集上取得優於僅用真實數據訓練的效果
 ## Knowledge 
 - Knowledge Augmentation
 - Knowledge Extraction
