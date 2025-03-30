@@ -1,7 +1,7 @@
 # Research
 paper &amp; learning tutorial reading list
 ## Quick Link
-- [Topic - Dialogue System]()
+- [Topic - Dialogue System](https://github.com/TroisLiu/research/blob/master/README.md#dialogue-system)
 - [Topic - LLM](https://github.com/TroisLiu/research/tree/master#llm)
 - [Topic - 推薦系統](https://github.com/TroisLiu/research/tree/master#recommendation-system)
 - [Topic - Knowledge](https://github.com/TroisLiu/research/tree/master#knowledge)
