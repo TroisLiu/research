@@ -384,6 +384,7 @@ paper &amp; learning tutorial reading list
 #### Tree of Thought
 - [(2023)Tree of Thoughts: Deliberate Problem Solving with Large Language Models.md](https://github.com/TroisLiu/research/blob/master/Tree%20of%20Thoughts%3A%20Deliberate%20Problem%20Solving%20with%20Large%20Language%20Models.md)
 
+
 #### 聯邦學習
 ##### reference
 - [思考一下，联邦学习可以训练大语言模型吗？](https://www.jiqizhixin.com/articles/2023-07-10-4)
@@ -391,6 +392,17 @@ paper &amp; learning tutorial reading list
 #### Machnine Unlearning
 ##### reference
 - [给机器下「遗忘咒」？谷歌发起首个机器遗忘挑战赛](https://www.jiqizhixin.com/articles/2023-07-09-4)
+
+### MoE
+- [混合专家模型 (MoE) 详解](https://github.com/huggingface/blog/blob/main/zh/moe.md?utm_source=chatgpt.com)
+  - 增加更多专家可以提升处理样本的效率和加速模型的运算速度，但这些优势随着专家数量的增加而递减 (尤其是当专家数量达到 256 或 512 之后更为明显)。
+  - 这意味着在推理过程中，需要更多的显存来加载整个模型。
+  - Switch Transformers 的研究表明，其在大规模模型中的特性在小规模模型下也同样适用，即便是每层仅包含 2、4 或 8 个专家。 
+#### Large Scale of Expert (FFN)
+- [GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding](https://arxiv.org/pdf/2006.16668)
+- [MoE模型的前世今生](https://news.miracleplus.com/share_link/24433)
+  - GShard进行了大量的实验，训练了包含4/32/256个expert的flat MoE模型和包含256/1024/4096个expert的hierarchical MoE模型。 
+- [Model Card for Switch Transformers C - 2048 experts (1.6T parameters for 3.1 TB)](https://huggingface.co/google/switch-c-2048)
 
 ### AI Agent
 #### Reference
