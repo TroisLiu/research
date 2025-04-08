@@ -617,6 +617,38 @@ and Replicate Human Subject Studies](https://arxiv.org/pdf/2208.10264)
 
 ### 模型
 - [生成式 AI 的技術門檻，護城河並非不可逾越](https://hitripod.com/generative-ai-might-have-no-moat/)
+#### Mixtral 8x7B
+- 總共有467億個參數
+- 稀疏混和專家(SMoE)模型架構
+  - Layer設計
+    - ![image](https://github.com/user-attachments/assets/19d4c450-a234-4210-848d-f34a0b808e14)
+    - 每個專家就是標準的FFN
+    - 8個不同領域的7B模型
+    - 每次輸入只會觸發一小部分專家
+      - 在處理每個Token時，模型只會選擇並使用其中的129億個參數
+      - 經過訓練的路由器，能夠根據輸入資料的特性，分配任務給2個最適合的專家
+  - MoE 層是針對每個 token 獨立應用的，並且取代了 Transformer 區塊中的前饋（FFN）子區塊
+  - 2個專家各自處理完輸入後，專家輸出會被整合成最終的輸出
+  - 整個模型有32層，代表共有256(32*8)個Expert
+- 能處理32k Token上下文
+- 缺點：
+  - Expert負載均衡機制未做好
+    - 若刪除Expert3, 模型會Fail
+    - 刪除其他Expert，模型表現都差不多
+- 與GShard比較
+  - Mixtral將所有FFN都替換成MoE Layer
+  - GShard每隔一個FFN才替換一次
+- 與LLaMA比較
+  - 將MLP layer复制成了8个expert layers并在一起
+  - 通过一个gate layer，对每个token选择top-2的专家模型进行计算
+  - 
+##### Reference
+ - [Mixtral of Experts](https://arxiv.org/pdf/2401.04088)
+ - [Mixtral-8x7B 模型挖坑](https://zhuanlan.zhihu.com/p/674751021)
+   - Mixtral-8x7B利用Mistral-7B訓練過程中early-stage的checkpoint訓練
+   - Attention layer是直接繼承checkpoint
+   - FFN複製8份
+   - 再加上gate layer完成後續預訓練
 #### DeepSeek-R1
 - Pure RL Process: 發現不使用SFT做冷啟動，以RL做冷啟動的效果也能很好
 - 群體相對策略優化（Group Relative Policy Optimization, GRPO)
