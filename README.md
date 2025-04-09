@@ -399,7 +399,12 @@ paper &amp; learning tutorial reading list
   - 这意味着在推理过程中，需要更多的显存来加载整个模型。
   - Switch Transformers 的研究表明，其在大规模模型中的特性在小规模模型下也同样适用，即便是每层仅包含 2、4 或 8 个专家。 
 #### Large Scale of Expert (FFN)
+- [Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity](https://arxiv.org/pdf/2101.03961)
+  - Expert with 2, 4, 6, 16, 32, 64, 128, 256個
 - [GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding](https://arxiv.org/pdf/2006.16668)
+- [ST-MOE: DESIGNING STABLE AND TRANSFERABLE SPARSE EXPERT MODELS](https://arxiv.org/pdf/2202.08906)
+- [Scalable and Efficient MoE Training for Multitask Multilingual Models](https://www.microsoft.com/en-us/research/publication/scalable-and-efficient-moe-training-for-multitask-multilingual-models/)
+- [Mixture-of-Experts with Expert Choice Routing](https://arxiv.org/pdf/2202.09368)
 - [MoE模型的前世今生](https://news.miracleplus.com/share_link/24433)
   - GShard进行了大量的实验，训练了包含4/32/256个expert的flat MoE模型和包含256/1024/4096个expert的hierarchical MoE模型。 
 - [Model Card for Switch Transformers C - 2048 experts (1.6T parameters for 3.1 TB)](https://huggingface.co/google/switch-c-2048)
