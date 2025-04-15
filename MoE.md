@@ -61,6 +61,14 @@
     - 包含處理 1000 億 tokens 的推理成本
 - [Mixture-of-Experts (MoE): The Birth and Rise of Conditional Computation](https://cameronrwolfe.substack.com/p/conditional-computation-the-birth)
 ## 模型
+### Overview
+| 模型 | 參數數量 | 專家數 |
+|--------|--------|--------|
+| Llama 4 Scout | 17B(AP) |16 |
+| Llama 4 Maverick | 17B(AP) |128 |
+| Llama 4 Maverick | 2T (288B AP) |16 |
+  - , , 16 Experts
+  - , 
 ### Mixtral 8x7B
 - 總共有467億個參數
 - 稀疏混和專家(SMoE)模型架構
