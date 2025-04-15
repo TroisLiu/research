@@ -62,13 +62,12 @@
 - [Mixture-of-Experts (MoE): The Birth and Rise of Conditional Computation](https://cameronrwolfe.substack.com/p/conditional-computation-the-birth)
 ## 模型
 ### Overview
-| 模型 | 參數數量 | 專家數 |
+| 模型 | 參數數量 | 專家數 |每次active專家數 |
 |--------|--------|--------|
-| Llama 4 Scout | 17B(AP) |16 |
-| Llama 4 Maverick | 17B(AP) |128 |
-| Llama 4 Maverick | 2T (288B AP) |16 |
-  - , , 16 Experts
-  - , 
+| Llama 4 Scout | 17B AP |16 |2|
+| Llama 4 Maverick | 17B AP |SE 1, RE 128 |2|
+| Llama 4 Behemoth | 2T (288B AP) |16 ||
+| Deepseek V3 | 671B (37B AP) | SE 1, RE 256 | SE1, RE 8 |
 ### Mixtral 8x7B
 - 總共有467億個參數
 - 稀疏混和專家(SMoE)模型架構
@@ -131,7 +130,8 @@
   - 負載均衡考量 (Load Balance Consideration): 為了避免以下2缺陷
     - 路由崩潰（Routing Collapse）：模型可能總是選擇少數幾個專家，導致其他專家無法獲得足夠的訓練機會，從而影響整體的專家多樣性與泛化能力。
     - 計算瓶頸（Computation Bottlenecks）：如果專家分佈在多個設備上，負載不均衡可能導致某些設備的計算資源過載
-
+##### reference
+- [DeepSeek-V3 Technical Report](https://arxiv.org/pdf/2412.19437)
 #### LLaMA4
 - 預訓練
   - 訓練資料
