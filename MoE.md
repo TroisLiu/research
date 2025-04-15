@@ -63,11 +63,11 @@
 ## 模型
 ### Overview
 | 模型 | 參數數量 | 專家數 |每次active專家數 |
-|--------|--------|--------|
+|--------|--------|--------|--------|
 | Mixtral 8x7B | 46.7B (14B) |8 |2|
 | Llama 4 Scout | 109B(17B AP) |16 |2|
 | Llama 4 Maverick | 400B (17B AP) |SE 1, RE 128 |2|
-| Llama 4 Behemoth | 2T (288B AP) |16 ||
+| Llama 4 Behemoth | 2T (288B AP) |16 | |
 | Deepseek V3 | 671B (37B AP) | SE 1, RE 256 | SE1, RE 8 |
 ### Mixtral 8x7B
 - 總共有467億個參數
