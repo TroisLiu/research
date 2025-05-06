@@ -35,11 +35,77 @@
 ### 對話狀態追蹤(Dialogue State Tracking, DST)
 - LLM較善於利用完整對話語境來糾正先前輪次可能出現的錯誤
 - LLM-DST的整體性能隨對話輪數增加而下降得更慢，對錯誤傳播（error propagation）的抵抗力比傳統模型更佳
+- 核心議題
+  - 共指 Coreference
+    - 指多個詞或短語在語境中指向同一個實體
+    - Coreference Resolution是提升 DST 表現時的一大障礙：多輪對話中語言表達多樣性所導致，槽位與其值經常是以間接/代名詞方式表達
+    - 對應議題
+      - 代詞消解（Pronoun Resolution）: 處理「他、她、它、他們」等代詞指涉誰的問題
+      - 命名實體共指（Named Entity Coreference）: 識別像「台達電子」與「Delta」、「台達電子工業股份有限公司」是否指同一個組織
+      - 跨句共指（Cross-sentence Coreference）: 不同句子中指涉同一實體的辨識
+      - 事件共指（Event Coreference）: 識別不同語句是否指的是同一個事件
+      - 共指鏈（Coreference Chains）: 將所有指涉同一實體的詞彙串成一條鏈，供後續理解與推理使用
+  - 錯誤傳播 Error Propagation
+    -  
+  - ![image](https://github.com/user-attachments/assets/9c2479a1-0860-4820-964f-f9360f72c129)
+
 - 用對話狀態（如槽位-值集合）作為對話歷史的高度摘要
 - 論文：
   - [(2022)"Do you follow me?": A Survey of Recent Approaches in Dialogue State Tracking](https://arxiv.org/abs/2207.14627)
   - [(2023)Towards LLM-driven Dialogue State Tracking](https://aclanthology.org/2023.emnlp-main.48.pdf)
-    - 提出LDST框架: 基於開源LLaMA模型驅動DST，透過"領域-槽位指令微調(domain-slot instruction tuning)"實現
+    - 以GPT-3.5做實驗(擷取關鍵資訊)發現：
+      - Prompt中若提供範例，對話範例會影響GPT取得關鍵資訊的正確率
+      - 同時問多個Slot也會影響準確率
+    - 提出LDST框架: 基於開源LLaMA模型驅動DST，包含"組合式領域-槽位指令微調(assembled domainslot instruction tuning method)"和"參數高效微調技術(parameter efficient tuning technique)"實現
+      - 構建指令資料集
+        - 以指令微調手法(針對任務設計的明確且具體的指令)來引導模型
+      - 指令資料集
+        - 以組合式領域-槽位指令生成法（Assembled Domain-Slot Instruction Generation)建構：透過隨機組合不同的指令模板與輸入模板來產生多樣化的指令樣本，讓模型在微調過程中接觸到各種形式的指令，有助於降低其對單一提示樣式的敏感度，提升泛化能力
+        - 每一筆資料包含三個欄位：
+          -  Instruction（任務指令）：會隨機二選一建構指令
+            - 標準槽位追蹤指令（Standard Slot Tracking Instruction）
+            - 自訂槽位追蹤指令（Customized Slot Tracking Instruction）：包含更具體的領域-槽位資訊
+          -  Input（任務輸入）：由以下4部分組成
+            - 對話上下文（dialogue context）：包含特殊區段Token: [USER], [SYSTEM]
+            - 領域-槽位描述提示（domain-slot description prompt）：包含特殊區段Token: [domain], [slot]
+            - 可能值列表（PVL, Possible Value List）提示：僅用於分類類型的槽位（categorical slots）
+            - 查詢提示（query prompt）
+          -  Output（期望輸出）
+          -  提示詞設計是基於人工經驗的主觀選擇
+        - 生成資料時，各有50%的機率生成"欠缺slot描述"/"欠缺可能值列表"的Input prompt
+        - ![image](https://github.com/user-attachments/assets/b2355864-ce0e-4919-827f-271fa6407487)
+      - 以PEFT方法微調模型
+        - 以LoRA作微調
+        - 基底模型: LLaMa 7B
+        - 可學習參數：8.4M (總參數量的0.12%)
+    - 資料集
+      - ![image](https://github.com/user-attachments/assets/fd301ff8-22fc-46c8-95a8-3595961838f9)
+      - Schema-Guided Dialogue(SGD)
+        - 2020推出
+        - 涵蓋16個領域、26個服務"
+      - MultiWOZ 2.2 與 MultiWOZ 2.4
+        - 2.2是2020推出；2.4是2022推出
+        - 目的是提升 DST 任務的評估準確性
+        - 2.4 版本的驗證集與測試集經過了精確的重新標註
+    - 評估指標
+      - Joint Goal Accuracy（JGA）
+        - 模型在每一輪對話中**是否能完整正確地預測整個對話狀態（所有槽位的預測值）的比例**
+        - DST 任務中的主要評估指標
+        - 只有當一輪中的所有槽位都預測正確時，該輪才會被計入準確率
+      - Average Goal Accuracy（AGA）
+        - AGA 是每輪中**所有「啟用槽位（active slots）」**的平均準確率。
+        - 啟用槽位: 指在當前輪對話中被提及，不是從前一輪繼承而來的槽位
+    - 表現
+      - ![image](https://github.com/user-attachments/assets/886bd8f2-6b1e-48bd-bd7d-a04cc6812eb4)
+      - ![image](https://github.com/user-attachments/assets/94831723-f0dd-4034-a7fc-a86a2ee7de02)
+      - ![image](https://github.com/user-attachments/assets/120e5116-720d-4604-92b4-8f77d30c3ff6)
+      - ![image](https://github.com/user-attachments/assets/d5a6a37a-8f5d-4050-9e95-15c37f627621)
+ 
+      - Error Propogation議題
+        - ![image](https://github.com/user-attachments/assets/d8278b4d-52c6-4573-8354-00acf769d811)
+        - LDST 的下降速度遠低於 LLaMa 與最佳基線方法，顯示其對錯誤傳遞的抵抗能力更強
+    - 其他議題：
+      - 當對話或描述內容過長時，如何有效截斷或摘要化輸入內容亦成為一項挑戰   
   - [(2024)Chain of Thought Explanation for Dialogue State Tracking](https://arxiv.org/html/2403.04656v1)
     - 將CoT引入至DST當中，模型在決定槽位值後生成逐步推理的解釋
     - 能引導模型從相關對話輪中蒐集資訊並推理正確的槽值，從而提高預測的準確可靠性
