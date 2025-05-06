@@ -37,17 +37,23 @@
 - LLM-DST的整體性能隨對話輪數增加而下降得更慢，對錯誤傳播（error propagation）的抵抗力比傳統模型更佳
 - 用對話狀態（如槽位-值集合）作為對話歷史的高度摘要
 - 論文：
+  - [(2022)"Do you follow me?": A Survey of Recent Approaches in Dialogue State Tracking](https://arxiv.org/abs/2207.14627)
   - [(2023)Towards LLM-driven Dialogue State Tracking](https://aclanthology.org/2023.emnlp-main.48.pdf)
-    - 提出LDST框架: 基於開源LLaMA模型透過指令微調(domain-slot instruction tuning)實現
+    - 提出LDST框架: 基於開源LLaMA模型驅動DST，透過"領域-槽位指令微調(domain-slot instruction tuning)"實現
   - [(2024)Chain of Thought Explanation for Dialogue State Tracking](https://arxiv.org/html/2403.04656v1)
     - 將CoT引入至DST當中，模型在決定槽位值後生成逐步推理的解釋
     - 能引導模型從相關對話輪中蒐集資訊並推理正確的槽值，從而提高預測的準確可靠性
   - [(2024)Enhancing Dialogue State Tracking Models through LLM-backed User-Agents Simulation](https://aclanthology.org/2024.acl-long.473.pdf)
     - 因人工標註成本高，利用LLM來模擬對話生成標註數據
     - 論文使用GPT-4充當用戶和代理人，生成帶有DST標籤的大量模擬對話，然後用這些合成數據對LLaMA 2模型進行兩階段微調，在MultiWOZ等資料集上取得優於僅用真實數據訓練的效果
+  - [(2024)Large Language Models as Zero-shot Dialogue State Tracker through Function Calling](https://arxiv.org/abs/2402.10466)
+  - [(2025) Interpretable and Robust Dialogue State Tracking via Natural Language Summarization with LLMs](https://arxiv.org/abs/2503.08857)
 ### RL與對話決策
 - 類別
   - RLHF
+    - [(2019)Reinforcement Learning for Personalized Dialogue Management](https://arxiv.org/abs/1908.00286)
+      - 可能太舊 
+    - [(2024)Knowledge acquisition for dialogue agents using reinforcement learning on graph representationsKnowledge acquisition for dialogue agents using reinforcement learning on graph representations](https://arxiv.org/html/2406.19500v1)
   - RLAIF 
 - 論文：
   - [(2024)Plug-and-Play Policy Planner for Large Language Model Powered Dialogue Agents](https://openreview.net/pdf?id=MCNqgUFTHI)
@@ -60,6 +66,8 @@
 - 系統
   - stanford的KITA
   - ChatCRS：工具增強的知識檢索代理、目標規劃代理
+- 論文
+  - [(2024)Knowledge-enhanced Response Generation in Dialogue Systems: Current Advancements and Emerging Horizons](https://aclanthology.org/2024.lrec-tutorials.13.pdf) 
 ### 上下文管理與長程對話
 - LLM受限於有限的上下文視窗，在特別長的對話仍面臨挑戰
 - 多數模型在輸入超過數千Token後，性能會下降，難以掌握對話中跨越很多倫次的因果關係、時間脈絡
@@ -93,3 +101,9 @@
 ### 以推理引擎增強對話管理
 #### reference
 - [DeepMind最新：发布说话者-推理者架构实现Agents快慢思考 | 融合系统1+系统2](https://blog.csdn.net/m0_59164520/article/details/143027392)
+
+### 待分類
+- [(2023)MIRACLE: Towards Personalized Dialogue Generation with Latent-Space Multiple Personal Attribute Control](https://arxiv.org/abs/2310.18342)
+- [(2024)Evolving to be Your Soulmate: Personalized Dialogue Agents with Dynamically Adapted Personas](https://arxiv.org/html/2406.13960v1)
+- [(2024)Recent Trends in Personalized Dialogue Generation: A Review of Datasets, Methodologies, and Evaluations](https://arxiv.org/html/2405.17974v1)
+- [(2025)In Prospect and Retrospect: Reflective Memory Management for Long-term Personalized Dialogue Agents](https://arxiv.org/abs/2503.08026)
