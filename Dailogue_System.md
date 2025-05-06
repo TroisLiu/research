@@ -46,19 +46,19 @@
       - 事件共指（Event Coreference）: 識別不同語句是否指的是同一個事件
       - 共指鏈（Coreference Chains）: 將所有指涉同一實體的詞彙串成一條鏈，供後續理解與推理使用
   - 錯誤傳播 Error Propagation
-    -  
   - ![image](https://github.com/user-attachments/assets/9c2479a1-0860-4820-964f-f9360f72c129)
 
 - 用對話狀態（如槽位-值集合）作為對話歷史的高度摘要
 - 論文：
   - [(2022)"Do you follow me?": A Survey of Recent Approaches in Dialogue State Tracking](https://arxiv.org/abs/2207.14627)
   - [(2023)Towards LLM-driven Dialogue State Tracking](https://aclanthology.org/2023.emnlp-main.48.pdf)
-    - 以GPT-3.5做實驗(擷取關鍵資訊)發現：
-      - Prompt中若提供範例，對話範例會影響GPT取得關鍵資訊的正確率
-      - 同時問多個Slot也會影響準確率
-    - 提出LDST框架: 基於開源LLaMA模型驅動DST，包含"組合式領域-槽位指令微調(assembled domainslot instruction tuning method)"和"參數高效微調技術(parameter efficient tuning technique)"實現
-      - 構建指令資料集
-        - 以指令微調手法(針對任務設計的明確且具體的指令)來引導模型
+    - 貢獻:
+      - 以GPT-3.5做實驗(擷取關鍵資訊)發現：
+        - Prompt中若提供範例，對話範例會影響GPT取得關鍵資訊的正確率
+        - 同時問多個Slot也會影響準確率
+      - 提出LDST框架: 基於開源LLaMA模型驅動DST，包含"組合式領域-槽位指令微調(assembled domainslot instruction tuning method)"和"參數高效微調技術(parameter efficient tuning technique)"實現
+    - 構建指令資料集
+      - 以指令微調手法(針對任務設計的明確且具體的指令)來引導模型
       - 指令資料集
         - 以組合式領域-槽位指令生成法（Assembled Domain-Slot Instruction Generation)建構：透過隨機組合不同的指令模板與輸入模板來產生多樣化的指令樣本，讓模型在微調過程中接觸到各種形式的指令，有助於降低其對單一提示樣式的敏感度，提升泛化能力
         - 每一筆資料包含三個欄位：
@@ -106,9 +106,6 @@
         - LDST 的下降速度遠低於 LLaMa 與最佳基線方法，顯示其對錯誤傳遞的抵抗能力更強
     - 其他議題：
       - 當對話或描述內容過長時，如何有效截斷或摘要化輸入內容亦成為一項挑戰   
-  - [(2024)Chain of Thought Explanation for Dialogue State Tracking](https://arxiv.org/html/2403.04656v1)
-    - 將CoT引入至DST當中，模型在決定槽位值後生成逐步推理的解釋
-    - 能引導模型從相關對話輪中蒐集資訊並推理正確的槽值，從而提高預測的準確可靠性
   - [(2024)Enhancing Dialogue State Tracking Models through LLM-backed User-Agents Simulation](https://aclanthology.org/2024.acl-long.473.pdf)
     - 因人工標註成本高，利用LLM來模擬對話生成標註數據
     - 論文使用GPT-4充當用戶和代理人，生成帶有DST標籤的大量模擬對話，然後用這些合成數據對LLaMA 2模型進行兩階段微調，在MultiWOZ等資料集上取得優於僅用真實數據訓練的效果
@@ -165,6 +162,29 @@
     - 模型能處理超過數百輪對話而保持良好效果
 
 ### 以推理引擎增強對話管理
+- 論文
+  - [(2024)Chain of Thought Explanation for Dialogue State Tracking](https://arxiv.org/html/2403.04656v1)
+    - 貢獻
+      - 提出模型
+        - Chain-of-Thought-Explanation, CoTE
+        - CoTE-refined: CoTE + 自動同義改寫（paraphrasing）機制
+      - 資料集
+        - MultiWOZ 2.2
+        - WoZ 2.0 (2017): 來自 Wizard-of-Oz 實驗的資料集，使用者透過打字輸入查詢（非語音輸入），因此對話上下文更為複雜。
+        - M2M
+          - 包含來自兩個領域（餐廳與電影）的 3,000 筆模擬對話，後續經人工校正。
+          - 將餐廳與電影子資料集分別稱為 M2M-R 和 M2M-M，合併版則記為 M2M-R+M。 
+    - 概念
+      - 將CoT引入至DST當中，模型在決定槽位值後生成逐步推理的解釋
+        - ![image](https://github.com/user-attachments/assets/03259e63-8067-473d-af85-db8f73b0c0b4)
+
+        -  粗略解釋（Coarse Explanation)
+        -  精緻解釋（Refined Explanation）
+      - 能引導模型從相關對話輪中蒐集資訊並推理正確的槽值，從而提高預測的準確可靠性
+    - 模型: Chain-of-Thought-Explanation（CoTE）
+      - 基底模型：T5-Base (220M) 
+      - 專為 DST 任務設計
+      - 強調獲得槽位值所需的推理步驟，能在確定槽位值後逐步產出詳細的推理解釋，有助於生成更準確且可靠的槽位值
 #### reference
 - [DeepMind最新：发布说话者-推理者架构实现Agents快慢思考 | 融合系统1+系统2](https://blog.csdn.net/m0_59164520/article/details/143027392)
 
