@@ -182,11 +182,51 @@
       - 模擬資料雖高品質，但仍非真實對話語料
       - 缺乏對多語言與跨文化情境的驗證
   - [(2024)Large Language Models as Zero-shot Dialogue State Tracker through Function Calling](https://arxiv.org/abs/2402.10466)
-    - 貢獻 
+    - 要解決的問題
+      - **DST 所需的標註資料成本高昂**
+      - **現有模型難以實現 Zero-shot 效能**: 有研究試圖以少量或跨領域資料進行遷移學習，但對於「未見領域」的泛化能力仍不理想
+      - **ChatGPT 類模型的 DST 表現有限**: 在處理 DST 任務時，需特殊提示與格式規定，導致實務應用困難
+      - **現有 Prompting 方法無法整合 DST 與回應生成**: 多數方法將 DST 視為獨立任務處理，無法自然整合於 LLM 的聊天流程中，不符合真實 TOD 系統需求
+      - **開源模型難以達到商業模型的效能**: 中等規模開源模型（如 LLaMA、Vicuna）在缺乏函數呼叫能力與 DST 訓練的情況下，無法與 GPT-4 等進階模型競爭
+    - 貢獻
+      - 提出 FNCTOD：以函數呼叫實現零樣本對話狀態追蹤（Zero-shot DST）
+        - 將 DST 任務視為「函數呼叫」問題
+        - 每個任務導向領域（如餐廳、旅館）被建模為一個函數，對話狀態（slot-value pairs）作為該函數的參數
+        - 將函數定義（function specification）嵌入系統提示（system prompt），讓聊天型 LLM 能在回應中自然產出函數呼叫與對話回應
+        - 使用少量異質資料微調 LLaMA2，達成與 ChatGPT 相當表現
+          - 使用來自 36 個領域、7,200 筆對話資料（非 MultiWOZ）對 LLaMA2-13B 進行微調
+          - 微調後的模型 FNCTOD-LLaMA2-13B 可產生函數呼叫與自然語言回應，其 DST 效能與 ChatGPT 相當，具備實用價值
+          - 讓 7B–13B 模型超越過往 ChatGPT 達成的 SOTA，且 GPT-4 表現提升達 14%
+      - 提出兩階段函數呼叫生成流程，避免每輪對話都需重複載入完整函數規格，提升效能與成本效率
+        - 階段一：函數選擇
+        - 階段二：參數生成
+        - 減少 token 數量（API 成本）同時提升預測準確率
+      - 在多個中等規模&**未經微調**開源模型上達成或超越現有 SOTA
+        - 在 未經微調的 7B/13B 開源模型（如 Zephyr、Baichuan、LLaMA2）上，透過情境提示（in-context prompting）即可超越先前只能用 GPT-4/Codex 實現的 SOTA 表現
+        - 尤其 GPT-4 在本方法下比原先 SOTA 提示方法提升 5.6% 的 JGA
+      - ![image](https://github.com/user-attachments/assets/01b7e0a1-1bf9-4159-95c3-2a8b3ad5c6f1)
+      - ![image](https://github.com/user-attachments/assets/8cf17d1f-829a-4ad2-8a81-c3f74f49c22f)
+
+
+    - 缺點
+      - 現階段的 DST 準確率尚不足以實際部署
+        - 雖然 FNCTOD 在多個模型上達到新 SOTA，但實驗中仍指出目前的準確度仍不足以應用在實際商業系統中
+        - 在多輪長對話或複雜意圖中，仍可能出現錯誤的函數呼叫或漏判slot-value
+      - 評估TOD 回應生成品質的方法不夠全面，無法對應真實情境
+        - TOD 中的回應品質僅使用 去詞彙化（delexicalized）回應評估法，這種方法無法全面反映 LLM 回應的自然性與可用性
+        - 此評估方式容易被「格式正確但語意不自然」的回應作弊，與 LLM 訓練的真實分布不符
+      - 函數名稱錯誤可能導致連鎖錯誤
+        - 雖有提出「函數選擇 + 參數生成」的兩階段策略，但若第一階段選錯函數，會影響後續生成參數的準確性
+        - 「階段性錯誤累積」的情況會影響最終 DST 成效，特別在開源模型上更明顯
+      - Zero-shot 能力仍需仰賴 prompt 設計或微調
+        - 對於未經微調的開源模型，若沒有提供足夠的 in-context 範例，效果會明顯下降
+        - 雖然聲稱 zero-shot，但實務上仍需謹慎 prompt 設計與函數格式調整，否則效果不穩定
+      - 缺乏對多輪推理任務的處理能力討論
+        - 雖整合函數呼叫與 DST，但未進一步探討是否能擴展至更高階任務（如多輪規劃、推理、目標分解）
   - [(2025) Interpretable and Robust Dialogue State Tracking via Natural Language Summarization with LLMs](https://arxiv.org/abs/2503.08857)
     - 要解決的問題
-      - 結構化輸出(slot-value)缺乏對複雜語境與使用者意圖的表達力
-        - 難以捕捉多輪對話中的語境轉換與模糊、隱性的使用者需求
+      - **結構化輸出(slot-value)缺乏對複雜語境與使用者意圖的表達力**
+        - **難以捕捉多輪對話中的語境轉換與模糊、隱性的使用者需求**
         - 高度依賴人工設計規則與本體維護成本高
         - 結構化 DST 輸出格式可解釋性差
         - 多數 DST 方法無法應對使用者輸入中常見的錯字、語病或異常用語
