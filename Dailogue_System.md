@@ -33,6 +33,14 @@
 - 
 ## 相關研究議題
 ### 對話狀態追蹤(Dialogue State Tracking, DST)
+- 兩種設計方向
+  - 分類式模型（classification-based
+    - 傳統作法 
+    - 從一組候選值中選取欄位的值   
+    - 需事先定義對話本體（ontology），泛化能力較弱
+    - 在受限領域中表現良好，但在更複雜、開放式的對話中，這些方法常難以泛化
+  - 生成式模型（generation-based)
+    - 直接產生欄位值，能處理未見過的新領域與新值 
 - LLM較善於利用完整對話語境來糾正先前輪次可能出現的錯誤
 - LLM-DST的整體性能隨對話輪數增加而下降得更慢，對錯誤傳播（error propagation）的抵抗力比傳統模型更佳
 - 核心議題
@@ -106,11 +114,105 @@
         - LDST 的下降速度遠低於 LLaMa 與最佳基線方法，顯示其對錯誤傳遞的抵抗能力更強
     - 其他議題：
       - 當對話或描述內容過長時，如何有效截斷或摘要化輸入內容亦成為一項挑戰   
-  - [(2024)Enhancing Dialogue State Tracking Models through LLM-backed User-Agents Simulation](https://aclanthology.org/2024.acl-long.473.pdf)
-    - 因人工標註成本高，利用LLM來模擬對話生成標註數據
-    - 論文使用GPT-4充當用戶和代理人，生成帶有DST標籤的大量模擬對話，然後用這些合成數據對LLaMA 2模型進行兩階段微調，在MultiWOZ等資料集上取得優於僅用真實數據訓練的效果
+  - [(2024)Enhancing Dialogue State Tracking Models through LLM-backed User-Agents Simulation](https://arxiv.org/abs/2405.13037)
+    - 要解決的問題
+      - 對話狀態追蹤（DST）所需的標註資料成本高昂
+      - 真實情境資料有限，缺乏足夠的資料會影響 DST 模型效能
+      - 現有模型難以快速適應新領域: 多數 DST 模型依賴固定本體（ontology），泛化能力有限，無法即時拓展至未見過的任務或場景
+      - 模擬對話生成的品質與一致性難以保證
+      - 混合真實資料與生成資料時，可能出現資料分布不一致問題
+    - slot分兩種
+      - 類別型（categorical）：有一組候選值（例 <hotel-parking> = “True”）
+      - 非類別型（non-categorical）：值為對話中的一段文本 （例 <hotel-name> = “Alexander”）
+      - 若對話中未提及特定欄位，則該欄位的值設為 “NONE”
+    - 貢獻
+      - 提出LLM 支援的使用者–代理人模擬LUAS : 使用GPT-4模擬user和agent互動，生成帶有DST標籤的大量模擬對話，降低對話資料的收集與標註成本
+      - 生成了近 8,000 筆新對話資料，包含
+        - User&Agent對話
+        - 對話意圖(雙方可控制意圖)
+        - 對應Slot
+      - 確保生成資料正確性並維持多樣性
+        - 透過結構化Prompt控制生成的對話，避免生成的話題有偏差
+        - 加入Slot Extraction檢查生成的對話內容Slot與Valut是否一致，避免生成的資料存在Error Propogation情況
+        - 實作改寫模板擴增語言多樣性，避免過度重複
+      - 然後用這些合成數據對LLaMA 2模型進行兩階段微調，在兩個資料集上，加入生成資料可明顯提升模型效能
+      - 提出兩階段微調，避免生成資料與真實資料混和一起訓練模型導致資料分布不一致，避免訓練偏移 
+
+    - LUAS
+      - 首先，LLM 會生成一個使用者設定檔，描述該使用者對各項任務的偏好(包含如預算、距離等具體條件
+      - LLM 被提示去模擬使用者與代理人之間的對話：
+        - 使用者模擬器
+          - 對話初始：提出需求並尋求推薦或協助預訂與購買
+          - 後續對話：評估需求是否被滿足，並決定是否繼續對話
+        - 代理人
+          - 理解使用者需求、提供建議並採取適當行動
+      - 透過這樣反覆的對話模擬，加上由 LLM 所驅動的欄位提取器，得以產出大量標註過的多輪對話資料
+      - 將使用者與代理人的共通意圖進行抽象，並針對每種意圖設計專門提示語
+        - 使用者意圖: Inform Requirement, Update Requirement, Ask for Recommendation, Inquire Properties, Ask for Action, General Chat
+        - 代理人意圖: Inquire, Report Search Results, Recommendation, Answer, Report Action Result, General Chat
+      - 模擬器也會被提示生成控制識別碼（control identifiers），標記該回應所對應的意圖。根據輸入的控制識別碼，模擬器需選擇適當的意圖並生成相應的回覆
+      - 使用一個**欄位追蹤模組（slot tracking module）**來記錄哪些欄位已被填寫、哪些仍待補全
+      - 使用一個基於 GPT-4 的欄位提取模型，以驗證生成的對話與欄位填寫結果是否一致，若發現不一致，該段對話必須重新生成，以維持語義與流程的一致性
+      - 多樣性
+        - 為確保生成資料具備豐富的語言變化，我們手動設計了 10 組改寫模板
+        - 交由 GPT-4 擴充為數百組變化形式，用於提升使用者與代理人回應的語言多樣性
+      - ![image](https://github.com/user-attachments/assets/14c8e24b-9b08-445f-95b8-3628f6b4d52a)
+      - ![image](https://github.com/user-attachments/assets/f7addc90-c860-4b6d-a9f6-c77466f62fca)
+
+    - 模型
+      - 資料生成：gpt-4-1106-preview
+      - 基底模型：LLaMa 2 7B
+      - 基準模型：LUAS-R，以真實資料對 LLaMA 2 進行微調
+      - 目標模型：LUAS-R+G，將生成資料與真實資料一同透過兩階段微調手法來微調LLaMA 2
+      - 算力：8 張 Nvidia A100（80GB）GPU，並透過 PyTorch 的 FSDP 框架（Zhao et al., 2023）進行全參數監督式微調(每張 GPU 的 batch size 為 8)
+      - 微調學習率：2e-5
+      - 採用 Adam 優化器（Kingma and Ba, 2015），設置參數為 β1 = 0.9，β2 = 0.999，warm-up 比例設為 3%。每個微調階段約持續兩小時。推論階段則使用 vLLM（Kwon et al., 2023）執行
+    - 微調方法：兩階段微調
+      - 第一階段：使用生成的對話資料對 LLaMA 2 模型進行微調，學習基本的任務導向型對話模式
+      - 第二階段：以真實對話資料繼續微調模型，協助模型對齊真實語料的語言分布，提升其在實際應用中的效能
+    - ![image](https://github.com/user-attachments/assets/b69bfb33-99cc-472d-addc-071be3cce969)
+    - 替代實驗(用生成資料替代真實資料)
+      - 在 MultiWOZ 2.2 上針對不同領域進行資料替換實驗
+      - 特定領域的所有對話片段移除，並將新生成的資料插入至被移除的位置
+      - 替換後的新訓練資料集中，將包含 1 個使用生成資料的領域與其他 4 個使用真實資料的領域
+      - 即使部分資料以生成內容替代，性能下降幅度相對訓練資料的減少而言非常輕微，表示生成資料在新領域中能有效協助模型適應並維持良好預測準確率
+      - 生成資料能有效緩解資料不足所帶來的限制
+    - 缺點
+      - 高度依賴 GPT-4，生成成本與可重現性受限
+      - 模擬資料雖高品質，但仍非真實對話語料
+      - 缺乏對多語言與跨文化情境的驗證
   - [(2024)Large Language Models as Zero-shot Dialogue State Tracker through Function Calling](https://arxiv.org/abs/2402.10466)
+    - 貢獻 
   - [(2025) Interpretable and Robust Dialogue State Tracking via Natural Language Summarization with LLMs](https://arxiv.org/abs/2503.08857)
+    - 要解決的問題
+      - 結構化輸出(slot-value)缺乏對複雜語境與使用者意圖的表達力
+        - 難以捕捉多輪對話中的語境轉換與模糊、隱性的使用者需求
+        - 高度依賴人工設計規則與本體維護成本高
+        - 結構化 DST 輸出格式可解釋性差
+        - 多數 DST 方法無法應對使用者輸入中常見的錯字、語病或異常用語
+    - 貢獻
+      - 提出了 自然語言 DST（NL-DST） 框架，訓練 LLM 直接產出可讀性高的"人類語言狀態描述"取代Slot-Value
+      - 微調模型的學習策略
+        - Teacher Forcing: （讓模型看前一句來預測下一句）
+        - Beam Search: （保留最可能的一群詞序列）
+        - Nucleus Sampling: （只從機率前幾名的詞中選字）
+    - Baseline模型
+      - Rule-based Slot-Filling DST
+      - Bert-based DST
+      - GPT-2 DST
+    - 評估指標
+      - JGA
+      - Slot Accuracy
+      - Relevance 相關性 (人工評估)
+      - Informativeness 資訊性 (人工評估)
+    - 缺點
+      - 沒揭露用來訓練模型學會任務(生成具高可讀性的"人類語言狀態描述")的資料集具體內容
+        - 只提到資料集內的"人類語言狀態描述"是由語言專家人工標註，確保其品質與準確性
+      - 沒揭露所謂的高可讀性的"人類語言狀態描述"須包含哪些內容
+        - 自然語言輸出容易冗長、重複、偏離重點，但論文未討論：
+          - 如何控制生成摘要的長度
+          - 如何確保輸出資訊的精確性與聚焦度 
+      - 沒揭露基底模型 
 ### RL與對話決策
 - 類別
   - RLHF
