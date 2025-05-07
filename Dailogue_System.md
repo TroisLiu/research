@@ -295,14 +295,75 @@
     - 每次需要產生回應時，將使用者輸入及相關資訊提供給模型
 - 方法:
   - [(2024)StreamingDialogue: Prolonged Dialogue Learning via Long Context Compression with Minimal Losses](https://openreview.net/pdf?id=eNvVjpx97O)
-    - 利用對話中特殊的「發話結束」標記（End-of-Utterance）作為會話注意匯聚點
-    - 將長長的對話歷史壓縮到這些標記上，儘可能保留關鍵資訊
-    - 其他策略，減少壓縮帶來的信息損失​
-      - 短期記憶重構
-      - 長期記憶再激活
-    - 大幅降低隨著對話輪數增加的計算成本
-    - 模型能處理超過數百輪對話而保持良好效果
-
+    - 要解決的問題
+      - LLM在處理長對話時效率低落
+        -  LLaMA2為例[6]，當輸入超過 4,096 的上下文長度時，其推論能力會明顯下降。
+        -  此外，注意力機制 [7] 的計算複雜度隨文字長度呈二次成長，導致 GPU 記憶體使用量增加、 
+      - 長對話中歷史資訊逐漸流失
+      - 稀疏注意力方法雖然加快處理速度，但記憶保留能力不足
+      - 缺乏高效的壓縮對話歷史機制
+      - 現有模型難以支持「終身對話學習」或極長序列建模
+      - 尚無策略能有效學習「對話注意力匯聚點」的資訊聚合能力
+    - 貢獻
+      - 發現對話中特殊的「發話結束」標記（End-of-Utterance）EoU tokens 的資訊聚合潛力，並提出 conv-attn sinks 概念
+        - 利用此作為會話注意匯聚點 
+        - 在多輪對話中，用來分隔發言的特殊 token（如 </s> 或換行符 \n）在注意力分布上具有顯著聚合特性
+        - 「對話注意力匯聚點（conversational attention sinks, conv-attn sinks）」 
+      - 提出 StreamingDialogue 架構，支援長對話生成
+        - 設計一個能在保留關鍵資訊的情況下，大幅減少計算與記憶體成本的對話框架
+          - 4 倍速度提升
+          - 18 倍記憶體使用量降低 
+        - 設計兩項學習策略，強化模型的資訊聚合與記憶能力，減少壓縮帶來的信息損失​
+          - SMR（短期記憶重建）：引導模型學會將發言資訊聚合到 conv-attn sink(讓模型僅能透過目標發言的 conv-attn sink 來完成重建)，促使該 sink 有能力從目標句子中恢復資訊，並以其重建內容
+          - LMR（長期記憶重啟）：訓練模型將最終發言視為查詢，從歷史對話中召回特定回應(僅針對對話歷史中的 conv-attn sinks 進行注意力操作)，加強對話上下文的長期引用能力
+        - 可在未經訓練的 LLM（如 LLaMA 2/3、Mistral）中應用，仍具資訊保留能力
+          - 架構外部化（externalized design）
+          - 僅修改輸入的 Attention Mask，不改模型參數
+            - 關鍵改動在於如何設定 Attention Mask，引導模型僅對 conv-attn sinks、第一個 token、以及最近兩輪的 token 進行注意力運算
+          - 在推論階段只快取關鍵位置（conv-attn sinks）以節省記憶體與計算
+            - 和 FlashAttention 類似，StreamingDialogue 能在推論階段套用自身的記憶管理與注意力範圍限制，僅保留 conv-attn sinks 的 KV-cache
+            - 即使是如 LLaMA-2/3、Mistral 等原生不支援長記憶的模型，只要支援 custom attention mask / KV cache pruning，就可以直接套用 
+        - 長度外推穩定性佳，對話長達 25K token 仍能維持品質
+          - 能準確回憶長達 44 輪前的發言內容，展現卓越的長期記憶能力 
+    - StreamingDialogue
+      - 僅需快取
+        - 首個 token
+        - conv-attn sinks
+        - 最近兩輪發言的 tokens
+    - 資料集
+      - PersonaChat [35]
+      - Multi-Session Chat（MSC）[36]: 延伸的對話上下文
+      - Topical-Chat [37]
+      - MultiWOZ [38]  
+    - Baseline方法
+      - Dense Attention（密集注意力）[7]：用來捕捉所有資訊
+      - Local Attention [14]：具有固定視窗限制
+      - Big Bird [39]：結合滑動視窗、全域與隨機注意力
+      - StreamingLLM [15]：在固定視窗內額外關注注意力匯聚點
+      - MemBART [40]：帶記憶模組的 Transformer 編碼解碼模型
+      - HRED [41]：具階層式編碼器，可編碼任意長度的對話
+      - VHRED [42]：具階層式編碼器，可編碼任意長度的對話
+    - 評估指標
+      - BLEU（B-avg / B-1 / B-2） [43]：B-avg 為 BLEU-1 到 BLEU-4 的平均
+      - ROUGE（R-1 / R-2 / R-L） [44]
+      - Distinct（D-1 / D-2 / D-3） [45]
+      - USL-H [46] 與 Dial-M [47]：兩項無參考基準的對話品質評估指標
+      - Perplexity (PPL)
+      - C score [48]（在 PersonaChat 中衡量對話一致性）
+      - 人工評估
+    - 缺點
+      - 缺乏對 “高可讀性重建文本” 的質化分析與語言品質驗證
+        - 雖然提出 SMR（短期記憶重建）任務以驗證資訊聚合能力，但僅使用 BLEU-1（89.19%）來評估重建效果，未進一步分析生成文本是否具有「語義完整」、「上下文流暢」或「符合語用邏輯」等層面 
+        - 缺少人類評估對重建語句可讀性、合理性、與原始語句一致性的分析 
+      - 對 conv-attn sinks 的理論基礎與學理探討不足
+        - 雖然發現分隔符如 </s> 有注意力聚合現象，但未深入語言學或以建模機制解釋為何這能聚合語義資訊
+        - 未明確區分 attention 聚合 vs. semantic aggregation 的差異，可能混淆注意力重點與實際語義承載能力
+      - 缺乏與其他「長期記憶結構」的綜合比較與結合討論
+        - 僅與部分稀疏注意力與記憶增強方法（如 MemBART、StreamingLLM）比較，未納入 Retrieval-Augmented Generation (RAG)、External Memory Module、或 Memory Compression Transformer 等代表性架構進行分析與對照
+      - 效能提升的可轉移性仍有待驗證
+      - 推論效率雖提升，但上下文推理能力未深入探討
+        - 論文重點在壓縮與資訊保留，但未呈現本方法對「跨多輪推理」、「因果關係延續」、「角色一致性維持」等高階語用任務的具體優勢
+        - 尚無實驗設計能驗證 conv-attn sinks 是否有助於真正的上下文理解與長程邏輯維繫
 ### 以推理引擎增強對話管理
 - 論文
   - [(2024)Chain of Thought Explanation for Dialogue State Tracking](https://arxiv.org/html/2403.04656v1)
