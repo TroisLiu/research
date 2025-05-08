@@ -322,20 +322,68 @@
   - [(2023)MemoryBank: Enhancing Large Language Models with Long-Term Memory](https://arxiv.org/pdf/2305.10250)
     - 屬於**LLM 結合記憶模組**
     - 要解決的問題
+      - 大型語言模型（LLMs）缺乏「長期記憶機制」
+        - 現有記憶增強方法（如 MANNs、NTM）不夠靈活或難以與 LLM 整合
+        - 現有模型缺乏擬人化的記憶管理行為: 該忘記哪些舊記憶、強化哪些重要記憶
+        - 缺乏有效結合使用者個性建模與記憶更新的機制
+        - 尚未有完整實作系統能結合心理對話知識、記憶回憶機制與長期互動能力 
     - 貢獻
-    - 缺點 
+      - 提出 MemoryBank：針對 LLM 的新型長期記憶機制
+        - 記憶儲存器：儲存多輪對話、事件摘要、使用者個性。
+        - 記憶擷取器：使用 Dense Retrieval 技術（如 FAISS + MiniLM）檢索上下文記憶。
+        - 記憶更新器：結合 艾賓浩斯遺忘曲線理論，模擬人類對「重要記憶強化、次要記憶淡忘」的能力 
+      - 實作 SiliconFriend：具備長期記憶與同理心的 AI 聊天夥伴
+        - 建立了一個整合 MemoryBank 的 AI chatbot 系統 SiliconFriend，支援中英文對話
+        - 搭配心理對話資料（38K 條）進行 LoRA 微調，使其具備情感感知與支持能力
+        - 系統可部署在多種 LLM 上（ChatGPT、ChatGLM、BELLE），展示開放/封閉模型皆可整合記憶機制
+      - 建立評估框架並進行質性與量化實驗
+    - 缺點
+      - 記憶更新機制過於簡化:
+        -  忽略了內容語意、情感強度、任務重要性等語用因素，這些在真實對話中會強烈影響記憶是否該被保留。
+        -  實作中的遺忘策略其實很簡化，例如「每被提及一次就 +1」，不具備「選擇性遺忘與強化」的細緻程度。
+      - 使用者個性建模方法較粗略
+        -  個性推論僅依賴 LLM 對對話進行摘要，形成 daily 與 global 的 personality representation
   - [(2024)Hello Again! LLM-powered Personalized Agent for Long-term Dialogue](https://arxiv.org/pdf/2406.05925)
     - 屬於**LLM 結合記憶模組**
     - 要解決的問題
-      - 
+      - 如何讓聊天機器人在長期、多場次對話中，能夠記住過去事件、維持人設一致，並生成連貫且個人化的回應。
+        - 現有對話系統缺乏長期記憶能力
+          - 多數聊天機器人僅支援 2–15 輪的單場短對話，無法記住或合理運用跨場次對話的歷史事件。
+          - 缺乏對「歷史對話記憶的檢索與利用」能力，導致回應斷裂、不連貫 
+        - 對使用者與機器人的人設建模薄弱
+          - 雖有研究探討人設建構，但多為單向建模或特定架構依賴，難以支援真實場景中長期、動態的人設演變
+          - 人設不一致導致角色表現不穩定、個人化體驗不足
     - 貢獻
+      - 提出框架 LD-Agent
+        - 通用且模組化的長期對話代理 
     - 缺點
+      - 依賴合成資料集，缺乏真實世界驗證
+      -  
   - [(2024)THEANINE: Revisiting Memory Management in Long-term Conversations with Timeline-augmented Response Generation](https://arxiv.org/pdf/2406.10996v1)
     - 屬於**LLM 結合記憶模組**
+      - 圖結構 
     - 要解決的問題
-      - 
+      - 在實務中LLM經常忽略或錯誤回憶過往對話內容，導致回應品質不佳，特別是在多輪／長期對話中無法正確參照先前的事件或人物資訊。
+        - 記憶遺失與回應偏差問題: 雖然 LLM 有大上下文窗口，但生成回應時會過度集中於最近一句話，而忽略對話早期的重要語境資訊
+        - 傳統記憶管理資訊更新策略存在資訊遺失: 現有方法為了控制記憶容量，會「更新」或「移除」舊記憶，這可能導致遺失對回應有幫助的重要內容
+        - 缺乏有效的記憶組織與檢索機制: 傳統「top-k 檢索」方法容易錯過與事件發展有關的背景資訊，造成回應與對話脈絡脫節
     - 貢獻
+      - 提出框架 THEANINE: 以「記憶時間線」為核心、具備因果推理能力的回應生成框架，用於長期對話(Memory Graph + Timeline結構)
+        - 模仿人類記憶結構的創新設計
+        - 利用**事件時間線（memory timelines）**替代單一記憶片段，有效呈現對話事件的發展脈絡與因果關係
+        - Memory Graph with Cause-Effect Reasoning（因果記憶圖）: 採用圖結構連結記憶節點，邊上的標註關係來自修改後的常識因果關係集（如 Cause、Want、React、SameTopic）。
+        - Context-Aware Timeline Refinement（情境感知的時間線微調）: 為每次對話動態調整所檢索到的時間線，根據當前語境刪減冗餘或加強關鍵資訊，提升即時適用性與生成品質
+      - 設計 TeaFarm：一種基於反事實推理的自動化評估流程，用來測試模型是否真正記得過去對話
+        - 利用「誤導性問題」來檢驗系統是否真正理解／記得歷史事件
+        - 比傳統 GPT 評分更能準確測試模型是否正確引用長期記憶 
+      - 建構 TeaBag：一套專為 TeaFarm 設計的測試資料集，涵蓋 MSC 和 CC 兩個多輪對話基準集
+        - 包含 100 組對話（來自 MSC、CC）、200 組反事實問答及對應的第 6 輪自然過渡對話，專為長期記憶檢驗設計 
     - 缺點
+      - 缺乏在超長對話（>5 輪）上的驗證
+        - 所有實驗僅涵蓋 5 輪對話（Session 1–5），尚未驗證 THEANINE 在真正「長期」場景（如數十輪對話）中的效能與穩定性
+      - 效率問題
+        - 記憶圖建構、時間線檢索與情境微調皆需呼叫多次 LLM，推理成本高於傳統記憶檢索法
+      - TeaFarm 評估框架雖創新，但準確性仍依賴 LLM 判斷，仍存在模型誤判風險 
   - [(2024)Commonsense-augmented Memory Construction and Management in Long-term Conversations via Context-aware Persona Refinement](https://arxiv.org/abs/2401.14215)
     - 要解決的問題
       - 如何在不損失資訊的前提下，有效處理與整合多輪對話中可能互相矛盾的人設句子，並提升長期對話中的回應品質與人設一致性 
@@ -559,6 +607,14 @@
 
 ### 待分類
 - [(2023)MIRACLE: Towards Personalized Dialogue Generation with Latent-Space Multiple Personal Attribute Control](https://arxiv.org/abs/2310.18342)
+  - 如何實現高精度、多屬性可控的個性化對話生成，克服現有方法在人格建模稀疏、控制能力不足與生成品質折衷上的限制。
+  - 屬於"個性化回覆生成" 
 - [(2024)Evolving to be Your Soulmate: Personalized Dialogue Agents with Dynamically Adapted Personas](https://arxiv.org/html/2406.13960v1)
+  - 自我演化的個人化對話代理人（Self-evolving Personalized Dialogue Agents, SPDA）
+    - 逐步對齊使用者資訊 → 代理人根據對話中逐步揭露的使用者偏好與反應來更新自身人格
+    - 需避免自我矛盾（例如職業不能前後矛盾） → 這實際上涉及對「人格記憶（persona memory）」的一致性管理，屬於一種結構化長期記憶的形式  
+  - 人格對齊
+  -  
 - [(2024)Recent Trends in Personalized Dialogue Generation: A Review of Datasets, Methodologies, and Evaluations](https://arxiv.org/html/2405.17974v1)
-- [(2025)In Prospect and Retrospect: Reflective Memory Management for Long-term Personalized Dialogue Agents](https://arxiv.org/abs/2503.08026)
+  - 整理了22個資料集，並重點介紹了基準資料集以及具備額外特徵的新型資料集
+  - 分析了2021至2023年間於頂尖會議中發表的17篇代表性研究，並歸納出五種不同的研究問題類型。 
