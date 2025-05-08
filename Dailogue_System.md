@@ -188,9 +188,20 @@
       - 即使部分資料以生成內容替代，性能下降幅度相對訓練資料的減少而言非常輕微，表示生成資料在新領域中能有效協助模型適應並維持良好預測準確率
       - 生成資料能有效緩解資料不足所帶來的限制
     - 缺點
-      - 高度依賴 GPT-4，生成成本與可重現性受限
-      - 模擬資料雖高品質，但仍非真實對話語料
-      - 缺乏對多語言與跨文化情境的驗證
+      - 生成資料品質的客觀驗證不足
+        - 沒有語言流暢性評估(BLEUM ROUGE, BERTScore)
+        - 沒有人工評估生成資料流暢性、合理性、任務完成度
+        - 沒有人工評估比較生成資料與真實資料差異&相似度
+        - 宣稱的自我檢查機制(Slot Consistency)只透過Slot Extraction來驗證檢查使用者提供的 utterance 與填入的 slot values 是否一致，但這只是內部一致性驗證，沒有進行外部正確性評估
+      - 模擬資料雖高品質，但仍非真實對話語料，對話多樣性是個問題
+        - 改寫是否真的涵蓋語義變異與語用多元性，未有實驗數據或對比說明
+        - 缺乏與其他資料增強策略（如 paraphrasing, back-translation）之比較
+      - 跨領域遷移的挑戰處理有限
+        - 論文主要測試在 MultiWOZ 內部領域（如餐廳、旅館）中做資料替換，並未測試在外部新領域（如法律、醫療）上的泛化能力。
+        - 若任務 ontology 差異太大，GPT-4 的模板模擬仍可能無法涵蓋新領域的實際語境需求。
+      - 未深入分析錯誤案例
+        - 不清楚哪些Slot類型最易出錯
+        - 是因為llm幻覺? entity overlap ? 還是多輪推理導致?
   - [(2024)Large Language Models as Zero-shot Dialogue State Tracker through Function Calling](https://arxiv.org/abs/2402.10466)
     - 要解決的問題
       - **DST 所需的標註資料成本高昂**
@@ -291,19 +302,40 @@
     - 每段對話300輪次，9K個詞以上，有數十次獨立對話
     - 用來評估LLM長程記憶能力
 - 對應策略
-  - 增加模型上下文窗口：但可能丟失對話中間內容
-  - 動態檢索相關歷史：
+  - 模型架構調整 (1篇論文)
+    - 增加模型上下文窗口：但可能丟失對話中間內容
+    - 強化注意力機制
+    - 優化 KV 快取
+    - 改進位置編碼
+  - 動態檢索相關歷史
     - 參考RAG概念，將超出上下文窗口的歷史對話內容存入向量化資料庫
     - 產生回應時，透過檢索相關的過往語句，將相關內容附加給LLM)
-  - 摘要與壓縮歷史：
+  - 摘要與壓縮歷史 (1篇論文)
     - 隨著對話進行，不斷壓縮舊對話內容生成摘要
     - 提取出對話狀態，以壓縮表示方式融入上下文
-  - 顯式對話記錄與狀態跟蹤
+  - LLM 結合記憶模組：顯式對話記錄與狀態跟蹤 (3篇論文)
     - 構建一個外部記憶來存儲對話中的關鍵資訊或狀態，舉例
      - 之前已確認的事實
      - 用戶偏好
     - 每次需要產生回應時，將使用者輸入及相關資訊提供給模型
 - 方法:
+  - [(2023)MemoryBank: Enhancing Large Language Models with Long-Term Memory](https://arxiv.org/pdf/2305.10250)
+    - 屬於**LLM 結合記憶模組**
+    - 要解決的問題
+    - 貢獻
+    - 缺點 
+  - [(2024)Hello Again! LLM-powered Personalized Agent for Long-term Dialogue](https://arxiv.org/pdf/2406.05925)
+    - 屬於**LLM 結合記憶模組**
+    - 要解決的問題
+      - 
+    - 貢獻
+    - 缺點
+  - [(2024)THEANINE: Revisiting Memory Management in Long-term Conversations with Timeline-augmented Response Generation](https://arxiv.org/pdf/2406.10996v1)
+    - 屬於**LLM 結合記憶模組**
+    - 要解決的問題
+      - 
+    - 貢獻
+    - 缺點
   - [(2024)Commonsense-augmented Memory Construction and Management in Long-term Conversations via Context-aware Persona Refinement](https://arxiv.org/abs/2401.14215)
     - 要解決的問題
       - 如何在不損失資訊的前提下，有效處理與整合多輪對話中可能互相矛盾的人設句子，並提升長期對話中的回應品質與人設一致性 
@@ -415,7 +447,89 @@
         - 論文重點在壓縮與資訊保留，但未呈現本方法對「跨多輪推理」、「因果關係延續」、「角色一致性維持」等高階語用任務的具體優勢
         - 尚無實驗設計能驗證 conv-attn sinks 是否有助於真正的上下文理解與長程邏輯維繫
   - [(2025)In Prospect and Retrospect: Reflective Memory Management for Long-term Personalized Dialogue Agents](https://arxiv.org/abs/2503.08026)
-    -  
+    - 屬於"摘要與壓縮歷史"
+    - 要解決的問題
+      - 如何讓 LLM 在長期對話中能有效、動態地記住過去資訊，並根據當前對話任務，準確地擷取與整合相關記憶，生成具一致性與個人化的回應。
+        - LLM 無狀態（stateless）特性，無法記住長期對話歷史 : 現有 LLM 雖可進行開放式對話，但缺乏記憶機制，難以維持跨 session 的一致性與個人化
+        - 現有記憶管理方法使用固定粒度，導致語意片段化 : 多數系統依據「回合」或「階段」為邊界進行記憶切分，但這常常無法對應對話的語意結構，導致關鍵資訊分散，難以有效擷取。
+        - 記憶擷取器靜態、難以適應不同對話情境與使用者偏好 : 現有擷取機制（retrievers）通常為固定策略，無法根據實際回應的需要動態優化擷取結果
+    - 貢獻
+      - 提出框架Reflective Memory Management(RMM)
+        - 簡單說：讓 AI 能記得你說過的話，而且記得對的重點，用在對的時候
+          - 你跟 AI 聊了一些東西（可能好幾次）
+          - 它會整理你說過的主題（前瞻性反思）
+          - 下次你提問，它去記憶庫找相關筆記
+          - 回答後，它再反思自己是不是有用到正確的記憶（回顧性反思）
+          - 記憶庫隨著時間會越整理越聰明
+        - (1) 前瞻性反思（Prospective Reflection）:
+          - 簡單說：聰明整理筆記
+          - 動態地將互動內容依不同粒度（如發話、回合、對話階段）進行摘要，存入個人化記憶庫以利未來擷取
+          - 持續維持對話歷史的一致性與整合性
+          - 兩步驟
+            - 記憶擷取（memory extraction）: 利用 LLM 從當前 session 中擷取對話片段，針對每個明確提及的主題，生成對應的主題摘要
+            - 記憶更新（memory update）:
+              - 對每一條新擷取的記憶，我們從記憶庫中找出語意上最相似的前 K 筆記憶項目
+              - 使用另一個 LLM
+                - 判斷該筆新記憶應該直接新增進記憶庫（例如：屬於新主題）?
+                - 與現有的相似記憶合併為一條更新後的記憶（例如：針對已討論過的主題新增新資訊）?
+        - (2) 回顧性反思（Retrospective Reflection）:
+          - 簡單說：自我檢討找關鍵
+          - 基於 LLM 所引用的證據，透過線上強化學習方式持續優化記憶擷取策略
+            - 若 LLM 回應中引用該記憶 → +1（有用）
+            - 若未引用該記憶 → −1（無用) : 如果沒用上，它會把這些記憶「降權重」，下次不再亂用
+          - ![image](https://github.com/user-attachments/assets/34065f19-1118-481c-b610-75dc02b23b71) 
+        - 組成
+          - 記憶庫（Memory Bank）
+            - 將對話歷史儲存為一系列記憶項目（memory entries），每項記憶為一組二元組 (主題摘要, 原始對話)。
+            - 「主題摘要（topic summary）」作為檢索的關鍵字，用以對應到原始的對話片段。
+          - 擷取器（Retriever）
+            - 根據使用者當前的提問，識別出最相關的記憶項目
+            - 密集向量擷取器（dense retrievers）
+              - Contriever（facebook/contriever）（Izacard et al., 2022）：一種基於對比學習的語意搜尋專用擷取器。
+              - Stella（dunzhang/stella_en_1.5B_v5）（Zhang et al., 2024b）：基於語言模型訓練的大型嵌入式擷取器。
+              - GTE（Alibaba-NLP/gte-Qwen2-7B-instruct）（Li et al., 2023）：設計用於指令型查詢，涵蓋多語言、多領域語料進行訓練的擷取器。
+            - 設定
+              - 在未搭配重排序器（reranker）的情況下，Top-𝐾 預設為 5
+              - 若搭配 reranker，則 Top-𝐾 為 20、Top-𝑀 為 5
+            - 實驗觀察
+              - 增加記憶數量（M）能穩定提升效能 
+              - 使用 GTE 與 Stella 這類強大擷取器時，Top-𝐾/Top-𝑀 的調整帶來的效益最為明顯，顯示擷取品質本身是一個重要因素 
+          - 重排序器（Reranker）
+            - 對擷取器的初始輸出進行再排序，優先保留最關鍵的記憶內容
+            - 讓系統能動態調整擷取策略
+              - 向量適應（Embedding Adaptation）
+              - 使用 Gumbel 技巧的隨機取樣（Stochastic Sampling with Gumbel Trick）
+              - 並對每筆記憶分數加入 Gumbel 雜訊（Gumbel, 1954）以進行隨機取樣
+              - 接著使用 softmax 將擾動後的分數正規化為機率分布
+              - 基於有無引用記憶，產生回饋訊號
+                - 若 LLM 回應中引用該記憶 → +1（有用）
+                - 若未引用該記憶 → −1（無用）
+              - 以REINFORCE演算法進行增強學習
+            - 處理由擷取器取得的前 K 筆記憶向量（embeddings），並根據當前使用者提問的語意，挑選出前 M 筆最相關的記憶。
+              - 增加記憶數量（M）能穩定提升效能 
+          - 大型語言模型（LLM）
+            - 將當前上下文與擷取到的相關記憶整合起來，生成個人化回應
+            - 根據實際使用的記憶內容產生「回饋訊號」，這些訊號會用於回顧性反思階段，進一步精緻化重排序器
+    - 資料集
+      - MSC（Xu et al., 2022）：多階段對話基準資料集
+      - LongMemEval（Wu et al., 2024）：長期記憶對話評估資料集
+    - 使用模型
+      - Gemini-1.5-Flash
+    - 算力
+      - 16 顆 NVIDIA A100 (CUDA 版本：12.2)
+      - 40G 記憶體 
+    - Baseline
+      - No History
+      - Long Context
+      - RAG（檢索式生成）: 預設使用「回合」為擷取粒度，以獲得較佳表現
+      - MemoryBank（Zhong et al., 2024）：將對話歷史視為靜態資料庫，並根據遺忘曲線原則進行擷取調節
+      - LD-Agent（Li et al., 2024b）：使用固定資料庫，並額外搭配關鍵字比對等策略進行擷取調整       
+    - 缺點
+      - 依賴強化學習，成本高昂 (可能造成訓練成本高與收斂速度慢的問題)
+      - 記憶更新流程潛在複雜且未量化成本
+        - 動態擷取主題摘要、相似度比對、記憶合併 
+      - 無針對錯誤擷取記憶對回應的影響做深入探討
+      - 對 Citation-based Reward 的可信度與泛化性探討不足 (雖有驗證 citation precision/recall，但缺乏更深層的語用層級分析，例如 citation 是否代表因果貢獻、是否對生成決策構成實質影響)
 ### 以推理引擎增強對話管理
 - 論文
   - [(2024)Chain of Thought Explanation for Dialogue State Tracking](https://arxiv.org/html/2403.04656v1)
