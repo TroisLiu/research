@@ -60,6 +60,15 @@
 - 論文：
   - [(2022)"Do you follow me?": A Survey of Recent Approaches in Dialogue State Tracking](https://arxiv.org/abs/2207.14627)
   - [(2023)Towards LLM-driven Dialogue State Tracking](https://aclanthology.org/2023.emnlp-main.48.pdf)
+    - 要解決的問題
+      - 期望不依賴大型閉源模型(如 ChatGPT)，實現具強泛化能力、且可實際部署的 DST系統
+        - ChatGPT 雖強，但不適用於真實應用情境:
+          - 雖然 ChatGPT 在 DST 任務中表現優異，但其「閉源、無法本地部署、API 限制、資料隱私風險」等缺陷，使其難以應用於實際系統
+          - ChatGPT 回答常附帶冗長解釋，影響準確性
+        - 既有微調方法對 prompt 設計過於敏感: 傳統指令微調（instruction tuning）若使用固定模板，模型對 prompt 的格式極度敏感，導致泛化能力弱
+        - 現有 Dialogue State Tracking (DST) 模型難以泛化至新領域（Zero-shot）: 多數傳統 DST 模型依賴大量標註資料，對未知領域（unseen domains）的適應力差
+        - 大型模型微調成本高、資源需求大
+        - LoRA 等 PEFT 方法仍需調參與結構設計考量
     - 貢獻:
       - 以GPT-3.5做實驗(擷取關鍵資訊)發現：
         - Prompt中若提供範例，對話範例會影響GPT取得關鍵資訊的正確率
@@ -116,11 +125,12 @@
       - 當對話或描述內容過長時，如何有效截斷或摘要化輸入內容亦成為一項挑戰   
   - [(2024)Enhancing Dialogue State Tracking Models through LLM-backed User-Agents Simulation](https://arxiv.org/abs/2405.13037)
     - 要解決的問題
-      - 對話狀態追蹤（DST）所需的標註資料成本高昂
-      - 真實情境資料有限，缺乏足夠的資料會影響 DST 模型效能
-      - 現有模型難以快速適應新領域: 多數 DST 模型依賴固定本體（ontology），泛化能力有限，無法即時拓展至未見過的任務或場景
-      - 模擬對話生成的品質與一致性難以保證
-      - 混合真實資料與生成資料時，可能出現資料分布不一致問題
+      - 如何在缺乏大量真實標註對話資料的情況下，有效訓練出適應多領域、可泛化的對話狀態追蹤（DST）模型
+        - 對話狀態追蹤（DST）所需的標註資料成本高昂
+        - 真實情境資料有限，缺乏足夠的資料會影響 DST 模型效能
+        - 現有模型難以快速適應新領域: 多數 DST 模型依賴固定本體（ontology），泛化能力有限，無法即時拓展至未見過的任務或場景
+        - 模擬對話生成的品質與一致性難以保證
+        - 混合真實資料與生成資料時，可能出現資料分布不一致問題
     - slot分兩種
       - 類別型（categorical）：有一組候選值（例 <hotel-parking> = “True”）
       - 非類別型（non-categorical）：值為對話中的一段文本 （例 <hotel-name> = “Alexander”）
