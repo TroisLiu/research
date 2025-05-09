@@ -1,10 +1,11 @@
 # Research
 paper &amp; learning tutorial reading list
 ## Quick Link
-- [Topic - Dialogue System](https://github.com/TroisLiu/research/blob/master/Dailogue_System.md)
-- [Topic - LLM](https://github.com/TroisLiu/research/blob/master/MoE.md)
-- [Topic - 推薦系統](https://github.com/TroisLiu/research/tree/master#recommendation-system)
-- [Topic - Knowledge](https://github.com/TroisLiu/research/tree/master#knowledge)
+- [Topic - Dialogue System](https://github.com/TroisLiu/research/blob/master/Dailogue_System/Overview.md)
+- [Topic - LLM](https://github.com/TroisLiu/research/blob/master/LLM/Readme.md)
+- [Topic - 推薦系統](https://github.com/TroisLiu/research/blob/master/Recommendation_System/Overview.md)
+- [Topic - Knowledge](https://github.com/TroisLiu/research/blob/master/Recommendation_System/Overview.md)
+- [Topic - Reasoning](https://github.com/TroisLiu/research/tree/master/Reasoning)
 
 
 
