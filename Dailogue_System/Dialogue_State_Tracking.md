@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/45b01d35-7434-4d3d-b268-715ea1fedbfc)# 概述
+# 概述
 - 用對話狀態（如槽位-值集合）作為對話歷史的高度摘要
   
 ## 兩種設計方向
