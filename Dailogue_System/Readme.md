@@ -160,4 +160,16 @@
   -  
 - [(2024)Recent Trends in Personalized Dialogue Generation: A Review of Datasets, Methodologies, and Evaluations](https://arxiv.org/html/2405.17974v1)
   - 整理了22個資料集，並重點介紹了基準資料集以及具備額外特徵的新型資料集
-  - 分析了2021至2023年間於頂尖會議中發表的17篇代表性研究，並歸納出五種不同的研究問題類型。 
+  - 分析了2021至2023年間於頂尖會議中發表的17篇代表性研究，並歸納出五種不同的研究問題類型。
+- [(2024)KAG: Boosting LLMs in Professional Domains via Knowledge Augmented Generation](https://arxiv.org/pdf/2409.13731)
+- [(2024)LLM-Friendly Knowledge Representation for Customer Support](https://aclanthology.org/2025.coling-industry.42.pdf)
+    - 要解決的問題: 如何讓大型語言模型（LLM）能夠有效理解並執行企業內部複雜且非結構化的客服工作流程知識？
+    - 貢獻
+      - 提出 ICA（Intent, Context, Action）格式：結構化業務知識以利 LLM 理解
+      - 設計一套高效的合成資料生成流程（Synthetic Data Synthesis）
+    - 微調模型
+- [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton](https://arxiv.org/pdf/2402.04411v1)
+- [(2024)On Overcoming Miscalibrated Conversational Priors in LLM-based Chatbots](https://arxiv.org/pdf/2406.01633)
+- [(2024)ELOQ: Enhancing LLM Detection of Out-of-Scope Questions](https://arxiv.org/pdf/2410.14567)
+- [(2025)Modeling Future Conversation Turns to Teach LLMs to Ask Clarifying Questions](https://arxiv.org/pdf/2410.13788)
+- 
