@@ -337,6 +337,100 @@
 
 ## FlowLearn: Evaluating Large Vision-Language Models on Flowchart Understanding
 - [(2024)FlowLearn: Evaluating Large Vision-Language Models on Flowchart Understanding](https://arxiv.org/pdf/2407.05183v1)
+### 要解的問題
+
+### 貢獻
+### 資料集
+- Ovewview
+  - ![image](https://github.com/user-attachments/assets/5e5994aa-c13e-490c-bbd4-6d83a6ef23a6)
+- VQA任務
+  - 通用 
+    - ![image](https://github.com/user-attachments/assets/8d3bfa44-1192-4dff-bf8a-6c5ae1561331)
+  - 僅適用模擬流程圖
+    - ![image](https://github.com/user-attachments/assets/1d74b9a5-21f2-4ad0-ab6d-89e18503eac5)
+
+#### 科學流程圖 Scientific Flowcharts
+- 數量：3,858
+- 包含
+  - 流程圖 
+  - 圖說（中位數長度為 25 個字詞）
+  - 圖內文字標註
+  - 視覺問答（VQA）中的問答配對
+- 來源
+  - ArXiv 下載了 27,000 篇科學論文
+- 篩選條件
+  - 採用了規則式過濾與人工審查相結合的方式
+  - 「illustration」、「flowchart」、「model」、「step」、「overall」、「graphical representation」等與流程圖相關的關鍵字來挑選圖像
+  - 排除如「normalized」、「plot」等無關關鍵字
+  - 從 2,674 篇文件中取得了 3,858 張流程圖
+- 取得中繼資料
+  - 使用 PDFFigures 2.0 [5] 擷取圖像與相關中繼資料（metadata）
+  - 其他中繼資料則由 SciPDF Parser 處理，該工具底層使用 GROBID 進行 PDF 解析
+#### 模擬流程圖 Simulated Flowcharts
+- 由 Mermaid 程式碼生成 10,000 張流程圖
+- 包含
+  - 流程圖
+  - Mermaid 程式碼：
+    - 每張圖皆提供對應 Mermaid 原始碼，方便進行流程圖結構的程式化理解與操作
+  - 提供視覺元件的詳細標註
+    - 從 SVG 擷取節點文字、文字位置、箭頭頭尾位置等詳細標註
+    - 支援物件偵測與結構分析任務。 
+  - 包含視覺問答（VQA）中的問答配對
+- 來源
+  - 使用 Mermaid（一款將 Markdown 類語法轉換為流程圖的 JavaScript 工具）所生成
+  - 參數
+    - 節點（Nodes）：
+      - 3 至 10 個節點
+      - 節點內文字為隨機英文單詞
+    - 連線（Links）：
+      - 節點之間的連線數量隨機生成
+      - 所有節點至少有一個連線
+      - 箭頭類型也隨機選擇為實線、粗線或虛線。
+    - 背景顏色與流程圖方向：
+      - 背景色為隨機的十六進位色碼，
+      - 流程圖方向則從 Mermaid 支援的所有方向中隨機選擇。 
+#### 標註資訊
+- 視覺元件標記
+- OCR（光學字元辨識）結果
+- Mermaid 程式碼表達
+#### 視覺問答（VQA)
+- 共通
+  - OCR：我們在流程圖內某段標註文字上隨機加上紅框，提示模型輸出紅框內的文字內容
+  - 真偽判斷（True/False）：
+    - 科學流程圖
+      - 先根據圖說產生兩句正確敘述，並由標註者比對圖像驗證。
+      - 若圖說不足，則標註者根據圖像產生新的正確敘述。再將其中一句做出語意反轉（改變幾個字但保留原用字風格）以製作錯誤敘述，確保詞彙風格一致。
+    - 模擬流程圖
+      - 使用模板生成真偽陳述
+      - 如：「節點 {a} 與節點 {b} 之間有箭頭」、「一個箭頭從節點 {a} 指向節點 {b}」等
+      - {a} 與 {b} 為來自視覺構件標註的節點文字。
+  - 圖像描述（Description）：
+    - 科學流程圖，我們使用圖說作為參考答案；
+    - 模擬流程圖，則將 Mermaid 程式碼轉換為敘述，例如：「{a} 指向 {b}」
+- 模擬流程
+  - Mermaid 程式碼生成: 要求模型輸出能完整代表流程圖的 Mermaid 程式碼，考驗其對節點與箭頭等構件的綜合識別能力
+  - 節點數量統計
+  - 箭頭數量統計
+### 模型
+- Step-1V-32K
+- GPT-4V
+- Gemini-Pro-Vision
+- Claude-3-Opus-20240229
+- LLaVA-V1.6-Vicuna-34B
+- InternLM-XComposer2-VL-7B
+- Qwen-VL-Chat (2024/01/25 )
+- DeepSeek-VL-7B-chat
+### 評估指標
+- 準確率（Accuracy）：此指標用於 OCR、真假敘述、節點數量與箭頭數量
+  - 除了一般準確率，針對程式碼生成
+    - 節點層級評估（Node-Level Evaluation）
+    - 連線層級評估（Link-Level Evaluation）
+    
+- 相似度（Similarity）：針對描述任務，我們使用四種常見的文本相似度指標來比較模型生成的描述與參考描述之間的相似程度
+  - BLEU, ROUGE-L, BERT Score, SBERT
+
+### 缺點
+
 
 - [(2023)DiagrammerGPT: Generating Open-Domain, Open-Platform Diagrams via LLM Planning](https://arxiv.org/pdf/2310.12128)
 # 其他
