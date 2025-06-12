@@ -8,11 +8,31 @@
 # 核心問題
 
 # 研究議題
-
+## Flowchart Reasoning
+## Graph-Encoder Models
+  - FlowVQA僅將流程圖的圖結構用於生成拓撲問題
+  - 若納入模型架構及推理策略設計，預期提升模型的結構推理能力
+## Adversarial and Counterfactual probes
+  - 資料集中添加多種探測問題集(負向路徑追蹤、反直覺問題及噪聲圖問題)...ETC
+## Complex Subtasks
+  - 以FlowVQA為例，主要任務是「流程圖→問答對」，可以衍生出多種任務
+    - 文章→問答對
+    - Mermaid.js→問答對
+    - 流程圖→Mermaid.js
+## 神經符號 AI
+  - Trinh 等人（2024）提出，可用於增強模型在本資源上的效能與訓練，因為流程圖本身就是符號化且具序列結構的
 ## 圖像生成
 
-## QA生成
 
+## QA生成
+### Q類型
+- 事實檢索
+- 情境應用
+- 流程參照
+- 拓撲問題
+- 負向路徑追蹤
+- 反直覺問題
+- 噪聲圖問題
 # 論文
 ## FlowchartQA: The First Large-Scale Benchmark for Reasoning over Flowcharts
 - 2023
@@ -44,6 +64,8 @@
 - 2,272個流程圖圖像
   - 基於Mermaid.js生成 
 - 22,413問題-答案Pair
+- ![image](https://github.com/user-attachments/assets/cad529fe-ea6b-4d69-9e11-360316f9e0c0)
+
 #### 資料來源
 - 來自3個不同內容來源
 - WikiHow 文章:
@@ -87,15 +109,15 @@
   - 此步驟將來源文本轉換為標記化的文本表示，適合進一步轉換為 Mermaid 流程圖腳本。對於 FloCo 來源的文本，我們生成對應的偽代碼，作為下一步的輸入
   - Prompt
     - <img width="535" alt="image" src="https://github.com/user-attachments/assets/aebd530c-b943-4f1b-94e3-70134c3ad660" />
-
+  - 生成使用的資料量
+    - <img width="320" alt="image" src="https://github.com/user-attachments/assets/0f8eb163-0035-41a6-b656-76dcefe881df" />
 - 向 GPT-4 查詢以生成自上而下的 Mermaid.js 流程圖腳本。
   - Input: 第一步結果 + Mermaid.js 的模板腳本， 
   - 控制標籤協助將步驟映射到腳本中的節點類型。兩個提示同時提供了約束點，以改善標準化效果。
   - 接著，將 Mermaid.js 腳本編譯成高解析度的 PNG 圖像。
   - Prompt
     - <img width="401" alt="image" src="https://github.com/user-attachments/assets/3707c965-c31d-4ef9-9861-66fe13f98f73" />
-  - <img width="320" alt="image" src="https://github.com/user-attachments/assets/0f8eb163-0035-41a6-b656-76dcefe881df" />
-  
+
 ##### 問答對生成
 - 整體流程圖
   - <img width="637" alt="image" src="https://github.com/user-attachments/assets/b1bec43d-c558-4dfa-b76a-2745be2eed3c" />
@@ -169,7 +191,44 @@
 ### 微調
 - LORA
 - 2×NVIDIA A100 40GB GPU
+
+### 實驗結果
+#### 實驗1：準確率實驗
+- ![image](https://github.com/user-attachments/assets/eee1eac7-5d9d-4887-ae6b-3ddf9445b3aa)
+   - FlowVQA 具挑戰性 (GPT-4 結合 few-shot 指令提示策略最高才68.42% 多數投票正確率)
+   - Few-Shot 指令對部分模型很有幫助
+     - GPT-4 評估中提升了 7%
+     - Gemini-Pro 提升了 12%
+     - CogAgent-VQA 並未受益 (該模型無法生成指令，無法利用推理指令)
+   - 專有模型表現優於開源模型。 GPT-4V with few-shot 指令的表現比 QwenVL-chat 高出近 30%
+   - 微調有幫助。 對 Qwen-VLchat 進行微調
+     - 顯示 VLM 預訓練階段缺乏對流程圖的理解 
+     - Zero-Shot 提升了 3%
+     - Zero-Shot CoT 提升了 11%。
+     - T2、T3 及 T4 問題的提升（10%）明顯高於 T1（5%）
+       - 事實檢索較簡單，不需要深入理解流程圖結構
+       - FT後，T2, T3, T4有改善，證明 FlowVQA 可有效幫助現有 VLM 增強視覺邏輯及推理能力
+   - 問題類型
+     - 事實檢索（T1）及情境應用（T2）問題上表現普遍較佳，
+     - 流程參照（T3）及拓撲問題（T4）上表現較弱，需要深入理解流程圖及複雜推理
+   - 節點數量
+     - ![image](https://github.com/user-attachments/assets/a721b9a0-1f8a-44a0-af51-9c277b22406b)
+     - 節點數量多意味著更複雜的視覺資訊表示，因此更難推理
+#### 問題對應領域的表現
+- ![image](https://github.com/user-attachments/assets/76dadcd2-acae-44f6-9afb-188a573eff46)
+
+#### 方向性偏差
+- 解析 FlowVQA 的 Mermaid 腳本並系統性地將其反轉，生成「Bottom Top」倒置流程圖
+  - 倒置的流程圖將起始節點放在下方
+  - 終止節點在上方
+- 實驗結果
+  - ![image](https://github.com/user-attachments/assets/e1735569-4f8f-43a2-b3e0-f723026ebb37)
+    - 最佳模型在處理流程圖推理時的確存在方向性偏差
+    - GPT-4V 上的多數投票準確率下降了 15%。
+    - 受預訓練資料混合中的偏見影響，無法將推理紮根於影像上下文，導致評估效能顯著下降。
+### 結論
 ### 缺點
+
 
 ### 相關連結
 - [(2024)FlowVQA: Mapping Multimodal Logic in Visual Question Answering with Flowcharts](https://aclanthology.org/2024.findings-acl.78.pdf)
