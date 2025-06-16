@@ -59,15 +59,18 @@
 ### RL與對話決策
 - 類別
   - RLHF
-    - [(2019)Reinforcement Learning for Personalized Dialogue Management](https://arxiv.org/abs/1908.00286)
-      - 可能太舊 
+    - [(2025)Modeling Future Conversation Turns to Teach LLMs to Ask Clarifying Questions](https://openreview.net/pdf?id=cwuSAR7EKd)
     - [(2024)Knowledge acquisition for dialogue agents using reinforcement learning on graph representationsKnowledge acquisition for dialogue agents using reinforcement learning on graph representations](https://arxiv.org/html/2406.19500v1)
+    - [(2024)On Overcoming Miscalibrated Conversational Priors in LLM-based Chatbots](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/06/Overcoming_RLHF.pdf)
+    - [(2019)Reinforcement Learning for Personalized Dialogue Management](https://arxiv.org/abs/1908.00286)
+      - 可能太舊
   - RLAIF 
 - 論文：
   - [(2024)Plug-and-Play Policy Planner for Large Language Model Powered Dialogue Agents](https://openreview.net/pdf?id=MCNqgUFTHI)
     - 讓一個可調參的小型策略模型作為插件指導LLM的對話決策
     - 以有標註數據進行監督微調，隨後採用自我對弈(self-play)方式讓LLM與自身模擬對話，透過AI代理提供的目標導向反饋進行強化學習​
     - 經過RL微調的策略插件可以顯著提升LLM在主動式對話任務，使LLM在沒有人工介入的情況下，不斷改進對話策略，並能快速遷移到新場景
+  
 ### 外部知識增強對話管理
 - 透過RAG改善LLM幻覺議題
 - 這在任務型問答、推薦對話系統當中會很有幫助
