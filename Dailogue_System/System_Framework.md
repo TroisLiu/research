@@ -4,6 +4,7 @@
 - [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2024chatbot-meets-pipeline-augment-large-language-model-with-definite-finite-automaton)
   - DFA
   - 每個應用情境資料可以建構一個自己的DFA決策樹
+- [(2024)On Overcoming Miscalibrated Conversational Priors in LLM-based Chatbots]()
 
 # 概述
 - 探索一個可行的架構實現對話管理
@@ -271,3 +272,29 @@
 - DFA 的結構受到訓練對話數量與標籤頻率的影響，但論文對不同資料量、對話風格下 DFA 構造的穩定性與泛化能力未做深入分析。 
 - 與 DFA-LLM 對比的幾個baseline（如 RandSamp、BM25）皆為簡單檢索或隨機樣本選擇，與 DFA-LLM 的結構引導方式在策略複雜度上有差距，這樣比較不完全公平
 - 未說明可擴展性與可維護性問題
+
+### [(2024)On Overcoming Miscalibrated Conversational Priors in LLM-based Chatbots](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/06/Overcoming_RLHF.pdf)
+#### 要解決的問題
+- 
+#### 假設
+- 
+#### 貢獻:
+- 
+
+#### 資料集
+- 
+
+#### 模型
+- 
+
+#### 實驗
+- 
+
+#### 評估
+
+#### 優點
+- 
+
+#### 缺點
+- 
+
