@@ -78,7 +78,8 @@
   - stanford的KITA
   - ChatCRS：工具增強的知識檢索代理、目標規劃代理
 - 論文
-  - [(2024)Knowledge-enhanced Response Generation in Dialogue Systems: Current Advancements and Emerging Horizons](https://aclanthology.org/2024.lrec-tutorials.13.pdf) 
+  - [(2024)Knowledge-enhanced Response Generation in Dialogue Systems: Current Advancements and Emerging Horizons](https://aclanthology.org/2024.lrec-tutorials.13.pdf)
+  - [(2024)ELOQ: Resources for Enhancing LLM Detection of Out-of-Scope Questions](https://arxiv.org/pdf/2410.14567v4)
 ### 上下文管理與長程對話
 - LLM受限於有限的上下文視窗，在特別長的對話仍面臨挑戰
 - 多數模型在輸入超過數千Token後，性能會下降，難以掌握對話中跨越很多倫次的因果關係、時間脈絡
