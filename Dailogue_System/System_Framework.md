@@ -1,11 +1,21 @@
 # 快速索引
 - [(2025)LLM-Friendly Knowledge Representation for Customer Support](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2025llm-friendly-knowledge-representation-for-customer-support)
+- [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton]()
 
 # 概述
 - 探索一個可行的架構實現對話管理
 
 ## 核心議題
 
+## 研究議題
+- 結構化對話系統（Structured Dialogue System）
+  - 這些系統在穩定性與一致性方面表現良好
+  - 面對突發問題或非預期查詢時缺乏彈性。 
+- 檢索式增強生成（Retrieval-Augmented Generation, RAG）
+  - 解決了傳統 LLM 的兩大限制：知識更新困難與推理過程不透明
+- 任務導向對話系統（Task-oriented Dialogue System）
+  - 方法1: 依賴於對話狀態標註來訓練策略導向的生成模型
+  - 方法2: 簡化設計，直接訓練端到端（E2E）模型
 
 ## 資料集
 
@@ -139,16 +149,115 @@
   - 情境內學習（In-Context Learning, ICL）檢索樣本難以控制: ICL效果取決於樣本選擇，但如何挑選與當前對話最相關的歷史範例
   - 無法追蹤與解釋對話決策流程
 #### 假設
-- 
+- 訓練對話資料中隱含了特定的工作流程
+  - 在真實情境中，人類代理人(真實客服)往往會根據一套預定的選項、經驗法則與潛在結果來給予回應
+  - 可視為在一個由多個路徑與交會點所構成的網絡中，探索某條特定分支
+- 每個語句都可以抽象為一組「關鍵詞」或「標籤（tags）」
+  - 例：句子(為什麼我的手機只能用一個小時？) -> 標籤集合(#issues, #battery)
 #### 貢獻:
 - 本論文首度結合 DFA 與 LLM，提出可解釋、流程導向、可遷移的對話生成框架 DFA-LLM，實證其在實務任務中能有效提升對話品質與控制性
+  - DFA (deterministic finite automaton) 
   - 讓LLM 生成回應時，**遵循DFA指定的流程路徑**: DFA 是從訓練對話中自動學習而來，能以結構化方式建模對話流程與狀態轉移
   - 把對話內容抽象為「語義標籤（tags）」，進而建構DFA
   - 實作與實驗：在多個資料集上驗證 DFA-LLM 的效能
   - 支援即插即用：不需微調，適合實際部署
+#### DFA-LLM
+- 將一個結構化的流程嵌入到 LLM 的操作架構中。透過整合 DFA（確定有限自動機），我們希望能更貼近人類代理人在決策路徑上的行為方式，引導 LLM 的回應生成
+- 每個狀態(Q)會維護一個對話編號集合（dialogue IDs），紀錄有哪些對話經過該狀態
+##### 傳統DFA定義
+- ![image](https://github.com/user-attachments/assets/48f04c59-331f-47e0-9175-b8fa8d5a2ca2)
+- ![image](https://github.com/user-attachments/assets/f57624db-3ded-4090-9732-e9827ab4b035)
+
+##### DFA架構定義
+- 將每則對話可轉換為標籤序列，整體對話集則可建成一個 DFA
+  - 狀態 (Q)：代表對話的某一階段，如開場、提問、回應、結束等
+  - 字母表 (Σ)：由所有可能的標籤構成
+  - 轉移函數 (δ)：描述特定標籤如何使對話從一個狀態轉移到另一個狀態
+  - 起始狀態 (q₀)：代表對話的開端，如問候語或首個提問
+  - 接受狀態 (F)：表示對話已完成，如問題解決或自然結束
+- 
+##### 從對話中學習DFA
+- Step.1 使用 LLM 擷取標籤序列: 設計提示語（prompts）引導模型遵循兩項準則
+  - 簡潔性：每個標籤應盡量簡短，最多三個字
+  - 聚焦主題：強調對話中的事件、問題、詢問或解決方案
+- Step.2 使用標籤構建樹狀結構: 建構原則
+  - 以標籤**出現頻率**為排序原則，使常見標籤優先靠前，減少樹的大小
+  - 區分對話輪次（user vs. system），並在處理時僅統計同一輪次的標籤
+  - 從q₀開始建構
+- Step.3 樹狀結構的狀態合併
+  - 計算任意兩狀態間的相似度分數 φₛᵢₘ(q, q′)，減少重複子序列(例: #link → #thank)
+  - ![image](https://github.com/user-attachments/assets/3ed97e61-0fe4-4ec9-84b7-62fc33cbb080)
+  - 設定閾值 λ，將相似度超過 λ 的狀態對合併，以減少冗餘
+- 演算法示意圖
+  - ![image](https://github.com/user-attachments/assets/594bb755-fc9f-4a0c-9a65-824d51d163e3)
+- 流程示意圖
+  - ![image](https://github.com/user-attachments/assets/e1164b1f-7560-444e-a616-f29c677db6e8)
+- 建構後的DFA示意
+  - ![image](https://github.com/user-attachments/assets/9328ee9d-a7c6-4d74-9520-3837be13a56f)
+    - 在自動機的起始點，可見多條通往「train（火車）」、「hotel（飯店）」與「taxi（計程車）」等主題的分支，反映這些為資料集中出現頻率最高的服務場景。
+    - 「restaurant」與「hotel」等子領域時，會發現標籤如「price（價格）」、「name（名稱）」與「area（地區）」反覆出現，顯示這些為使用者常見詢問內容。
+    - DFA 中的相同狀態會根據使用者輸入與系統回應的不同，引導出不同分支。例，若系統成功處理詢問，則可能輸出具體地址；若找不到對應結果，則會轉向標示為「no」的分支 
+##### DFA與LLM整合，生成回覆
+- Step.1 標註使用者語句：LLM 將使用者輸入轉換為標籤（與訓練時一致）
+- Step.2 DFA 導引流程：根據標籤，在 DFA 中導引至對應狀態
+- Step.3 擷取對話樣本：每個狀態 q 對應一組對話 ID（I(q)），代表曾走過相似路徑的歷史對話
+- Step.4 構造 Prompt 給 LLM：從中取樣 5 筆對話，構成 ICL 用的提示
+- Step.5 生成回應：LLM 根據提示生成新的回應
+- Step.6 重複迴圈：使用者繼續對話，回到步驟1
+#### 資料集
+- 資料集
+  - AmazonHelp
+  - DeltaSupport
+  - AskPlayStation
+  - AirbnbHelp
+  - NikeSupport
+  - CambridgeInfo
+- 來源
+  - Tweet
+  - MultiWOZ
+
+- ![image](https://github.com/user-attachments/assets/f5d759cc-ca66-40d8-a31d-3adb11dae6d5)
+  
 #### 模型
-#### 資料處理
-#### 評估指標
+- GPT-3.5
+- GPT-4
+#### 比較方法
+- RandSamp: 隨機從訓練集中抽樣
+- BM25: 傳統稀疏檢索法，尋找與測試語句關聯性高的訓練句子
+- RAG: 使用 text-embedding-3-small 產生句子向量，並檢索與測試語句最相似的訓練樣本
+- FT-LLM
+#### 實驗
+- 進行方式
+  - 除了FT-LLM，另外4個都採用ICL，推論時都使用5個樣本作Few-shot Learning
+  - FT-LLM使用 GPT-3.5 API 進行標準參數設定下的微調（fine-tuning）
+  - 採用 GPT-4 作為主要評估模型 (詳見附錄 C)
+#### 評估
+##### 回應品質評估（Generation Quality Evaluation）
+- 評估目標: **判斷哪個對話更接近「真實答案」（ground truth）**
+- 評估指標: Win Rate 對話生成勝率
+- 結果
+  - ![image](https://github.com/user-attachments/assets/d53c1d6a-91ff-4449-8237-544a8f19d564)
+    - FT-LLM 效能不佳，可能因如 NikeSupport 等資料集規模有限
+    - RAG 效能優於 RandSamp 與 BM25，顯示其樣本檢索更準確
+    - DFA-LLM 勝率高於所有基線方法約 4%，且提供具可解釋性的結構，便於理解對話流程 
+##### 任務導向對話評估（Dialogue Task Evaluation）
+- 評估目標: **是否成功解決使用者問題**
+- 使用 MultiWOZ 資料集進行此任務評估
+- 評估指標:
+  - Inform Rate：衡量系統是否提供足夠且正確的資訊以回應使用者需求
+  - Success Rate：衡量是否完成使用者任務（如成功訂房）
+- 結果
+  - ![image](https://github.com/user-attachments/assets/4f6cd3e6-6c2e-4a76-8c9f-f7ab5b034c12)
+
+#### 優點
+- 可解釋的結構：
+  - 其他作法：採用基於向量空間融合資訊但缺乏可讀性的 RAG
+  - 本篇做法：透過人類可理解的 DFA 結構產生回應，提升了LLM聊天機器人的可信度。
+- 具情境感知的檢索能力：
+  - 其他做法：將整段對話視為整體的檢索策略
+  - 本篇做法：將對話劃分為多個可控片段，這種細粒度方式可更精確地檢索出與當前情境相關的資訊，進而增強聊天機器人在多樣化語境下的回應能力與準確性。
+- 即插即用的相容性：
+  - 從訓練資料中導出的 DFA 可輕鬆整合至任何預訓練的 LLM，具備高通用性。
 #### 缺點
 - DFA 的語義抽象可能過於簡化
   - 忽略語句間的語意及語境細節
