@@ -1,3 +1,11 @@
+# 快速索引
+- [(2025)In Prospect and Retrospect: Reflective Memory Management for Long-term Personalized Dialogue Agents](https://github.com/TroisLiu/research/blob/master/Dailogue_System/Context_and_Long-term_Dialogue_Management.md#2025in-prospect-and-retrospect-reflective-memory-management-for-long-term-personalized-dialogue-agents)
+- [(2024)StreamingDialogue: Prolonged Dialogue Learning via Long Context Compression with Minimal Losses](https://github.com/TroisLiu/research/blob/master/Dailogue_System/Context_and_Long-term_Dialogue_Management.md#2024streamingdialogue-prolonged-dialogue-learning-via-long-context-compression-with-minimal-losses)
+- [(2024)Commonsense-augmented Memory Construction and Management in Long-term Conversations via Context-aware Persona Refinement](https://github.com/TroisLiu/research/blob/master/Dailogue_System/Context_and_Long-term_Dialogue_Management.md#2024commonsense-augmented-memory-construction-and-management-in-long-term-conversations-via-context-aware-persona-refinement)
+- [(2024)Hello Again! LLM-powered Personalized Agent for Long-term Dialogue](https://github.com/TroisLiu/research/blob/master/Dailogue_System/Context_and_Long-term_Dialogue_Management.md#2024hello-again-llm-powered-personalized-agent-for-long-term-dialogue)
+- [(2024)THEANINE: Revisiting Memory Management in Long-term Conversations with Timeline-augmented Response Generation](https://github.com/TroisLiu/research/blob/master/Dailogue_System/Context_and_Long-term_Dialogue_Management.md#2024theanine-revisiting-memory-management-in-long-term-conversations-with-timeline-augmented-response-generation)
+- [(2023)MemoryBank: Enhancing Large Language Models with Long-Term Memory](https://github.com/TroisLiu/research/blob/master/Dailogue_System/Context_and_Long-term_Dialogue_Management.md#2023memorybank-enhancing-large-language-models-with-long-term-memory)
+
 # 概述
 - LLM受限於有限的上下文視窗，在特別長的對話仍面臨挑戰
 - 多數模型在輸入超過數千Token後，性能會下降，難以掌握對話中跨越很多倫次的因果關係、時間脈絡
