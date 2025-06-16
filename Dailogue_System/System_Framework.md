@@ -1,8 +1,8 @@
+# 快速索引
+- [(2025)LLM-Friendly Knowledge Representation for Customer Support](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2025llm-friendly-knowledge-representation-for-customer-support)
+
 # 概述
 - 探索一個可行的架構實現對話管理
-  
-## 
--
 
 ## 核心議題
 
