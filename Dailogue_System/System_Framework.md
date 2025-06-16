@@ -1,7 +1,7 @@
 # 快速索引
 - [(2025)LLM-Friendly Knowledge Representation for Customer Support](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2025llm-friendly-knowledge-representation-for-customer-support)
   - ICA + CoT
-- [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton]()
+- [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2024chatbot-meets-pipeline-augment-large-language-model-with-definite-finite-automaton)
   - DFA
   - 每個應用情境資料可以建構一個自己的DFA決策樹
 
