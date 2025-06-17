@@ -60,6 +60,11 @@
 - 類別
   - RLHF
     - [(2025)Modeling Future Conversation Turns to Teach LLMs to Ask Clarifying Questions](https://openreview.net/pdf?id=cwuSAR7EKd)
+      - 微調模型，讓模型學會判斷目前輸入屬於"單輪情境"還是"雙輪情境"
+        - 單輪情境：模型直接回答使用者的問題，不會先釐清
+        - 雙輪情境：模型先提出一個釐清問題，再根據使用者的回覆來回答
+      - 雙輪偏好訓練（Double-Turn Preference Optimization, DPO）
+        - 模型不只學會怎麼回答問題，還會學習哪一種行為（釐清或直接回答）在「後續對話結果」中獲得更多偏好 
     - [(2024)Knowledge acquisition for dialogue agents using reinforcement learning on graph representationsKnowledge acquisition for dialogue agents using reinforcement learning on graph representations](https://arxiv.org/html/2406.19500v1)
     - [(2024)On Overcoming Miscalibrated Conversational Priors in LLM-based Chatbots](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/06/Overcoming_RLHF.pdf)
     - [(2019)Reinforcement Learning for Personalized Dialogue Management](https://arxiv.org/abs/1908.00286)
