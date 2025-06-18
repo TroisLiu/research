@@ -1,6 +1,8 @@
 # 快速索引
 - [(2025)LLM-Friendly Knowledge Representation for Customer Support](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2025llm-friendly-knowledge-representation-for-customer-support)
   - ICA + CoT
+- [(2025)Conversation Routines: A Prompt Engineering Framework for Task-Oriented Dialog Systems]()
+  - 對話慣例（Conversation Routines, CR） 
 - [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2024chatbot-meets-pipeline-augment-large-language-model-with-definite-finite-automaton)
   - DFA
   - 每個應用情境資料可以建構一個自己的DFA決策樹
@@ -141,7 +143,31 @@
 - 模型選擇與比較基準略嫌受限
   - 僅選擇兩個開源模型與兩個匿名大型模型作比較，並未說明為何未納入更近期的 SOTA 模型（如 LLaMA2-13B等）。 
 - 缺乏跨領域（如法務、金融）實證應用
-  - 雖聲稱方法可推廣至複雜領域（如法律、金融），但目前僅限於 Airbnb 客服知識，外部遷移性與通用性仍待驗證。 
+  - 雖聲稱方法可推廣至複雜領域（如法律、金融），但目前僅限於 Airbnb 客服知識，外部遷移性與通用性仍待驗證。
+  
+### [(2025)Conversation Routines: A Prompt Engineering Framework for Task-Oriented Dialog Systems](https://arxiv.org/pdf/2501.11613)
+#### 要解決的問題
+- 如何讓大型語言模型（LLM）在不需複雜程式設計或模型微調的情況下，可靠且可控地執行複雜的任務導向對話流程
+  - 傳統對話系統開發困難與成本高昂
+  - LLM 雖具語言理解力，但缺乏業務邏輯控制能力
+  - 現有系統難以讓非工程背景者（如領域專家）參與設
+#### 貢獻
+- 提出「對話慣例（Conversation Routines, CR）」框架
+- 賦予 LLM 「類程序化控制能力」
+- 建立人機協作的責任分工模式
+#### 對話代理系統（Conversational Agentic Systems, CAS）
+- 一種專門用於聊天互動的 AI agent，它結合了 LLM 的對話能力與結構化函式呼叫（Function Calling），以執行特定任務與工作流程
+- LLM通常需要微調學習
+#### 對話慣例（Conversation Routines, CR）
+- 將**程序邏輯嵌入對話慣例（Conversation Routines, CR）**中，聚焦於透過自然語言（low-code／類似偽碼）的系統提示來編碼業務邏輯，從而讓 LLM 可作為工作流程的解釋器
+- **Routine（慣例）**這個概念最早由 OpenAI 在其實驗性開源框架 SWARM 中提出
+#### User Case
+##### 火車票訂票系統
+##### 互動式故障排除
+#### 缺點
+- 缺乏系統性的量化評估
+- LLM 非決定性造成流程穩定性風險
+- 函式與提示耦合，難以擴展與重構
 
 ### [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton](https://arxiv.org/pdf/2402.04411v1)
 - 投稿單位：NEC Lab
@@ -158,7 +184,7 @@
   - 可視為在一個由多個路徑與交會點所構成的網絡中，探索某條特定分支
 - 每個語句都可以抽象為一組「關鍵詞」或「標籤（tags）」
   - 例：句子(為什麼我的手機只能用一個小時？) -> 標籤集合(#issues, #battery)
-#### 貢獻:
+#### 貢獻
 - 本論文首度結合 DFA 與 LLM，提出可解釋、流程導向、可遷移的對話生成框架 DFA-LLM，實證其在實務任務中能有效提升對話品質與控制性
   - DFA (deterministic finite automaton) 
   - 讓LLM 生成回應時，**遵循DFA指定的流程路徑**: DFA 是從訓練對話中自動學習而來，能以結構化方式建模對話流程與狀態轉移
