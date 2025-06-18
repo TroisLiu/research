@@ -158,18 +158,98 @@
 #### 對話代理系統（Conversational Agentic Systems, CAS）
 - 一種專門用於聊天互動的 AI agent，它結合了 LLM 的對話能力與結構化函式呼叫（Function Calling），以執行特定任務與工作流程
 - LLM通常需要微調學習
+- 這些函式必須能被 LLM 順利調用。最佳實作方式是設計**無狀態（stateless）**函式
+  - LLM 每次調用時都以參數傳遞必要資訊，這符合函數式程式設計原則，並讓 LLM 負責狀態維持。
+- 若需實作有狀態（stateful）函式，則必須額外設計共享記憶或上下文維護機制，例如將狀態資訊嵌入 prompt，才能在多次呼叫間保留資訊一致性。 
 #### 對話慣例（Conversation Routines, CR）
-- 將**程序邏輯嵌入對話慣例（Conversation Routines, CR）**中，聚焦於透過自然語言（low-code／類似偽碼）的系統提示來編碼業務邏輯，從而讓 LLM 可作為工作流程的解釋器
+- 將業務邏輯以自然語言方式嵌入提示中，由 LLM 自主依照說明進行互動管理
+  - **程序邏輯嵌入對話慣例（Conversation Routines, CR）**
+  - 聚焦於透過自然語言（low-code／類似偽碼）的系統提示來編碼業務邏輯，讓 LLM 作為工作流程的解釋器
 - **Routine（慣例）**
-  - 一組以自然語言撰寫的指令清單（系統提示），以及執行這些步驟所需的工具
   - 最早由 OpenAI 在其實驗性開源框架 SWARM 中提出
+  - 一組以自然語言撰寫的指令清單（系統提示），以及執行這些步驟所需的工具
+  - 系統提示就像一份完整的軟體需求文件
+#### 系統提示
+- 用自然語言撰寫，但其結構是有明確格式的，以幫助 LLM 理解
+- <img width="310" alt="image" src="https://github.com/user-attachments/assets/5717d22e-1962-4846-b3e5-9b754666bbb3" />
+
+##### 身份與目的（Identities and Purpose）
+- 提示的基礎在於清楚界定**Bot的身分與目的（即 bot-persona)**，以及**使用者的身分（user-persona）**
+- 
+##### 函式整合協定（Functions Integration Protocol）
+- 在系統提示中定義代理該如何使用外部工具（函式）。將函式說明也納入系統提示中，能讓代理理解技術能力與語境適用性
+- <img width="523" alt="image" src="https://github.com/user-attachments/assets/946aa1a4-b4ea-4bde-84ec-18b5986c413e" />
+
+##### 工作流程控制樣式（Workflow Control Patterns）
+- 代理行為的核心在於工作流程樣式，它們構成決策順序與行動流程的基礎
+- 關鍵樣式
+  - sequential steps with conditionals
+  - iteration logic
+  - user confirmation protocols
+##### 條件式的順序步驟（Sequential Steps Including Conditionals）
+- 透過系統化縮排（類似 Markdown 或 YAML）來表達層級與邏輯。
+- **縮排**代表行為邏輯的深度
+- <img width="159" alt="image" src="https://github.com/user-attachments/assets/cf68f466-01a1-4807-86c1-99f4b0650a30" />
+
+##### 迴圈邏輯（Iteration Logic）
+- 迴圈控制對於處理多輪交互與重試流程非常重要
+- <img width="403" alt="image" src="https://github.com/user-attachments/assets/5754a306-b25f-48f2-b325-6ba967309d5a" />
+
+##### 使用者確認協定（User Confirmation Protocols）
+- 為避免誤解，在重要節點需使用者明確確認
+  - <img width="455" alt="image" src="https://github.com/user-attachments/assets/066b2903-eb15-4b89-a439-ec07be598e66" />
+- 若流程關鍵階段需要明確回應
+  - <img width="440" alt="image" src="https://github.com/user-attachments/assets/2408fefd-b290-45cc-9458-3d9c9f3d5d2d" />
+
+##### 輸出格式與語氣（Output Format and Tone）
+- 維持一致的語調與表達方式
+- <img width="286" alt="image" src="https://github.com/user-attachments/assets/83a17d9f-04cc-42b9-b3cc-7e40f4195104" />
+
+##### 對話範例（Conversation Examples）
+- 可以加入 one-shot 或 few-shot 對話範例
+- <img width="425" alt="image" src="https://github.com/user-attachments/assets/4e3c884a-8758-4ffa-bc0b-9ec456092d2b" />
+
+#### 模型
+- openai GPT-4o-mini
+  - 128K token 的長語境視窗
+  - function calling 能力
+  - 低延遲特性
 #### User Case
+- 每個應用皆採用 OpenAI SWARM 框架
+- <img width="250" alt="image" src="https://github.com/user-attachments/assets/b6e24256-0bc6-4248-8115-29833f012ffb" />
+
 ##### 火車票訂票系統
+- 本使用案例展示一個示範場景，說明 CAS（對話代理系統）如何協助用戶完成火車票購買。
+  - 該代理整合了後端函式，可執行以下任務：
+    - 查詢當前時間
+    - 搜尋車站名稱資料庫
+    - 判斷指定出發地與目的地之間的可行車次
+    - 依照預定格式產生訂票結果
+- 關鍵挑戰：**如何設計一個能涵蓋整體業務邏輯的提示（prompt），以確保訂票流程順暢**
+  - LLM須能做到：**收集與驗證使用者資訊 → 呼叫後端函式 → 完成訂票與付款**
+- 此對話實例證明了代理：
+  - 高效處理複雜對話邏輯
+  - 動態應對模糊輸入
+  - 在多輪對話中維持狀態與邏輯流程一致性
+- 經過超過 50 次測試運行，在幾乎所有情況下都能成功完成符合使用者需求的訂票任務。
+  - 即使故意輸入不合作內容（如不存在的車站名），系統仍能維持確認機制，確保最後提交資料正確
+  - 有時需額外輪次解決模糊問題
+  - 即使在 prompt 中明確要求避免格式化，LLM 偶爾仍會輸出 markdown 格式的文字
 ##### 互動式故障排除
+- 目的是**在故障診斷與維修流程中，協助技術人員進行輸送系統的故障診斷與維修，持續提供互動式指引**
+  - 助理的角色被定義為「專家型」
+  - 核心功能包括：擷取故障排除步驟、提供零件資訊、產生維修報告等
+- 關鍵挑戰：**如何讓模型理解並執行特定的業務流程（如維修步驟）**
+- 共有兩個代理
+  - 故障排除助理代理（Troubleshooting Assistant Agent）
+  - 報告生成代理（Troubleshooting Report Agent）
+- 流程分四階段：
+- 
 #### 缺點
 - 缺乏系統性的量化評估
 - LLM 非決定性造成流程穩定性風險
 - 函式與提示耦合，難以擴展與重構
+
 
 ### [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton](https://arxiv.org/pdf/2402.04411v1)
 - 投稿單位：NEC Lab
