@@ -160,7 +160,9 @@
 - LLM通常需要微調學習
 #### 對話慣例（Conversation Routines, CR）
 - 將**程序邏輯嵌入對話慣例（Conversation Routines, CR）**中，聚焦於透過自然語言（low-code／類似偽碼）的系統提示來編碼業務邏輯，從而讓 LLM 可作為工作流程的解釋器
-- **Routine（慣例）**這個概念最早由 OpenAI 在其實驗性開源框架 SWARM 中提出
+- **Routine（慣例）**
+  - 一組以自然語言撰寫的指令清單（系統提示），以及執行這些步驟所需的工具
+  - 最早由 OpenAI 在其實驗性開源框架 SWARM 中提出
 #### User Case
 ##### 火車票訂票系統
 ##### 互動式故障排除
