@@ -1,12 +1,13 @@
 # 快速索引
 - [(2025)LLM-Friendly Knowledge Representation for Customer Support](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2025llm-friendly-knowledge-representation-for-customer-support)
   - ICA + CoT
-- [(2025)Conversation Routines: A Prompt Engineering Framework for Task-Oriented Dialog Systems]()
+- [(2025)Conversation Routines: A Prompt Engineering Framework for Task-Oriented Dialog Systems](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2025conversation-routines-a-prompt-engineering-framework-for-task-oriented-dialog-systems)
   - 對話慣例（Conversation Routines, CR） 
 - [(2024)Chatbot Meets Pipeline: Augment Large Language Model with Definite Finite Automaton](https://github.com/TroisLiu/research/blob/master/Dailogue_System/System_Framework.md#2024chatbot-meets-pipeline-augment-large-language-model-with-definite-finite-automaton)
   - DFA
   - 每個應用情境資料可以建構一個自己的DFA決策樹
 - [(2024)On Overcoming Miscalibrated Conversational Priors in LLM-based Chatbots]()
+  -    
 
 # 概述
 - 探索一個可行的架構實現對話管理
@@ -382,21 +383,98 @@
 - 未說明可擴展性與可維護性問題
 
 ### [(2024)On Overcoming Miscalibrated Conversational Priors in LLM-based Chatbots](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/06/Overcoming_RLHF.pdf)
+- 投稿單位：Microsoft Research
+- 研討會：arXiv
 #### 要解決的問題
-- 
-#### 假設
-- 
-#### 貢獻:
-- 
+- LLM-based 聊天機器人在面對「資訊不足（under-specified）」的使用者查詢時，容易做出錯誤假設、冗長閃避、或拒絕回應，其回應策略與實際使用者需求不匹配，導致效用降低
+  - 資訊不足查詢非常常見 :
+    - 在 OpenAssistant 資料集中，超過 25% 的查詢屬於資訊不足（例如條件不清、偏好未明說）
+    - ![image](https://github.com/user-attachments/assets/83dfd0f2-37d9-481b-ae9f-92b980f8d9e6)
 
+  - LLM 的預設行為（RLHF）是錯誤校準的（miscalibrated）
+    - 微調過程（RLHF）偏好簡單或明確查詢，對於多輪互動或模糊查詢處理不佳
+    - 認為標註者偏好冗長回應、忽略澄清提問，使得 LLM 學到「直接回應或模糊敘述」的偏誤策略
+    - 無法有效挖掘使用者的潛在目標
+#### 假設
+- RLHF 微調導致 LLM 偏好「直接回應（respond）」與「模糊回答（hedge）」，而非提出澄清問題（clarify）
+
+#### 貢獻:
+- 將資訊不足問題形式化為「部分可觀測決策過程（Partially Observed Decision Processes, PODP）」
+- 提出LLM 回應策略類型的分類法
+  - ![image](https://github.com/user-attachments/assets/21c38bbf-d960-4799-8245-4974e424bbd9)
+  - 描述當模型面對資訊不完整的請求時，其「對話先驗」（conversational priors）行為特徵
+  - 從效用與認知成本的角度分析
+    - "效用": 根據使用者的潛在目標計算而來
+    - 不同的回應策略。這些策略會產生在「認知成本」（x 軸）上不同、且對使用者而言具有不同「有用程度」（y 軸）的回答
+    - 一個好的聊天機器人應該能回應出在效用上最大化的答案——也就是既有用又低成本的回答
+- 提出兩種提示語誘導策略，改善 LLM 在資訊不足查詢下的回應行為
+  - Clarify-Flex（資料不可知型提示語）：根據查詢內容引導 LLM 適時提出澄清問題
+  - Meta-Policy（資料導向元策略）：利用對話歷史資料學習一個策略 β：對不同對話上下文選擇合適的提示語
 #### 資料集
-- 
+##### OppenAssistant
+- 將研究範圍限制在英文查詢且長度至少為 3 個詞的查詢句子（約佔 10,000 筆對話中的 40%）
+
+#### 部分可觀測決策過程（Partially Observed Decision Processes, PODP）
+- 將「使用者-聊天機器人互動」形式化為一個部分可觀測決策過程
+- 聊天機器人的策略 π 是從對話前綴（可能跨多輪）映射至自然語言回應的固定函數
+- 每一個 PODP 任務
+  - 開始於使用者以自然語言查詢 q ∈ Q 表達其目標 θ，但此表達可能是不完整或有資訊遺失的
+  - 聊天機器人產生的自然語言回應即為 PODP 的「行動空間」，記為 a ∈ A
+  - 使用者的回覆語句則視為「觀測值」，記為 o ∈ O
+  - 將使用者與聊天機器人之間的多輪變長對話歷史記為 C := q × [a, o]
+  - 對話歷史空間記為 C := Q × [A, O]
+  - 對於任一使用者目標 θ 下的對話 C，聊天機器人的任務是**選擇能最大化效用的回應行動**，效用函數為 U: Θ × C → ℝ
+    - 此效用函數 U 是未知的
+    - 可透過其他方式間接觀察到其樣本值
+    - 許多 LLM 聊天機器人允許使用者對對話進行評分，這些評分即可被視為 U(Θ, C)
+    - U 的組成可能包含：
+      - 隱含因素（如回應長度）
+      - 顯性因素（如按讚/倒讚、使用者對比對回應的評分）
+    - 實驗：挑選**回應長度 len(a)** 作為使用者在回應 a 上的認知成本的簡易代理指標
+    - ![image](https://github.com/user-attachments/assets/8772554f-4f6a-4744-be0c-6613405a9864)
+  - 關鍵
+    - 平衡資訊探索（exploration）
+    - 效用最大化（exploitation） 
+##### clarification-aware prompt
+##### meta-policy
+#### 回應策略分類
+
 
 #### 模型
-- 
+- GPT-4
 
 #### 實驗
-- 
+##### 分類1: LLM-BASED QUERY UNDERSPECIFICATION CLASSIFIER
+- 實驗：了解使用者向開放領域 LLM 聊天機器人發出「資訊不足查詢」的頻率
+- 建立一個LLM-based分類器
+  - 判斷每筆查詢是否為「資訊不足」
+  - 使用合成語料庫驗證分類準確度
+- 查詢分類(3類)
+  - CRITICAL UNDER（嚴重不足）：查詢中缺乏一個或多個關鍵條件，使得無法產出高品質回應。
+  - MINOR UNDER（輕微不足）：查詢中缺少次要條件，儘管如此，仍可能提供合理的回應。
+  - SUFFICIENT（資訊充足）：查詢已充分表達作答所需的重要資訊。
+- 實驗結果：
+  - ![image](https://github.com/user-attachments/assets/df268147-d5a3-4ffd-a008-1effa4a9067f)
+##### 分類2: LLM-BASED RESPONSE STRATEGY CLASSIFIER
+- 回應策略類別
+  - REFUSE（拒答）
+  - RESPOND（直接回答）
+  - HEDGE（模糊應對）
+  - CLARIFY（提出澄清）
+  - INTERROGATE（反覆詢問）
+- 設計動機
+  - 在 PODP 中，聊天機器人無法直接觀察使用者的目標 θ，只能根據信念狀態 Pr(θ | q, [a, o]*) 做出行動
+- 光譜特性
+  -  ![image](https://github.com/user-attachments/assets/11d8f7fa-a796-4739-ac1f-cd1457f7448c)
+  -  不理會不確定性(uncertainty-agnostic)
+    - 聊天機器人即便對使用者偏好不確定，直接依賴先驗知識做出回答
+    - 回答依賴推論或語意上的聯想，可能會出錯  
+  -  主動降低不確定性(uncertainty-reducing)
+    - 聊天機器人可能不斷提問（INTERROGATE），直到精確掌握使用者目標
+    - 這對使用者來說是極不理性的行為  
+- LLM 分類器
+  - 描述 LLM 的回應行為
+  - 限制元策略的提示語空間
 
 #### 評估
 
@@ -404,5 +482,7 @@
 - 
 
 #### 缺點
-- 
+- 「RLHF 導致錯誤策略學習」的論證雖合理，但證據支持較薄弱
+- 沒有進行人類標註對照分析來確認策略分類的準確性
+- 若部署情境與訓練資料分布不同，所學策略可能過擬合歷史行為，未進一步探討如何應對概念漂移（concept drift）
 
