@@ -431,6 +431,13 @@
 
 ### 缺點
 
+## Arrow-Guided VLM: Enhancing Flowchart Understanding via Arrow Direction Encoding
+### 要解決的問題
+### 貢獻
+### 缺點
+### reference
+- []()
+
 
 - [(2023)DiagrammerGPT: Generating Open-Domain, Open-Platform Diagrams via LLM Planning](https://arxiv.org/pdf/2310.12128)
 # 其他
