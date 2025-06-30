@@ -432,11 +432,29 @@
 ### 缺點
 
 ## Arrow-Guided VLM: Enhancing Flowchart Understanding via Arrow Direction Encoding
+- 2025
+- arXiv
+  
 ### 要解決的問題
+- 現有的視覺語言模型（VLMs）在理解流程圖這類具備明確結構與箭頭方向性的圖像時，表現不佳，尤其在需要推理圖形拓撲（如節點順序與決策分支）的任務上，準確率明顯下降
+  - 箭頭方向與節點關係難以解析
+  - 端對端 VLM 缺乏幾何推理能力
+  - 既有方法的不足
 ### 貢獻
+- 透過顯式編碼流程圖中的箭頭方向與節點結構，提升 LLM 在圖形結構推理任務中的理解能力與問答表現。
+  - 提出首個結合箭頭感知偵測器與 VLM 的流程圖理解系統
+  - 建立一個七階段的模組化推論流程（pipeline）
+  - 在無需微調 VLM 的情況下，顯著提升流程圖問答表現
+  - 實作 LLM-as-a-Judge 評估機制
+  - 針對流程圖應用提供通用可擴展解法
 ### 缺點
+- 測試集太小，泛化性存疑
+- 箭頭配對邏輯過於簡化
+- 對多入邊節點的推理邏輯不健全
+- LLM 自動評估方法過度依賴文字匹配
+- 模組依賴度高，誤差傳播風險大模組依賴度高，誤差傳播風險大
 ### reference
-- []()
+- [Arrow-Guided VLM: Enhancing Flowchart Understanding via Arrow Direction Encoding](https://arxiv.org/pdf/2505.07864)
 
 
 - [(2023)DiagrammerGPT: Generating Open-Domain, Open-Platform Diagrams via LLM Planning](https://arxiv.org/pdf/2310.12128)
