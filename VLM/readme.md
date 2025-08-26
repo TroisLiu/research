@@ -3,6 +3,10 @@
 
 ## Struct-aware Embedding
 - [Topological Perspectives on Optimal Multimodal Embedding Spaces](https://arxiv.org/pdf/2405.18867)
+  - 深入分析CLIP與CLOOB的向量空間分布差異 
+- [LARE: Latent Augmentation using Regional Embedding with Vision-Language Model](https://arxiv.org/pdf/2409.12597)
+  - 利用 VLM 學習到的統一嵌入空間進行 區域嵌入（regional embedding）。
+  - LARE 將影像嵌入在視覺語言嵌入空間中表示為「一個區域」而非單一點，並透過在該區域中取樣影像嵌入來實現數據增強，使得模型能泛化到多個未見領域 
 
 ## Contrastive Distillation 
 - [Synthetic Data is an Elegant GIFT for Continual Vision-Language Models](https://arxiv.org/abs/2503.04229)
