@@ -1,5 +1,6 @@
 # Task
 ## Synthetic Data
+- https://arxiv.org/pdf/2406.19593v2
 
 ## Struct-aware Embedding
 - [Topological Perspectives on Optimal Multimodal Embedding Spaces](https://arxiv.org/pdf/2405.18867)
