@@ -20,6 +20,7 @@
 #### 圖文配對合成
 - Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data
 - Synth2: Boosting Visual-Language Models with Synthetic Captions and Image Embeddings
+- Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation
 
 ## 應用情境
 - 多輪對話(圖文交雜)
@@ -29,6 +30,7 @@
 ### reference
 
 ## reference
+- [Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation](https://yueyang1996.github.io/papers/cosyn.pd)
 - [Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models](https://aclanthology.org/2025.coling-main.292.pdf)
   - 2025
   - 目標：
