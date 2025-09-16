@@ -18,9 +18,11 @@
 - Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
 - SK-VQA 
 #### 圖文配對合成
+##### Text-less Image
 - Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data
 - Synth2: Boosting Visual-Language Models with Synthetic Captions and Image Embeddings
-- Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation
+##### Text-Rich Image
+  - Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation
 
 ## 應用情境
 - 多輪對話(圖文交雜)
@@ -31,6 +33,43 @@
 
 ## reference
 - [Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation](https://yueyang1996.github.io/papers/cosyn.pd)
+  - 核心概念：文字密集型圖像通常是由程式碼渲染
+    - 使用程式碼 C 作為中介表示，來橋接圖像與文字
+    -  - 將底層程式碼作為合成圖像的文字表示
+  - 目標
+  - CoSyn提示LLM生成程式碼（如 Python、HTML、LaTeX 等），以渲染合成圖像
+    - 11 種渲染工具
+    - 20 條流程  
+    - CoSyn: Code Guided Synthetic data generation system
+  - 特色
+    - 「指向數據」（pointing data）:
+      - VLMs 能夠在輸入圖像中對資訊進行定位
+      - 在圖像中提供具體座標，實現「指到答案」的功能
+      - 所有圖像的源碼 → 可提示 LLM 修改程式碼，在圖像上標記點位
+      - LLM 生成「指向問題」並在程式碼中畫出帶顏色的點
+      - 從程式碼中提取 (x, y) 像素座標，即可獲得精確標註
+  - 步驟
+    - 主題生成（Topic generation）：基於抽樣的人格設定（persona），決定風格與內容。
+      - 舉例：抽樣出 persona 「一位喜歡外星世界的科幻小說家」，因此主題變為「一本關於外星動植物的小說」，進而生成相應的書籍封面圖像
+    - 數據生成（Data generation）：生成具體內容並轉換為程式碼。
+    - 程式碼生成（Code generation）：生成可執行程式碼並渲染合成圖像。
+    - 指令生成（Instruction generation）：以程式碼作為上下文，提示 LLM 生成相應的文字指令（問題、答案與 Chain-of-Thought 推理解釋）。
+  - 支援圖像
+    - 圖表（Charts）
+    - 文件（Documents）
+    - 數學題（Math problems）
+    - 表格（Tables）
+    - 流程圖/結構圖（Diagrams）
+    - 向量圖（Vector graphics）
+    - 樂譜（Music sheets）
+    - 電路圖（Electrical circuits）
+    - 化學結構（Chemical structures）
+  - 渲染工具
+    - 圖表類：Matplotlib、Plotly、Vega-Lite
+    - 文件與表格：LaTeX、HTML
+    - 流程圖/結構圖：Mermaid、Graphviz
+    - 向量圖與數學內容：SVG、Asymptote
+    - 專用領域：Lilypond（樂譜）、RDKit（化學結構）
 - [Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models](https://aclanthology.org/2025.coling-main.292.pdf)
   - 2025
   - 目標：
