@@ -1,14 +1,23 @@
 # Task
+## VLM
+- 圖像編碼器 + LLM
+
 ## Taxonomy
 ### Data Augmentation
 #### 視覺層面增強
 #### 文字層面增強
+- 基於模板+模型
+  - InfoSeek(維基百科Wikidata)
+  - Encyclopedic VQA(WIT+維基百科)
 #### 跨模態一致性增強
 
 ### Synthetic Data
 #### 圖像合成
 #### 文本合成
+- SK-VQA 
 #### 圖文配對合成
+- Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data
+- Synth2: Boosting Visual-Language Models with Synthetic Captions and Image Embeddings
 
 ## 應用情境
 - 多輪對話(圖文交雜)
@@ -18,9 +27,40 @@
 ### reference
 
 ## reference
-- https://arxiv.org/pdf/2406.19593v2
-- https://arxiv.org/pdf/2403.07750v2
+- [SK-VQA: Synthetic Knowledge Generation at Scale for Training Context-Augmented Multimodal LLMs](https://arxiv.org/pdf/2406.19593v2)
+  - 2024
+  - 目標：增強上下文
+    - 給定一張圖片，首先生成一段與圖像有關的文件/段落 
+    - 再要求生成必須同時參考圖象與文件推理的QA對 
+    - 同時生成上下文段落(文章段落)&QA對
+  - 多種圖像來源
+    - 已有文字段落描述
+      - 部分只生成QA對
+      - 其他依然有再生成文字段落   
+    - 沒有文字段落描述
+      - LAION-400m
+      - COCO-Conunterfactuals  
+  - 資料過濾
+    - 圖像引用過濾
+      - 避免生成"在圖片中...", "如圖所示..."等延伸內容文字
+    - 答案存在於生成的文字段落
+  - 其他知識密集型VQA
+    - SnapNTell（Qiu et al., 2024）
+    - 技術工程需求（Doris et al., 2024）
+    - 科學期刊文章（Ding et al., 2024）
+  - 使用LLaVA-34B替代 GPT-4 生成資料
+    - 76% 問題無效(問題複雜度不夠，當靠上下文就可回答  
+- [Synth2: Boosting Visual-Language Models with Synthetic Captions and Image Embeddings](https://arxiv.org/pdf/2403.07750v2)
+  - 2024
+  - Google Deepmind
+  - 目標：
+    - LLM生成合成字幕，再透過文字轉圖像模型合成圖像
+    - 直接生成圖像嵌入(VQ-Embedding)，可以傳統生成圖像後還要編碼/減碼，加快25%
+  - 字幕生成（Caption Generation）
+    - 語義多樣性 
+  - 圖像生成（Image Generation）
 - [Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data](https://arxiv.org/pdf/2308.10253v2)
+  - 2023 
   - 生成圖像
     - 針對特定屬性(例如顏色)，會提供其他關鍵詞，避免頻繁輸出常見值，導致缺少多樣性
   - 生成對話
@@ -49,7 +89,8 @@
       - RR（Relation Reasoning，關係推理）
       - CP（Commonsense Perception，常識感知）
       - FP-C（Fine-grained Perception – Color，細粒度感知-顏色）
-      - FP-S（Fine-grained Perception – Shape，細粒度感知-形狀） 
+      - FP-S（Fine-grained Perception – Shape，細粒度感知-形狀）
+
 
 ## Struct-aware Embedding
 - [Topological Perspectives on Optimal Multimodal Embedding Spaces](https://arxiv.org/pdf/2405.18867)
