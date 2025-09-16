@@ -5,6 +5,7 @@
 ## Taxonomy
 ### Data Augmentation
 #### 視覺層面增強
+- Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
 #### 文字層面增強
 - 基於模板+模型
   - InfoSeek(維基百科Wikidata)
@@ -14,6 +15,7 @@
 ### Synthetic Data
 #### 圖像合成
 #### 文本合成
+- Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
 - SK-VQA 
 #### 圖文配對合成
 - Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data
@@ -27,6 +29,28 @@
 ### reference
 
 ## reference
+- [Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models](https://aclanthology.org/2025.coling-main.292.pdf)
+  - 2025
+  - 目標：
+    - 針對VQA-NLE 提出一系列生成流程
+  - 特色
+    - 自然語言解釋（Natural Language Explanation, NLE）
+    - 帶有邊界框（bounding boxes）的視覺提示（visual prompts, ViP）
+      - bounding box
+      - 物件名稱 
+  - 生成方法
+    - 單步生成（SINGLE-STEP）
+      - 一次生成Q,A,E
+    - 單步生成 + 視覺提示（SINGLE-STEP-VIP）
+      - 為資料 D 標註 bounding box b
+      - 將問題前綴 qp 和物件名稱 o 加入提示：Φ(p, qp, o)。
+      - 使用具備視覺提示能力的調優模型 M′（如 ViP-LLaVA）生成Q, A, E
+        - 模型需要微調
+          - 使用GQA資料集微調的模型
+        - 
+    - 多步生成（MULTI-STEP）
+      - 依序生成 qi、ai、ei，而非一次性生成
+      - 使用 re-ranking比較多個候選解釋，選出最優解釋  
 - [SK-VQA: Synthetic Knowledge Generation at Scale for Training Context-Augmented Multimodal LLMs](https://arxiv.org/pdf/2406.19593v2)
   - 2024
   - 目標：增強上下文
