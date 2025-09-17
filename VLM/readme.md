@@ -14,7 +14,6 @@
     - [On the Benefits of Early Fusion in Multimodal Representation Learning](https://arxiv.org/pdf/2011.07191)
   - Late Fusion
     - 每個模態的輸入會先由不同的骨幹網路獨立處理，再於後層（通常是在分類器層之前）將這些表徵融合
-      - 
       - ensemble 
     - LeMDA: 對抗式增強網路（Liu et al., 2022） 
 - 找出Bounding Box
