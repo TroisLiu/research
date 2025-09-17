@@ -8,7 +8,15 @@
 - 表層形式(Surface form)方法：標準影像轉換手法(裁切、翻轉、鏡像)
   - MixGen 
 - 潛在空間(latent Space)方法：
-  - LeMDA: 對抗式增強網路（Liu et al., 2022） 
+  - Early Fusion
+    - 將來自所有模態的原始輸入或詞元嵌入結合起來
+    - 利用低階特徵間的互動，特別適合於跨模態關聯性強的多模態任務
+    - [On the Benefits of Early Fusion in Multimodal Representation Learning](https://arxiv.org/pdf/2011.07191)
+  - Late Fusion
+    - 每個模態的輸入會先由不同的骨幹網路獨立處理，再於後層（通常是在分類器層之前）將這些表徵融合
+      - 
+      - ensemble 
+    - LeMDA: 對抗式增強網路（Liu et al., 2022） 
 - 找出Bounding Box
   - VQA-NLE: Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
 - 模型增生圖像
@@ -66,6 +74,20 @@
 ### reference
 
 ## reference
+- [LEARNING MULTIMODAL DATA AUGMENTATION IN FEATURE SPACE](https://arxiv.org/pdf/2212.14453)
+  - 目標ˋ
+    - 在潛在表徵 (latent representation) 上進行增強
+      - 將增強轉換設計為可學習模組
+      - 該模組與多模態網路一同訓練，透過對抗式訓練生成具資訊性的數據
+      - 並透過一致性正則化 (consistency regularization) 來維持語意結構
+      - 同時學習一個增強網路 G 與多模態任務網路 F
+  - 作法
+    - 把每個模態（文字、影像、表格）的輸入先丟進對應的骨幹網路（例如 BERT、ResNet），得到每個模態的特徵表示（embedding）
+    - LeMDA 的 增強網路 (G) 在這些特徵表示上「學習」如何做合適的改動，產生新的「增強特徵」
+      - cross-attention
+      - concatenate
+      - ensemble
+    - 原始特徵 + 增強特徵一起送進下游任務網路進行訓練。 
 - [ARMADA: Attribute-Based Multimodal Data Augmentation](https://arxiv.org/pdf/2408.10086v1)
   - 2024
   - 目標：針對圖像中的關鍵物件，透過修改文本中提及關鍵物件的視覺屬性值 來生成新圖像。
