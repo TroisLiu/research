@@ -5,8 +5,10 @@
 ## Taxonomy
 ### Data Augmentation
 #### 視覺層面增強
-- 標準影像轉換手法(裁切、翻轉、鏡像)
-  -  
+- 表層形式(Surface form)方法：標準影像轉換手法(裁切、翻轉、鏡像)
+  - MixGen 
+- 潛在空間(latent Space)方法：
+  - LeMDA: 對抗式增強網路（Liu et al., 2022） 
 - 找出Bounding Box
   - VQA-NLE: Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
 - 模型增生圖像
@@ -25,10 +27,13 @@
 - 生成QA：人工撰寫+模型生成
   - ChartQA 
 #### 跨模態一致性增強 (cross-modal consistency augmentation)
-- 確保不同模態之間的對齊一致性被強化或保持。
-- 例如：
-  - 對影像做翻轉後，描述文字也要同步調整（"left" → "right"）。
-  - 合成影像必須準確反映描述裡提到的物件、屬性與關係
+- 說明：確保不同模態之間的對齊一致性被強化或保持。
+  - 例如：
+    - 對影像做翻轉後，描述文字也要同步調整（"left" → "right"）。
+    - 合成影像必須準確反映描述裡提到的物件、屬性與關係
+- BiAug
+- ARMADA
+
 
 ### Synthetic Data
 #### 圖像合成
@@ -61,6 +66,34 @@
 ### reference
 
 ## reference
+- [ARMADA: Attribute-Based Multimodal Data Augmentation](https://arxiv.org/pdf/2408.10086v1)
+  - 2024
+  - 目標：針對圖像中的關鍵物件，透過修改文本中提及關鍵物件的視覺屬性值 來生成新圖像。
+  - 資料：維基百科(WikiData& Image)
+  - 模型：
+    - 圖像編輯 InstructPix2Pix 
+  - 作法
+    - 先從KB(Wiki)取得文字-圖像配對 (文字通常為圖片描述或標籤)
+    - 文字：
+      - 實體抽取：透過LLM從文本中識別出實體、視覺屬性及其值
+        - 例如：實體(海星)、視覺屬性(顏色)、屬性值(藍色)
+      - 替換策略1：基於知識庫的屬性替換
+        - 建構知識庫：基於實體建構，確保替換準確率、可靠性(*非任意替換)
+          - 圖結構
+            - Wiki條目(linckia laevigata) 與 Wiki條目(linckia guildingi) 都屬於「valvatida」類別，因此在知識圖中，它們各自有一條邊指向該父節點
+          - 節點屬性
+            - 從對應的 Wikipedia 條目中蒐集文本，並利用 LLM 抽取節點的視覺屬性及可能值
+        - 屬性替換策略
+          - 單一實體內部替換（Intra-entity substitution)：當前實體保持不變，但替換其屬性值
+          - 跨兄弟實體替換（Cross-sibling substitution）：在 KB 中，許多屬於同一父類別的實體共享相似屬性。
+      - 替換策略2：基於 LLM 的視覺屬性替換
+        - 有時候，抽取的實體或屬性過於一般化，無法與 KB 中的節點對應（如背景「珊瑚礁」）
+        - 使用 LLMs 來補充替代屬性值 
+    - 圖像
+      -  得到修改後的文本，編輯相對圖像，生成新圖像
+        -  舉例：透過指令呼叫模型生成新圖「將 [entity] 的 [attribute] 改為 [value]」
+  - 資料檢查
+    - 使用 Fréchet Inception Distance (FID) 分數來衡量新舊圖之間相似性
 - [Multimodal Data Augmentation for Image Captioning using Diffusion Models]
   - 2023
   - 聚焦：多模態資料增強方法
