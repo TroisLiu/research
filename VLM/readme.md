@@ -5,24 +5,53 @@
 ## Taxonomy
 ### Data Augmentation
 #### 視覺層面增強
-- Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
+- 標準影像轉換手法(裁切、翻轉、鏡像)
+  -  
+- 找出Bounding Box
+  - VQA-NLE: Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
+- 模型增生圖像
+  - Multimodal Data Augmentation for Image Captioning using Diffusion Models
+
 #### 文字層面增強
-- 基於模板+模型
+- 同義詞替換
+- 句子改寫
+  - Multimodal Data Augmentation for Image Captioning using Diffusion Models 
+- 生成QA：基於模板+模型
   - InfoSeek(維基百科Wikidata)
   - Encyclopedic VQA(WIT+維基百科)
-#### 跨模態一致性增強
+  - Data Augmentation for Visual Question Answering
+- 生成對話：基於LLM生成對話
+  - SciGraphQA: SciCap+資料集(包含圖、文章、標題、OCR文本、摘要)生成多輪對話
+- 生成QA：人工撰寫+模型生成
+  - ChartQA 
+#### 跨模態一致性增強 (cross-modal consistency augmentation)
+- 確保不同模態之間的對齊一致性被強化或保持。
+- 例如：
+  - 對影像做翻轉後，描述文字也要同步調整（"left" → "right"）。
+  - 合成影像必須準確反映描述裡提到的物件、屬性與關係
 
 ### Synthetic Data
 #### 圖像合成
+- PlotQA: Reasoning over Scientific Plots
+  - 有基本文字資料
+  - 將統計資訊轉換成統計圖表
+  - QA以Template生成
 #### 文本合成
-- Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
-- SK-VQA 
+- VQA-NLE: Towards Efficient and Robust VQA-NLE Data Generation with Large Vision-Language Models
+- SK-VQA
+- 
 #### 圖文配對合成
-##### Text-less Image
-- Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data
-- Synth2: Boosting Visual-Language Models with Synthetic Captions and Image Embeddings
-##### Text-Rich Image
-  - Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation
+##### 普通Image
+- StableLLaVA: Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data
+- Synth2: Boosting Visual-Language Models with Synthetic Captions and Image Embeddings  
+##### 專業圖像(Text-Rich)
+  - CoSyn: Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation
+  - FiqureQA: An Annotated Figure Dataset for Visual Reasoning
+    - 
+  - DVQA: Understanding Data Visualizations via Question Answering
+    - Bar Chart
+    - 圖中的文字簡短(欄位名)
+    - QA以Template生成
 
 ## 應用情境
 - 多輪對話(圖文交雜)
@@ -32,7 +61,21 @@
 ### reference
 
 ## reference
+- [Multimodal Data Augmentation for Image Captioning using Diffusion Models]
+  - 2023
+  - 聚焦：多模態資料增強方法
+  - 資料來源
+      - 基於MS COCO資料集(包含圖片&圖片描述
+  - 生成方式
+    - 基於資料集原有描述生成圖像
+    - 先改寫資料集描述，再生成圖像
+  - 資料品質評估
+    - 影像–文字相似度：使用 CLIPScore（基於 CLIP 嵌入）的度量，衡量合成影像與輸入文字的一致性。
+    - 關鍵物件是否被反映：使用 VIFIDEL，透過物件偵測找出影像主物件，並計算其與描述文字的相似度。
+- [SCIGRAPHQA: A LARGE-SCALE SYNTHETIC MULTI-TURNQUESTION-ANSWERING DATASET FOR SCIENTIFIC GRAPHS](https://arxiv.org/pdf/2308.03349)
+  - 2023 
 - [Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation](https://yueyang1996.github.io/papers/cosyn.pd)
+  - Allen AI
   - 核心概念：文字密集型圖像通常是由程式碼渲染
     - 使用程式碼 C 作為中介表示，來橋接圖像與文字
     -  - 將底層程式碼作為合成圖像的文字表示
