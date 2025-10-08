@@ -1,1 +1,26 @@
-temp
+# 進入點
+- Demo()
+  - 呼叫 generate_flowchart_mermaid()
+    - 呼叫 random.seed()
+    - 呼叫 fuzz_string_from_bnf() : 以 fuzzingbook 依 BNF 生成語句
+      - 呼叫 bnf_to_fb_grammar() : 將bnf_grammar從plaintext(String)轉換成dict結構
+      - 呼叫 ensure()：若欠缺就設定預設值
+        - 呼叫 .setdefault() 
+      - 呼叫 random.Random()
+      - 呼叫 random.seed()
+      - 宣告 GrammarFuzzer() object 初始化
+      - 呼叫 .fuzz()
+    - 宣告 SynthContext() object 初始化
+    - 呼叫 parse_flowchart_text()
+      - 呼叫 parse_flowchart()
+    - 呼叫 ast_to_graph()
+      - 宣告 Graph() Object初始化
+      - 呼叫 .add_node()
+      - 呼叫 .add_edge()
+      - 呼叫 random.Random()
+      - 呼叫 .choice()
+      - 呼叫 .predecessors()
+      - 呼叫 .nested_branch()
+    - 呼叫 FixReport()
+    - 呼叫 validate_and_fix()
+    - 呼叫 to_mermaid()
