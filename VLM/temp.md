@@ -1,9 +1,9 @@
-# 進入點
+# Function Dependency
 - Demo()
   - 呼叫 generate_flowchart_mermaid()
     - 呼叫 random.seed()
-    - 呼叫 fuzz_string_from_bnf() : 以 fuzzingbook 依 BNF 生成語句
-      - 呼叫 bnf_to_fb_grammar() : 將bnf_grammar從plaintext(String)轉換成dict結構
+    - 呼叫 fuzz_string_from_bnf() : 以 fuzzingbook 依 BNF 生成語句 (grammar dict → fuzz 字串)
+      - 呼叫 bnf_to_fb_grammar() : 將bnf_grammar從plaintext(String)轉換成dict結構  (BNF 文字 → fuzzingbook grammar dict)
       - 呼叫 ensure()：若欠缺就設定預設值
         - 呼叫 .setdefault() 
       - 呼叫 random.Random()
