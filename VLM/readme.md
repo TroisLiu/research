@@ -72,6 +72,19 @@
 - 
 ### reference
 
+### 中文文字辨識 Chinese Text Recognition
+- GPT-4V表現不佳
+  - <img width="858" height="756" alt="image" src="https://github.com/user-attachments/assets/a82ccf3e-b420-4260-8829-6245b8d203c9" />
+- GPT-5宣稱有改善，但具體表現仍輸給Owen3-VL
+  - <img width="727" height="798" alt="image" src="https://github.com/user-attachments/assets/baaea6a6-0976-4487-85b0-d8190455c39a" />
+#### 資料集
+- OCRBench
+- OCRBench_v2-zh
+- DocVQA
+- CC-OCR
+#### reference
+- [EXPLORING OCR CAPABILITIES OF GPT-4V(ISION) : A QUANTITATIVE AND IN-DEPTH EVALUATION](https://arxiv.org/pdf/2310.16809)
+- [Qwen3-VL Technical Report](https://arxiv.org/pdf/2511.21631)
 ## reference
 - [LEARNING MULTIMODAL DATA AUGMENTATION IN FEATURE SPACE](https://arxiv.org/pdf/2212.14453)
   - 目標ˋ
