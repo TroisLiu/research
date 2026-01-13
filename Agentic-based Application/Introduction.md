@@ -1,8 +1,53 @@
+# Overview
+## 記憶的種類
+- 短期記憶：Work Memory
+- 長期記憶：Factual Memory, Experiencital Memory
+## 記憶生命週期
+- 記憶如何形成?
+  - 語意摘要
+    - 遞增式語意摘要: 將新觀測到的資訊與既有摘要融合
+      - [AgentFold: Long-Horizon Web Agents with Proactive Context Management](https://arxiv.org/pdf/2510.24699)
+      - [Write Summary Step-by-Step A Pilot Study of Stepwise Summarization](https://arxiv.org/pdf/2406.05361)
+      - [MEM1: Learning to Synergize Memory and Reasoning for Efficient Long-Horizon Agents](https://arxiv.org/pdf/2506.15841)
+      - [MemAgent: Reshaping Long-Context LLM with Multi-Conv RL-based Memory Agent](https://arxiv.org/pdf/2507.02259)
+    - 分割式語意摘要: 將資訊劃分為不同的語意區塊，並為每個區塊生成獨立摘要
+- 記憶如何演進?
+    - 
+- 記憶如何儲存?
+- 記憶如何檢索?
 
 # 挑戰
-- LLM 的上下文視窗大小有限
-  - 隨著系統提示內容越來越多，它可能無法再被完整納入 LLM 的上下文視窗中。
-  - 若代理可以使用的工具很多、身分定義描述很長、需要放入大量的外部上下文，那麼可以留給互動歷史的空間就會受到限制。
+挑戰不在於「能不能記住」，關鍵在於如何「記得對、存得好、調得巧、用得對」
+- 記憶形成
+  - 哪些才是重要的?
+    - Semantic Summarization、Knowledge Distillation
+    - [In Prospect and Retrospect: Reflective Memory Management for Long-term Personalized Dialogue Agents](https://aclanthology.org/2025.acl-long.413.pdf)
+    - [From Storage to Experience: A Survey on the Evolution of LLM Agent Memory Mechanisms](https://www.preprints.org/manuscript/202601.0618)
+  - 摘要與壓縮會不會「失真」？
+    - [CloneMem: Benchmarking Long-Term Memory for AI Clones](https://arxiv.org/html/2601.07023v1) 
+  - 不同型態記憶該用同一種形成方式嗎？
+- 記憶儲存
+  - 可讀性與可用性的取捨
+  - 如何修正錯誤、過時、衝突記憶
+  - 規模與成本的取捨
+- 記憶演化
+  - 整合 vs 保留例外
+  - 更新的穩定性問題 (Stability–Plasticity Dilemma)
+    - 何時該更新? 何時該保留? 要更新多少呢? 
+  - 遺忘的風險
+    - 不遺忘 → 記憶膨脹、干擾推理
+    - 遺忘太多 → 關鍵長尾知識消失 
+- 記憶檢索
+  - 檢索噪音（Retrieval Noise）
+    - Top-K 檢索容易帶入：不相關、過時、語意相近但情境不合的記憶
+    - 如何避免「看起來很相關，其實沒用」的記憶干擾推理
+  - 檢索時機判斷（When to Retrieve）
+    - 太常檢索 → 成本高、干擾思考
+    - 不檢索 → 幻覺、錯誤推論 
+  - 檢索後如何使用
+    - 多段記憶可能：重複、矛盾、粒度不一致
+    - 如何整理、融合、壓縮檢索結果，讓推理更清楚而不是更亂 
+
  
 ## Reference
 - [Memory in Agent Systems](https://www.newsletter.swirlai.com/p/memory-in-agent-systems)
