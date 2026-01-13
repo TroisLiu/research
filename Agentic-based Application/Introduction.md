@@ -1,4 +1,12 @@
 
+# 挑戰
+- LLM 的上下文視窗大小有限
+  - 隨著系統提示內容越來越多，它可能無法再被完整納入 LLM 的上下文視窗中。
+  - 若代理可以使用的工具很多、身分定義描述很長、需要放入大量的外部上下文，那麼可以留給互動歷史的空間就會受到限制。
+ 
+## Reference
+- [Memory in Agent Systems](https://www.newsletter.swirlai.com/p/memory-in-agent-systems)
+
 # 衡量指標
 ## 核心指標
 - 效能 Effectiveness: 任務成功率（Task Success Rate），代理啟動的任務中，成功從頭到尾正確完成的百分比
