@@ -69,6 +69,9 @@
 # Reference
 ## 基礎介紹
 - [什麼是 AI Agent ？一窺 2025 最重要企業 AI 應用趨勢](https://aiworks.tw/blog-ai-agent-2025-trends)
+- [2025年Memory最全综述！AI Agent记忆统一分类体系：超越RAG下一代架构](https://zhuanlan.zhihu.com/p/1985435669187825983)
+  - 導讀： Memory in the Age of AI Agents
+- [How Memory Management Impacts LLM Agents: An Empirical Study of Experience-Following Behavior](https://arxiv.org/abs/2505.16067)
 ## 評估指標
 - [Evaluating Agentic AI in the Enterprise: Metrics, KPIs, and Benchmarks](https://www.auxiliobits.com/blog/evaluating-agentic-ai-in-the-enterprise-metrics-kpis-and-benchmarks)
   - 提出核心衡量指標&進階指標
