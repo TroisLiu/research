@@ -2,12 +2,19 @@
 - 圖表的元素可劃分2種
   - 視覺標記：柱狀、折線、方框...etc
   - 文本標籤：坐標軸、圖例、文字...etc
+## 挑戰
+- VLM對圖表理解不佳的一大原因在於圖像特徵與文本語義對不齊，將錯誤的圖像區域映射到問題描述。
 ## 可行方案
-### Pipeline
+- 先把圖表看懂、讀懂，再交給語言模型
+### 圖表資訊抽取Pipeline
 - 圖表分類 + 文字偵測 + 文字影像放大 + 文字辨識 + 文字角色分類
 - <img width="1481" height="523" alt="image" src="https://github.com/user-attachments/assets/e6331b69-b460-4981-b353-f852323c2747" />
 - <img width="752" height="348" alt="image" src="https://github.com/user-attachments/assets/30e3e4df-29ec-4ea2-9d16-97a80d51cbcf" />
-
+### 圖表2表格
+- DePlot
+### 圖表2KG
+- 圖表分類 + 內容抽取(物件識別、OCR、Graphics Mark Parsing) + KG建置(Entity分類、關聯建立)
+### 圖文理解增強模組(LLM外部輔助)
 ### VLM
 - 圖像編碼器 + LLM
 - 
@@ -18,7 +25,21 @@
   - 文字影像放大：ESRGAN
   - 文字辨識：TPS-ResNet-BiLSTM-Attn
   - 文字角色分類：Swim Transformer
-
+  - 類型：圖表資訊抽取Pipeline
+- [ChartKG: A Knowledge-Graph-Based Representation for Chart Images](https://arxiv.org/pdf/2410.09761)
+  - 圖表分類： ResNet
+  - 內容抽取：YOLOv5 + OCR
+  - KG建置
+  - 類型：圖表2KG
+- [InternVL 3.5 : Best open-sourced Multi-Modal LLM](https://medium.com/data-science-in-your-pocket/internvl-3-5-best-open-sourced-multi-modal-llm-bc929e2b6338)
+  - 圖像編碼器： EVA-CLIP 圖像編碼器+Q-Former
+  - 對齊機制：密集視覺對齊機制，使模型能對每一個視覺片段對應正確的語詞描述
+  - 預訓練融入了科學圖表資料
+  - 類型：模型訓練層面的優化
+- [UniChart: A Universal Vision-language Pretrained Model for Chart Comprehension and Reasoning](https://arxiv.org/pdf/2305.14761)
+  - 類型：模型訓練層面的優化
+- [ChartGemma: Visual Instruction-tuning for Chart Reasoning in the Wild](https://arxiv.org/pdf/2407.04172)
+  - 類型：模型訓練層面的優化
 ## Taxonomy
 ### Data Augmentation
 #### 視覺層面增強
