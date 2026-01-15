@@ -1,6 +1,23 @@
 # Task
-## VLM
+- 圖表的元素可劃分2種
+  - 視覺標記：柱狀、折線、方框...etc
+  - 文本標籤：坐標軸、圖例、文字...etc
+## 可行方案
+### Pipeline
+- 圖表分類 + 文字偵測 + 文字影像放大 + 文字辨識 + 文字角色分類
+- <img width="1481" height="523" alt="image" src="https://github.com/user-attachments/assets/e6331b69-b460-4981-b353-f852323c2747" />
+- <img width="752" height="348" alt="image" src="https://github.com/user-attachments/assets/30e3e4df-29ec-4ea2-9d16-97a80d51cbcf" />
+
+### VLM
 - 圖像編碼器 + LLM
+- 
+### Reference
+- [ChartEye: A Deep Learning Framework for Chart Information Extraction](https://arxiv.org/pdf/2408.16123)
+  - 圖表分類：Swim Transformer
+  - 文字偵測：YOLOv7
+  - 文字影像放大：ESRGAN
+  - 文字辨識：TPS-ResNet-BiLSTM-Attn
+  - 文字角色分類：Swim Transformer
 
 ## Taxonomy
 ### Data Augmentation
