@@ -1,4 +1,11 @@
 # Dialogue System
+## Survey
+### 多輪對話
+- [(2508)A Survey on Recent Advances in LLM-Based Multi-turn Dialogue Systems](https://arxiv.org/pdf/2402.18013v2)
+- [(2504)Beyond Single-Turn: A Survey on Multi-Turn Interactions with Large Language Models](https://arxiv.org/pdf/2504.04717)
+- [(2501)A Survey on Multi-Turn Interaction Capabilities of Large Language Models](https://arxiv.org/pdf/2501.09959)
+- [笔记：浅谈多轮对话面临的挑战](https://zhuanlan.zhihu.com/p/1972666868960630207)
+  - 上面3篇論文的筆記概述 
 ## 依據對話目的分類
 ### 開放域對話（open-domain dialogue）
 - 目標：
