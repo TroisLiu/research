@@ -9,3 +9,9 @@
   - 輸出與圖像內容相關的文字回答、描述、推理等
 ## 說明
 - VQA是VIT的子集合
+
+## Reference
+
+- [(2512)Instruction-Following Evaluation of Large Vision-Language Models](https://arxiv.org/pdf/2512.23572v1)
+- [(2308)VisIT-Bench: A Benchmark for Vision-Language Instruction Following Inspired by Real-World Use](https://arxiv.org/pdf/2308.06595)
+- [(2308)Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data](https://arxiv.org/pdf/2308.10253)
