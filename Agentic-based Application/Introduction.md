@@ -11,10 +11,13 @@
       - [MEM1: Learning to Synergize Memory and Reasoning for Efficient Long-Horizon Agents](https://arxiv.org/pdf/2506.15841)
       - [MemAgent: Reshaping Long-Context LLM with Multi-Conv RL-based Memory Agent](https://arxiv.org/pdf/2507.02259)
     - 分割式語意摘要: 將資訊劃分為不同的語意區塊，並為每個區塊生成獨立摘要
+  - 形成的顆粒度
+    - [ON MEMORY CONSTRUCTION AND RETRIEVAL FORPERSONALIZED CONVERSATIONAL AGENTS](https://openreview.net/pdf?id=xKDZAW0He3) 
 - 記憶如何演進?
     - 
 - 記憶如何儲存?
 - 記憶如何檢索?
+  -  
 
 # 挑戰
 挑戰不在於「能不能記住」，關鍵在於如何「記得對、存得好、調得巧、用得對」
@@ -73,6 +76,9 @@
   - 導讀： Memory in the Age of AI Agents
 - [How Memory Management Impacts LLM Agents: An Empirical Study of Experience-Following Behavior](https://arxiv.org/abs/2505.16067)
 ## 評估指標
+### Overall
+- [Top 50 AI Model Evals: Full List of Benchmarks (October 2025)](https://o-mega.ai/articles/top-50-ai-model-evals-full-list-of-benchmarks-october-2025)
+- [Survey on Evaluation of LLM-based Agents](https://arxiv.org/pdf/2503.16416)
 - [Evaluating Agentic AI in the Enterprise: Metrics, KPIs, and Benchmarks](https://www.auxiliobits.com/blog/evaluating-agentic-ai-in-the-enterprise-metrics-kpis-and-benchmarks)
   - 提出核心衡量指標&進階指標
 - [How to Effectively Measure Agentic AI Performance: Essential KPIs and Success Metrics](https://www.getmonetizely.com/articles/how-to-effectively-measure-agentic-ai-performance-essential-kpis-and-success-metrics)
@@ -93,7 +99,15 @@
   - HammerBench: designed to evaluate the function-calling capabilities of LLMs in realistic, multi-turn human-agent interactions, particularly simulating mobile assistant use cases
   - DPAB-α: a comprehensive benchmark designed to evaluate the function calling capabilities of LLMs
   - NFCL: evaluate the proficiency of LLMs in single-turn function calling tasks
-  - [LiveMCPBench](https://docs.google.com/spreadsheets/d/1EXpgXq1VKw5A7l7-N2E9xt3w0eLJ2YPVPT-VrRxKZBw/edit?gid=0#gid=0): designed to evaluate the ability of LLM agents to navigate and effectively utilize a large-scale Model Context Protocol (MCP) toolset in real-world scenarios, overcoming limitations of single-server environments.
+  - [LiveMCPBench](https://docs.google.com/spreadsheets/d/1EXpgXq1VKw5A7l7-N2E9xt3w0eLJ2YPVPT-VrRxKZBw/edit?gid=0#gid=0): designed to evaluate the ability of LLM agents to navigate and
+- effectively utilize a large-scale Model Context Protocol (MCP) toolset in real-world scenarios, overcoming limitations of single-server environments.
   - [MCP-Universe](https://mcp-universe.github.io/): for developing, testing, and evaluating AI agents and LLMs through direct interaction with real-world Model Context Protocol (MCP) servers, rather than relying on simulations, covering domains like financial analysis and browser automation
   - [GAIA (General AI Assistants)](https://huggingface.co/spaces/gaia-benchmark/leaderboard): designed to evaluate General AI Assistants, posing real-world questions that are conceptually simple for humans but significantly challenging for most advanced AI systems
   - [AssistantBench]()
+  - 
+### 專項能力
+#### Perception
+- [MMPerspective: Do MLLMs Understand Perspective? A Comprehensive Benchmark for Perspective Perception, Reasoning, and Robustness](https://arxiv.org/pdf/2505.20426)
+#### Guardrail
+- [IS-Bench: Evaluating Interactive Safety of VLM-Driven Embodied Agents in Daily Household Tasks](https://arxiv.org/pdf/2506.16402)
+- [PrivacyBench: A Conversational Benchmark for Evaluating Privacy in Personalized AI](https://www.arxiv.org/pdf/2512.24848)
