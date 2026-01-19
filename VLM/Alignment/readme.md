@@ -44,3 +44,7 @@
   - 檢索庫的向量空間與索引會變大且更重
   - 訓練與推理計算代價提高
   - 因此如何提升效率、設計更低成本的 multimodal retrieval pipeline 是實作與研究難點。
+
+## reference
+- [(2501)Ask in Any Modality A Comprehensive Survey on Multimodal Retrieval-Augmented Generation](https://arxiv.org/pdf/2502.08826)
+- [(2503)VisRAG: Vision-based Retrieval-augmented Generation on Multi-modality Documents](https://arxiv.org/pdf/2410.10594)
