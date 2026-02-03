@@ -11,7 +11,16 @@
 - 直觀、多領域被廣泛使用
 # 核心問題
 
+
+
 # 研究議題
+## 待分類：
+- [(2512)Text-Printed Image: Bridging the Image-Text Modality Gap for Text-centric Training of Large Vision-Language Models](https://arxiv.org/pdf/2512.03463)
+  - Text-Printed Image, TPI實用性? 
+## Survey: 
+- [(2025)AI Image Content Extraction Survey](https://www.preprints.org/frontend/manuscript/d453b26b17373a538467397f38601875/download_pub)
+- [(2025)An improved arrow target detection method for airport navigation based on YOLOv11](https://dl.acm.org/doi/pdf/10.1145/3759928.3759965)
+- [(2025)Visual Large Language Models for Generalized and Specialized Applications](https://arxiv.org/pdf/2501.02765)
 ## 視覺基礎（visual grounding）
 ## 結構推理（structural reasoning）
 ## Flowchart Reasoning
