@@ -19,6 +19,7 @@
 - 圖像編碼器 + LLM
 - 
 ### Reference
+- [(2508)A Survey on Bridging VLMs and Synthetic Data](https://d197for5662m48.cloudfront.net/documents/publicationstatus/258896/preprint_pdf/c92c39595622fd53778ac9af8f14ebba.pdf)
 - [(2511)CHARTS ARE NOT IMAGES: ON THE CHALLENGES OF SCIENTIFIC CHART EDITING](https://arxiv.org/pdf/2512.00752)
   - TODO: 這篇要幹嘛? 
 - [ChartEye: A Deep Learning Framework for Chart Information Extraction](https://arxiv.org/pdf/2408.16123)
