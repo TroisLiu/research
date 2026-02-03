@@ -10,9 +10,21 @@
 ## 說明
 - VQA是VIT的子集合
 
+## 相關Keyword
+### Image-Dialugue Dataset
+### Time-sensitive Dataset/Question Answering
+- 類型
+  - 資料內容隨時間(對話)改變?
+  - 圖像資料包含時間軸?
+
 ## Reference
+
+- [(25)Less is More: High-value Data Selection for Visual Instruction Tuning](https://dl.acm.org/doi/pdf/10.1145/3746027.3755160)
 - [(2512)Instruction-Following Evaluation of Large Vision-Language Models](https://arxiv.org/pdf/2512.23572v1)
+
 - [(2402)IWISDM: ASSESSING INSTRUCTION FOLLOWING IN MULTIMODAL MODELS AT SCALE](https://arxiv.org/pdf/2406.14343)
 - [(2406)MM-Instruct: Generated Visual Instructions for Large Multimodal Model Alignment](https://arxiv.org/pdf/2406.19736)
+- [(2312)Visual Instruction Tuning towards General-Purpose Multimodal Model: A Survey](https://arxiv.org/pdf/2312.16602)
+  - 相關資料集統整與介紹 
 - [(2308)VisIT-Bench: A Benchmark for Vision-Language Instruction Following Inspired by Real-World Use](https://arxiv.org/pdf/2308.06595)
 - [(2308)Enhanced Visual Instruction Tuning with Synthesized Image-Dialogue Data](https://arxiv.org/pdf/2308.10253)
