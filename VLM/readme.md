@@ -19,6 +19,8 @@
 - 圖像編碼器 + LLM
 - 
 ### Reference
+- [(2511)CHARTS ARE NOT IMAGES: ON THE CHALLENGES OF SCIENTIFIC CHART EDITING](https://arxiv.org/pdf/2512.00752)
+  - TODO: 這篇要幹嘛? 
 - [ChartEye: A Deep Learning Framework for Chart Information Extraction](https://arxiv.org/pdf/2408.16123)
   - 圖表分類：Swim Transformer
   - 文字偵測：YOLOv7
