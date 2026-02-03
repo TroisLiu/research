@@ -22,6 +22,8 @@
 - [(2025)An improved arrow target detection method for airport navigation based on YOLOv11](https://dl.acm.org/doi/pdf/10.1145/3759928.3759965)
 - [(2025)Visual Large Language Models for Generalized and Specialized Applications](https://arxiv.org/pdf/2501.02765)
 ## 視覺基礎（visual grounding）
+- [(2507)An improved arrow target detection method for airport navigation based on YOLOv11](https://dl.acm.org/doi/pdf/10.1145/3759928.3759965)
+  -  針對機場/路邊告示(含箭頭)的識別，有針對複雜背景解析，可能派上用場(?
 ## 結構推理（structural reasoning）
 ## Flowchart Reasoning
 ## Graph-Encoder Models
