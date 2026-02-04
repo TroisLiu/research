@@ -43,6 +43,7 @@
 - [(2502)MTPChat: A Multimodal Time-Aware Persona Dataset for Conversational Agents](https://arxiv.org/pdf/2502.05887)
   - 跨對話跨圖問答? (待確認)
   - 基於MPChat資料集拓展
+- [(2502)TemporalVQA: Can Multimodal LLMs do Visual Temporal Understanding and Reasoning? The answer is No!](https://arxiv.org/pdf/2501.10674)
 - [(2408)A Comprehensive Evaluation of GPT-4V on Knowledge-Intensive Visual Question Answering](https://arxiv.org/pdf/2311.07536v3)
   - 資料結構類似OK-VQA，但部分多了Reason (Rationale) 
 - [(2406)MM-Instruct: Generated Visual Instructions for Large Multimodal Model Alignment](https://arxiv.org/pdf/2406.19736)
@@ -58,5 +59,6 @@
 - [(2207)IconQA: A New Benchmark for Abstract Diagram Understanding and Visual Language Reasoning](https://arxiv.org/pdf/2110.13214)
   - 可能適用於架構圖的Icon代表圖識別?
 - [(2110)A Dataset for Answering Time-Sensitive Questions]https://arxiv.org/pdf/2108.06314
+  - 好像是文字資料   
 - [(2001)Visual Question Answering on 360◦ Images](https://arxiv.org/pdf/2001.03339)
   - 針對360全景圖片 
